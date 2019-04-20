@@ -45,7 +45,7 @@ let authInterceptor = client.interceptors.response.use(authIntResponse, authIntE
 
 // If no valid token then remove header
 client.interceptors.request.use((config) => {
-  if (accessToken === undefined) config.headers.Authorization = null;
+  if (accessToken === undefined) delete config.headers.Authorization;
   return config;
 });
 
