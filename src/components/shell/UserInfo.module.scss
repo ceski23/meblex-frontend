@@ -1,0 +1,32 @@
+@import '../shared/variables.scss';
+
+.link {
+  text-decoration: none;
+  color: $colorText;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: none;
+  transition: .3s;
+  border-bottom: 1px solid $colorShadowDark;
+
+  .photo {
+    height: 40px;
+    width: 40px;
+    margin-left: 10px;
+    margin-right: 25px;
+    transition: .3s;
+    border-radius: 30px;
+    fill: $colorPrimaryDark;
+  }
+
+  .text {
+    font-weight: bold;
+  }
+
+  &:hover {
+    background: transparentize($colorPrimary, 0.9);
+    color: $colorPrimary;
+  }
+}
