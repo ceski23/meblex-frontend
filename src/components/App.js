@@ -1,65 +1,65 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Route, Switch, withRouter } from 'react-router-dom'
+import { connect } from "react-redux";
+import { useAsyncEffect } from 'use-async-effect'
 
-import S from '../styles/App.module.scss'
 import '../styles/main.scss'
 
-import LoginScreen from './LoginScreen'
-import Toolbar from './Toolbar'
-import Navigation from './Navigation'
-import Page from './Page'
+import LoginScreen from '../pages/LoginScreen'
+import Content from './Content'
 
-import { TestContext } from '../contexts'
-import Main from './Main';
+import * as API from '../api'
+import Registration from '../pages/Registration';
+import Loading from './Loading'
+import { setLoginStatus } from '../redux/loginStatus';
 
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const App = withRouter(({ history, loggedIn, setLoginStatus }) => {
+  const [isLoading, setIsLoading] = useState(true);
 
-    this.state = {
-      loggedIn: true,
-      cartCount: 0,
-      incrementCart: this.incrementCart,
-      navigationOpened: false,
-      toggleNavigation: this.toggleNavigation
-    }
-  }
+  useAsyncEffect(async () => {
+    // if (!localStorage.getItem('access_token') || localStorage.getItem('access_token') === '') {
+    //   setLoginStatus(false);
+    //   setTimeout(() => setIsLoading(false), 0);
+    // }
+    // else {
+    //   setIsLoading(true);
+    //   try {
+    //     // await API.checkStatus();
+    //     setLoginStatus(true);
+    //     setIsLoading(false);
+    //   } catch (error) {
+        setIsLoading(false);
+    //   }
+    // }
+  }, [])
 
-  incrementCart = () => {
-    this.setState({cartCount: this.state.cartCount + 1});
-  }
+  // useEffect(() => {
+  //   if (!loggedIn) history.replace('/logowanie');
+  // }, [loggedIn])
 
-  handleLogin = () => {
-    this.setState({loggedIn: true});
-  }
+  return (
+    <Switch>
+      <Route path="/logowanie" component={LoginScreen} />
+      <Route path="/rejestracja" component={Registration} />
 
-  toggleNavigation = () => {
-    this.setState({navigationOpened: !this.state.navigationOpened});
-  }
+      <Route path="/wyloguj" render={() => {
+          localStorage.setItem('access_token', '');
+          localStorage.setItem('refresh_token', '');
+          setTimeout(() => setLoginStatus(false), 0);
+      }} />
 
-  render() {
-    const { Provider } = TestContext;
+      <Route render={() => 
+        <Loading isLoading={isLoading} type="alt" text="Ładowanie...">
+          <Content />
+        </Loading>
+      } />
+    </Switch>
+  )
+})
 
-    return (
-      <Provider value={this.state}>
-        {!this.state.loggedIn ? <LoginScreen loginCallback={this.handleLogin} /> :
-        <Router>
-          <Toolbar />
-          <Navigation />
 
-          <div className={S.content}>
-            <Switch>
-              <Route path="/" exact component={Main} />
-              {/* <Route path="/cart/" render={() => <Page text="Twój wózek:" />} /> */}
-              {/* <Route path="/dupa/" render={() => <Page text="NIEEEE!!!" />} /> */}
-            </Switch>
-          </div>
-        </Router>
-        }
-      </Provider>
-    );
-  }
-}
-
-export default App;
+export default connect(
+  state => ({ loggedIn: state.loginStatus.loggedIn }),
+  { setLoginStatus }
+)(App);

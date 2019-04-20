@@ -1,3 +1,4 @@
+// Furniture
 import { ReactComponent as Armchair } from './assets/furniture/armchair.svg';
 import { ReactComponent as BarStool } from './assets/furniture/bar-stool.svg';
 import { ReactComponent as Bean } from './assets/furniture/bean.svg';
@@ -49,16 +50,35 @@ import { ReactComponent as Table } from './assets/furniture/table.svg';
 import { ReactComponent as TvTable } from './assets/furniture/tv-table.svg';
 import { ReactComponent as Wardrobe } from './assets/furniture/wardrobe.svg';
 
+// Icons
 import { ReactComponent as Search } from './assets/search.svg';
 import { ReactComponent as JigSaw } from './assets/jigsaw.svg';
 import { ReactComponent as Tools } from './assets/tools.svg';
 import { ReactComponent as Door } from './assets/door.svg';
+import { ReactComponent as ShoppingBag } from './assets/shopping_bag.svg';
+import { ReactComponent as Hamburger } from './assets/hamburger.svg'
+import { ReactComponent as ShoppingCart } from './assets/shopping_cart.svg'
+import { ReactComponent as Close } from './assets/close.svg'
+import { ReactComponent as User } from './assets/user.svg'
+import { ReactComponent as Price } from './assets/price.svg'
 
-export default {
+// Images
+import { ReactComponent as HikingTraveller } from './assets/hiking_traveller.svg';
+import { ReactComponent as Logistics } from './assets/storage.svg';
+
+
+export const Icons = {
+  Search, JigSaw, Tools, Door, ShoppingBag, ShoppingCart, Hamburger, Close, User, Price
+}
+
+export const Furniture = {
   Armchair, BarStool, Bean, Bench, Bookcase, BunkBed, Cabinet1, Cabinet, Carpet, Cart, Chair, Chandelier, ChestOfDrawers, 
   Closet, ClothesRack, CoatStand, CoffeeTable, Couch, Cupboard1, Cupboard, DeckChair, Desk1, Desk, DiningChair, DiningTable, 
   DoubleBed, Dresser, FoldingChair, Kitchen, Lamp, Locker, Mattress, Mirror, Nightstand, OfficeChair, Ottoman, Plant, Rack, 
   RockingChair, Shelves, Sideboard, SingleBed, Sofa, Stool, Storage1, Storage, Table1, Table, TvTable, Wardrobe, 
+}
 
-  Search, JigSaw, Tools, Door
+
+export const Images = {
+  HikingTraveller, Logistics
 }

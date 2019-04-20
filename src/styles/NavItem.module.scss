@@ -3,7 +3,7 @@
 .link {
   text-decoration: none;
   color: $colorText;
-  padding: 10px 15px;
+  padding: 5px 15px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -14,21 +14,27 @@
     height: 30px;
     margin-left: 15px;
     margin-right: 30px;
-    fill: $colorTextDark;
     transition: .3s;
+    fill: $colorPrimary;
+    stroke: $colorPrimary;
+    stroke-width: 10px;
   }
 
   .text {
     margin-left: 75px;
+    font-weight: bold;
   }
 
   .icon + .text {
     margin-left: 0;
   }
 
-  &:hover {
+  &:hover, &.active {
     background: transparentize($colorPrimary, 0.9);
-    color: $colorPrimary;
+
+    .text {
+      color: $colorPrimary;
+    }
 
     .icon {
       fill: $colorPrimary;

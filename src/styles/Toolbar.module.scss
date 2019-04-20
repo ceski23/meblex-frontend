@@ -8,8 +8,8 @@
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  width: 100%;
-  z-index: 2;
+  width: 100vw;
+  z-index: 3;
 }
 
 .hamburger {
@@ -30,7 +30,8 @@
 }
 
 .cart {
-  margin: 0 20px;
+  height: 50px;
+  margin: 10px 20px;
   padding: 10px;
   position: relative;
 

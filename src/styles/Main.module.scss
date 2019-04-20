@@ -1,25 +1,5 @@
 @import 'variables.scss';
 
-.searchBox {
-  width: 100%;
-  position: relative;
-
-  .input {
-    width: 100%;
-    height: 60px;
-    padding-left: 60px;
-    background: #fff;
-  }
-
-  .icon {
-    position: absolute;
-    height: 30px;
-    top: 15px;
-    left: 15px;
-    fill: $colorShadowDark
-  }
-}
-
 .categoriesGrid {
   display: flex;
   flex-direction: row;
@@ -50,6 +30,47 @@
     .icon {
       margin-top: 10px;
       fill: $colorText;
+    }
+  }
+}
+
+
+
+
+
+.WYNIKI {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px;
+
+  .info {
+    flex: 1;
+
+    .name {
+      margin: 0;
+      font-size: 1em;
+    }
+  
+    .color {
+      margin: 0;
+      font-size: .8em;
+      margin-top: 3px;
+    }
+  }
+
+  .icon {
+    height: 50px;
+    margin-right: 20px;
+  }
+
+  .price {
+    font-size: 1.5em;
+
+    .currency {
+      color: $colorGray;
+      font-size: 0.7em;
+      margin-left: 3px;
     }
   }
 }

@@ -1,0 +1,21 @@
+@import 'variables';
+
+.field {
+  display: flex;
+  flex-direction: column-reverse;
+  box-shadow: 0 2px 4px $colorShadow;
+
+  .fieldError + input {
+    border-radius: 5px 5px 0 0;
+    box-shadow: none;
+  }
+
+  .fieldError {
+    border-radius: 0 0 5px 5px;
+    background: rgb(255, 152, 152);
+    color: red;
+    padding: 10px 15px;
+    font-size: 0.7em;
+    border: 1px solid red;
+  }
+}

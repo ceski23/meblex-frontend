@@ -1,40 +1,38 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import cx from 'classnames'
+import { connect } from "react-redux"
 
 import S from '../styles/Toolbar.module.scss'
-import { TestContext } from '../contexts'
-import { ReactComponent as Hamburger } from '../assets/hamburger.svg'
+import { Icons } from '../assets'
 import { ReactComponent as Logo } from '../assets/meblex_logo.svg'
-import { ReactComponent as ShoppingCart } from '../assets/shopping_cart.svg'
 
-export default class Toolbar extends Component {
-  constructor(props) {
-    super(props)
+
+const Toolbar = ({ navOpened, toggleNav, cart }) => {
+  const [cartSize, setCartSize] = useState(0);
+
+  useEffect(() => {
+    setCartSize(cart.items.reduce((a, b) => a + b.amount, 0));
+  }, [cart]);
+
+  return (
+    <div className={S.toolbar}>
+      <Icons.Hamburger className={cx(S.hamburger, {[S.open]: navOpened})} onClick={toggleNav} />
   
-    this.state = {
-       
-    }
-  }
-
-  static contextType = TestContext;
+      <Link to="/">
+        <Logo className={S.logo} />
+      </Link>
   
-  render() {
-    return (
-      <div className={S.toolbar}>
-        <Hamburger className={cx({[S.hamburger]: true, [S.open]: this.context.navigationOpened})} onClick={this.context.toggleNavigation} />
+      <Link to="/cart" className={cx('ripple', S.cart)}>
+        <div>
+          <Icons.ShoppingCart className={S.icon} />
+          {cartSize > 0 && <span className={S.count}>{cartSize}</span>}
+        </div>
+      </Link>
+    </div>
+  )
+};
 
-        <Link to="/" className={S.cart}>
-          <Logo className={S.logo} />
-        </Link>
-
-        <Link to="/cart" className={S.cart} onClick={this.context.incrementCart}>
-          <div>
-            <ShoppingCart className={S.icon} />
-            <span className={S.count}>{this.context.cartCount}</span>
-          </div>
-        </Link>
-      </div>
-    )
-  }
-}
+export default connect(
+  state => ({ cart: state.cart })
+)(Toolbar);

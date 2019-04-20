@@ -1,40 +1,52 @@
-import React, { Component } from 'react'
+import React from 'react'
 import cx from 'classnames'
 
 import S from '../styles/Navigation.module.scss'
-import Icons from '../icons'
+import { Furniture, Icons } from '../assets'
 import NavItem from './NavItem'
-import { TestContext } from '../contexts'
+import UserInfo from './UserInfo'
 
 
-export default class Navigation extends Component {
-  static contextType = TestContext;
-  
-  render() {
-    return (
-      <div className={cx({[S.nav]: true, [S.open]: this.context.navigationOpened})}>
-        <div>
-          <NavItem text="Katalog produktów" url="/katalog" />
-          <NavItem text="FITTER™" icon={Icons.JigSaw} url="/fitter" />
-          <NavItem text="DIY" icon={Icons.Tools} url="/diy" />
-          <NavItem text="Wyloguj" icon={Icons.Door} url="/wyloguj" />
+const Navigation = ({ navOpened, toggleNav }) => {
+  const mainItems = [
+    {text: "Katalog produktów", icon: Icons.ShoppingBag, url: "/katalog" },
+    {text: "FITTER™", icon: Icons.JigSaw, url: "/fitter" },
+    {text: "DIY", icon: Icons.Tools, url: "/diy" },
+  ];
 
-          <h5 className={S.catText}>Kategorie:</h5>
-          <NavItem text="Krzesła" url="/" icon={Icons.DiningChair} type="dense" />
-          <NavItem text="Sofy" url="/" icon={Icons.Sofa} type="dense" />
-          <NavItem text="Lampy" url="/" icon={Icons.Lamp} type="dense" />
-          <NavItem text="Szafki" url="/" icon={Icons.Cabinet1} type="dense" />
-          <NavItem text="Dywany" url="/" icon={Icons.Carpet} type="dense" />
-          <NavItem text="Komody" url="/" icon={Icons.ChestOfDrawers} type="dense" />
-          <NavItem text="Wieszaki" url="/" icon={Icons.CoatStand} type="dense" />
-          <NavItem text="Stoliki do kawy" url="/" icon={Icons.CoffeeTable} type="dense" />
-          <NavItem text="Biurka" url="/" icon={Icons.Desk} type="dense" />
-          <NavItem text="Stoły" url="/" icon={Icons.Table} type="dense" />
-          <NavItem text="Lustra" url="/" icon={Icons.Mirror} type="dense" />
-          <NavItem text="Materace" url="/" icon={Icons.Mattress} type="dense" />
-          <NavItem text="Łóżka" url="/" icon={Icons.DoubleBed} type="dense" />
-        </div>
-      </div>
-    )
-  }
+  const categories = [
+    {text: "Krzesła", url: "/katalog/krzesla", icon: Furniture.DiningChair, type: "dense"},
+    {text: "Sofy", url: "/katalog/sofy", icon: Furniture.Sofa, type: "dense"},
+    {text: "Lampy", url: "/katalog/lampy", icon: Furniture.Lamp, type: "dense"},
+    {text: "Szafki", url: "/katalog/szafki", icon: Furniture.Cabinet1, type: "dense"},
+    {text: "Dywany", url: "/katalog/dywany", icon: Furniture.Carpet, type: "dense"},
+    {text: "Komody", url: "/katalog/komody", icon: Furniture.ChestOfDrawers, type: "dense"},
+    {text: "Wieszaki", url: "/katalog/wieszaki", icon: Furniture.CoatStand, type: "dense"},
+    {text: "Stoliki do kawy", url: "/katalog/stoliki-do-kawy", icon: Furniture.CoffeeTable, type: "dense"},
+    {text: "Biurka", url: "/katalog/biurka", icon: Furniture.Desk, type: "dense"},
+    {text: "Stoły", url: "/katalog/stoly", icon: Furniture.Table, type: "dense"},
+    {text: "Lustra", url: "/katalog/lustra", icon: Furniture.Mirror, type: "dense"},
+    {text: "Materace", url: "/katalog/materace", icon: Furniture.Mattress, type: "dense"},
+    {text: "Łóżka", url: "/katalog/lozka", icon: Furniture.DoubleBed, type: "dense"}
+  ];
+
+  return (
+    <div className={cx(S.nav, {[S.open]: navOpened})}>
+      <UserInfo toggleNav={toggleNav} />
+
+      {mainItems.map((item, i) =>
+        <NavItem key={i} toggleNav={toggleNav} text={item.text} icon={item.icon} url={item.url} replace={item.replace} />
+      )}
+
+      <h5 className={S.catText}>Kategorie:</h5>
+      {categories.map((item, i) =>
+        <NavItem key={i} toggleNav={toggleNav} text={item.text} icon={item.icon} url={item.url} type={item.type} />
+      )}
+
+      <span className={S.line}></span>
+      <NavItem toggleNav={toggleNav} text='Wyloguj' type='dense' icon={Icons.Door} url='/wyloguj' replace={true} />
+    </div>
+  )
 }
+
+export default Navigation;

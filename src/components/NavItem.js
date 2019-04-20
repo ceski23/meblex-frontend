@@ -1,35 +1,19 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import React from 'react'
+import {  NavLink } from 'react-router-dom'
 import cx from 'classnames'
-import { TestContext } from '../contexts'
 
 import S from '../styles/NavItem.module.scss'
 
 
-export default class NavItem extends Component {
-  static contextType = TestContext;
+const NavItem = ({ text, url, type, icon, replace, toggleNav }) => {
+  const Icon = icon;
 
-  render() {
-    const Icon = this.props.icon;
-
-    return (
-      <Link to={this.props.url} className={cx({[S.link]: true, [S.dense]: this.props.type === "dense"})} onClick={this.context.toggleNavigation}>
-        {Icon && <Icon className={S.icon} />}
-        <p className={S.text}>{this.props.text}</p>
-      </Link>
-    )
-  }
+  return (
+    <NavLink to={url} activeClassName={S.active} exact replace={replace} className={cx(S.link, {[S.dense]: type === 'dense'})} onClick={toggleNav}>
+      {Icon && <Icon className={S.icon} />}
+      <p className={S.text}>{text}</p>
+    </NavLink>
+  )
 }
 
-NavItem.propTypes = {
-  text: PropTypes.string,
-  url: PropTypes.string,
-  type: PropTypes.string
-}
-
-NavItem.defaultProps = {
-  text: "",
-  url: "",
-  type: "normal"
-}
+export default NavItem;
