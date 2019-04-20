@@ -6,7 +6,7 @@ const initState = {
   furniture: [],
 };
 
-export const listingReducer = (state = initState, action) => {
+const listingReducer = (state = initState, action) => {
   switch (action.type) {
     case SET_LISTING:
       return { ...state, furniture: action.payload };
@@ -15,3 +15,5 @@ export const listingReducer = (state = initState, action) => {
       return state;
   }
 };
+
+export default listingReducer;
