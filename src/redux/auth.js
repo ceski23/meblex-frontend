@@ -5,10 +5,12 @@ import { persistReducer } from 'redux-persist';
 export const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS';
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 export const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN';
+export const LOGOUT = 'LOGOUT';
 
 export const setLoginStatus = status => ({ type: SET_LOGIN_STATUS, payload: status });
 export const setAccessToken = token => ({ type: SET_ACCESS_TOKEN, payload: token });
 export const setRefreshToken = token => ({ type: SET_REFRESH_TOKEN, payload: token });
+export const logout = () => ({ type: LOGOUT });
 
 const initState = {
   loggedIn: true,
@@ -29,6 +31,11 @@ const loginReducer = (state = initState, action) => {
 
     case SET_REFRESH_TOKEN:
       return { ...state, refresh_token: action.payload };
+
+    case LOGOUT:
+      return {
+        ...state, loggedIn: false, access_token: undefined, refresh_token: undefined,
+      };
 
     default:
       return state;
