@@ -4,6 +4,9 @@ module.exports = {
     "env": {
         "browser": true
     },
+    "plugins": [
+      "react-hooks"
+    ],
     "rules": {
         "react/no-array-index-key": "off",
         "react/jsx-filename-extension": "off",
@@ -12,6 +15,9 @@ module.exports = {
         "no-unused-vars": "warn",
         "jsx-a11y/click-events-have-key-events": "off",
         "react/jsx-one-expression-per-line": "off",
-        "linebreak-style": "off"
+        "linebreak-style": "off",
+        "object-curly-newline": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 };
