@@ -1,23 +1,14 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable no-use-before-define */
-
 import axios from 'axios';
-import { store } from './store';
-import { setAccessToken, setRefreshToken } from './redux/auth';
-
-let accessToken = store.getState().auth.access_token;
 
 const client = axios.create({
   baseURL: 'https://api.meblex.tk/api/',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${accessToken}`,
+    ...(!localStorage.getItem('access_token') ? {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    } : {}),
   },
-});
-
-store.subscribe(() => {
-  accessToken = store.getState().auth.access_token;
-  client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 });
 
 
@@ -28,9 +19,12 @@ const authIntError = async (error) => {
   if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/login')) {
     client.interceptors.response.eject(authInterceptor);
     try {
-      await relogin();
+      const response = await relogin();
+      localStorage.setItem('access_token', response.data.access_token);
+      localStorage.setItem('refresh_token', response.data.refresh_token);
       authInterceptor = client.interceptors.response.use(authIntResponse, authIntError);
-      errorResponse.config.headers.Authorization = `Bearer ${accessToken}`;
+      errorResponse.config.headers.Authorization = `Bearer ${response.data.access_token}`;
+      client.defaults.headers.Authorization = `Bearer ${response.data.access_token}`;
       return client(errorResponse.config);
     } catch (e) {
       authInterceptor = client.interceptors.response.use(authIntResponse, authIntError);
@@ -43,17 +37,14 @@ const authIntError = async (error) => {
 
 let authInterceptor = client.interceptors.response.use(authIntResponse, authIntError);
 
-// If no valid token then remove header
-client.interceptors.request.use((config) => {
-  if (accessToken === undefined) delete config.headers.Authorization;
-  return config;
-});
 
-// Check if got new tokens
 client.interceptors.response.use((response) => {
   if (response && (response.status === 200 || response.status === 201)) {
-    if (response.data.access_token) store.dispatch(setAccessToken(response.data.access_token));
-    if (response.data.refresh_token) store.dispatch(setRefreshToken(response.data.refresh_token));
+    if (response.data.access_token && response.data.refresh_token) {
+      localStorage.setItem('access_token', response.data.access_token);
+      localStorage.setItem('refresh_token', response.data.refresh_token);
+      client.defaults.headers.Authorization = `Bearer ${response.data.access_token}`;
+    }
   }
 });
 
@@ -87,7 +78,7 @@ export function login(data) {
 }
 
 export function relogin() {
-  const data = { token: store.getState().auth.refresh_token };
+  const data = { token: localStorage.getItem('refresh_token') };
   return client.post('Auth/refresh', data).catch(err => errorHandler(err, {
     default: 'Wystąpił błąd, spróbuj jeszcze raz!',
   }));

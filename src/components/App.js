@@ -11,7 +11,7 @@ import Content from './Content';
 import * as API from '../api';
 import Registration from '../pages/Registration';
 import Loading from './Loading';
-import { setLoginStatus } from '../redux/auth';
+import { setLoginStatus } from '../redux/loginStatus';
 
 
 const App = withRouter(({ history, loggedIn, setLoginStatus }) => {
@@ -64,6 +64,6 @@ const App = withRouter(({ history, loggedIn, setLoginStatus }) => {
 
 
 export default connect(
-  state => ({ loggedIn: state.auth.loggedIn }),
+  state => ({ loggedIn: state.loginStatus.loggedIn }),
   { setLoginStatus },
 )(App);
