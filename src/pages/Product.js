@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react';
-import S from '../styles/Product.module.scss'
+import { connect } from 'react-redux';
+import S from '../styles/Product.module.scss';
 import Button from '../components/Button';
 // import scroll from 'react-scroll-to-component'
-import { connect } from "react-redux"
 import { addItemsToCart } from '../redux/cart';
 
 
 const Product = ({ match: { params }, addItemsToCart, cart }) => {
   const materials = {
     1: 'https://media.istockphoto.com/photos/beech-wood-texture-picture-id185869660',
-    2: 'http://www.tkaniny-meblowe.pl/6039/tkanina-cablo-10-ag.jpg'
-  }
+    2: 'http://www.tkaniny-meblowe.pl/6039/tkanina-cablo-10-ag.jpg',
+  };
 
   const product = {
     id: 1,
@@ -22,10 +22,10 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
     room_id: 0,
     category_id: 0,
     photos: [
-      { path: "https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-5.jpg" },
-      { path: "https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-6.jpg" },
-      { path: "https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-8.jpg" },
-      { path: "https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-7.jpg" }
+      { path: 'https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-5.jpg' },
+      { path: 'https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-6.jpg' },
+      { path: 'https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-8.jpg' },
+      { path: 'https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-7.jpg' },
     ],
     parts: [
       {
@@ -35,12 +35,12 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
         price: 666,
         material: {
           name: 'Tkanina',
-          id: 2
+          id: 2,
         },
         color: {
           name: 'Jasny szary',
-          hex_code: '#d3d3d3'
-        }
+          hex_code: '#d3d3d3',
+        },
       },
       {
         id: 1,
@@ -49,12 +49,12 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
         price: 666,
         material: {
           name: 'Tkanina',
-          id: 2
+          id: 2,
         },
         color: {
           name: 'Jasny szary',
-          hex_code: '#d3d3d3'
-        }
+          hex_code: '#d3d3d3',
+        },
       },
       {
         id: 1,
@@ -63,15 +63,15 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
         price: 666,
         material: {
           name: 'Drewno bukowe',
-          id: 1
+          id: 1,
         },
         color: {
           name: 'Biały',
-          hex_code: '#ffffff'
-        }
-      }
-    ]
-  }
+          hex_code: '#ffffff',
+        },
+      },
+    ],
+  };
 
   const refe = useRef();
   const [amount, setAmount] = useState(1);
@@ -79,7 +79,7 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
 
   // const handleClick = () => {
   //   refe.current.scrollTo({
-  //     left: refe.current.children[currImage].offsetLeft, 
+  //     left: refe.current.children[currImage].offsetLeft,
   //     behavior: 'smooth'
   //   });
   //   setCurrImage((currImage + 1) % images.length);
@@ -87,51 +87,60 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
 
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
-  }
+  };
 
   const addPart = () => {
-    addItemsToCart({amount: 1});
-  }
+    addItemsToCart({ amount: 1 });
+  };
 
   const addPoF = () => {
-    if (parseInt(amount)) {
-      addItemsToCart({amount: parseInt(amount)});
+    if (parseInt(amount, 10)) {
+      addItemsToCart({ amount: parseInt(amount, 10) });
     }
-  }
+  };
 
   return (
     <div className={S.product}>
       <h3 className={S.name}>{product.name}</h3>
-      <p className={S.id}>Numer produktu: {product.id}</p>
-  
+      <p className={S.id}>
+Numer produktu:
+        {product.id}
+      </p>
+
       <div className={S.images} ref={refe}>
-        {product.photos.map((photo, i) => <img src={photo.path} alt={i} key={i} className={S.image} />)}
+        {product.photos.map((photo, i) => (
+          <img src={photo.path} alt={i} key={i} className={S.image} />
+        ))}
       </div>
-      
+
       <div className={S.info}>
         <div className={S.priceBox}>
           <h3>Cena:</h3>
           <div>
-            <p className={S.price}>{product.price} zł</p>
+            <p className={S.price}>
+              {product.price}
+              {' '}
+zł
+            </p>
             <p className={S.freeShipping}>+ Darmowa wysyłka!</p>
           </div>
         </div>
-  
+
         <div className={S.buyBox}>
           <input type="number" value={amount} onChange={handleAmountChange} className={S.amount} />
           <Button className={S.addToCart} handleClick={addPoF}>Dodaj do koszyka</Button>
         </div>
-  
+
         <div className={S.descBox}>
           <h3 className={S.title}>Opis</h3>
-          <div dangerouslySetInnerHTML={{__html: product.description}}></div>
+          <div dangerouslySetInnerHTML={{ __html: product.description }} />
         </div>
-  
+
         <div className={S.resBox}>
           <h3 className={S.title}>Materiały</h3>
           {product.parts.map((part, i) => (
             <div className={S.res} key={i}>
-              <span className={S.img} style={{background: `url(${materials[part.material.id]})`}}></span>
+              <span className={S.img} style={{ background: `url(${materials[part.material.id]})` }} />
               <div className={S.i}>
                 <p className={S.text}>{part.material.name}</p>
                 <p className={S.info}>{part.name}</p>
@@ -144,7 +153,7 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
           <h3 className={S.title}>Kolory</h3>
           {product.parts.map((part, i) => (
             <div className={S.res} key={i}>
-              <span className={S.img} style={{background: part.color.hex_code}}></span>
+              <span className={S.img} style={{ background: part.color.hex_code }} />
               <div className={S.i}>
                 <p className={S.text}>{part.color.name}</p>
                 <p className={S.info}>{part.name}</p>
@@ -152,21 +161,42 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
             </div>
           ))}
         </div>
-  
+
         <div className={S.sizesBox}>
           <h3 className={S.title}>Wymiary</h3>
-          <span className={S.size}><p>Szerokość:</p><b>{product.size.split('x')[0]} cm</b></span>
-          <span className={S.size}><p>Głębokość:</p><b>{product.size.split('x')[1]} cm</b></span>
-          <span className={S.size}><p>Wysokość:</p><b>{product.size.split('x')[2]} cm</b></span>
+          <span className={S.size}>
+            <p>Szerokość:</p>
+            <b>
+              {product.size.split('x')[0]}
+              {' '}
+cm
+            </b>
+          </span>
+          <span className={S.size}>
+            <p>Głębokość:</p>
+            <b>
+              {product.size.split('x')[1]}
+              {' '}
+cm
+            </b>
+          </span>
+          <span className={S.size}>
+            <p>Wysokość:</p>
+            <b>
+              {product.size.split('x')[2]}
+              {' '}
+cm
+            </b>
+          </span>
         </div>
       </div>
-  
+
       <div className={S.customSizeBox}>
         <h4>Nie pasuje Ci rozmiar tego mebla?</h4>
         <p>Wyślij zapytanie, a nasi konsultanci sprawdzą czy możesz go dostać w innym rozmiarze</p>
         <Button type="secondary" className={S.button}>Wyślij zapytanie</Button>
       </div>
-  
+
       <div className={S.partsBox}>
         <h3 className={S.title}>Części</h3>
         <p>Części, z których składa się ten mebel:</p>
@@ -180,10 +210,10 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default connect(
   state => ({ cart: state.cart }),
-  { addItemsToCart }
+  { addItemsToCart },
 )(Product);

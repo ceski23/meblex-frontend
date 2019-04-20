@@ -1,5 +1,5 @@
-import React from 'react'
-import S from '../styles/ItemResult.module.scss'
+import React from 'react';
+import S from '../styles/ItemResult.module.scss';
 
 const ItemResult = ({ data }) => (
   <div className={S.result}>
@@ -9,8 +9,11 @@ const ItemResult = ({ data }) => (
     <div className={S.info}>
       <h4 className={S.name}>{data.name}</h4>
     </div>
-    <h3 className={S.price}>{data.price}<span className={S.currency}>zł</span></h3>
+    <h3 className={S.price}>
+      {data.price}
+      <span className={S.currency}>zł</span>
+    </h3>
   </div>
-)
+);
 
 export default ItemResult;

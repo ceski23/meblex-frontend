@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
-import { connect } from "react-redux";
-import { useAsyncEffect } from 'use-async-effect'
+import React, { useEffect, useState } from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { useAsyncEffect } from 'use-async-effect';
 
-import '../styles/main.scss'
+import '../styles/main.scss';
 
-import LoginScreen from '../pages/LoginScreen'
-import Content from './Content'
+import LoginScreen from '../pages/LoginScreen';
+import Content from './Content';
 
-import * as API from '../api'
+import * as API from '../api';
 import Registration from '../pages/Registration';
-import Loading from './Loading'
+import Loading from './Loading';
 import { setLoginStatus } from '../redux/loginStatus';
 
 
@@ -29,10 +29,10 @@ const App = withRouter(({ history, loggedIn, setLoginStatus }) => {
     //     setLoginStatus(true);
     //     setIsLoading(false);
     //   } catch (error) {
-        setIsLoading(false);
+    setIsLoading(false);
     //   }
     // }
-  }, [])
+  }, []);
 
   // useEffect(() => {
   //   if (!loggedIn) history.replace('/logowanie');
@@ -43,23 +43,27 @@ const App = withRouter(({ history, loggedIn, setLoginStatus }) => {
       <Route path="/logowanie" component={LoginScreen} />
       <Route path="/rejestracja" component={Registration} />
 
-      <Route path="/wyloguj" render={() => {
+      <Route
+        path="/wyloguj"
+        render={() => {
           localStorage.setItem('access_token', '');
           localStorage.setItem('refresh_token', '');
           setTimeout(() => setLoginStatus(false), 0);
-      }} />
+        }}
+      />
 
-      <Route render={() => 
+      <Route render={() => (
         <Loading isLoading={isLoading} type="alt" text="Ładowanie...">
           <Content />
         </Loading>
-      } />
+      )}
+      />
     </Switch>
-  )
-})
+  );
+});
 
 
 export default connect(
   state => ({ loggedIn: state.loginStatus.loggedIn }),
-  { setLoginStatus }
+  { setLoginStatus },
 )(App);

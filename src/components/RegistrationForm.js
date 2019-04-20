@@ -1,18 +1,16 @@
 import React from 'react';
-import cx from 'classnames'
-import { Field, reduxForm } from 'redux-form'
-import { createTextMask } from 'redux-form-input-masks'
-import Button from './Button'
-import FieldX from './FieldX'
+import cx from 'classnames';
+import { Field, reduxForm } from 'redux-form';
+import { createTextMask } from 'redux-form-input-masks';
+import Button from './Button';
+import FieldX from './FieldX';
 
 import S from '../styles/Registration.module.scss';
 
 const postCodeMask = createTextMask({
   pattern: '99-999',
-  guide: false
+  guide: false,
 });
-
-
 
 
 const RegistrationForm = ({ handleSubmit, error }) => (
@@ -22,7 +20,7 @@ const RegistrationForm = ({ handleSubmit, error }) => (
 
     <Field name="email" component={FieldX} type="email" required placeholder="Adres email" autoComplete="email" className={S.field} />
     <Field name="password" component={FieldX} type="password" required placeholder="Hasło" autoComplete="new-password" className={S.field} />
-    
+
     <Field name="name" component={FieldX} type="text" placeholder="Imię i nazwisko" autoComplete="name" className={S.field} />
     <Field name="address" component={FieldX} type="text" placeholder="Adres" autoComplete="street-address" className={S.field} />
     <Field name="state" component={FieldX} type="text" placeholder="Województwo" autoComplete="address-level1" className={S.field} />
@@ -37,5 +35,5 @@ const RegistrationForm = ({ handleSubmit, error }) => (
 );
 
 export default reduxForm({
-  form: 'registration'
+  form: 'registration',
 })(RegistrationForm);

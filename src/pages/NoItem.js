@@ -1,8 +1,8 @@
-import React from 'react'
-import S from '../styles/NoItem.module.scss'
-import Storage from '../assets/storage.svg'
-import Button from '../components/Button'
+import React from 'react';
 import { withRouter } from 'react-router';
+import S from '../styles/NoItem.module.scss';
+import Storage from '../assets/storage.svg';
+import Button from '../components/Button';
 
 
 const NoItem = ({ history }) => {
@@ -14,7 +14,7 @@ const NoItem = ({ history }) => {
       <h3 className={S.title}>Nie mamy takich mebli w naszym magazynie</h3>
       <Button className={S.goBack} handleClick={handleClick}>Wróć</Button>
     </div>
-  )
-}
+  );
+};
 
 export default withRouter(NoItem);

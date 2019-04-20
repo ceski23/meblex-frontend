@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import cx from 'classnames'
-import { connect } from "react-redux"
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import cx from 'classnames';
+import { connect } from 'react-redux';
 
-import S from '../styles/Toolbar.module.scss'
-import { Icons } from '../assets'
-import { ReactComponent as Logo } from '../assets/meblex_logo.svg'
+import S from '../styles/Toolbar.module.scss';
+import { Icons } from '../assets';
+import { ReactComponent as Logo } from '../assets/meblex_logo.svg';
 
 
 const Toolbar = ({ navOpened, toggleNav, cart }) => {
@@ -17,12 +17,12 @@ const Toolbar = ({ navOpened, toggleNav, cart }) => {
 
   return (
     <div className={S.toolbar}>
-      <Icons.Hamburger className={cx(S.hamburger, {[S.open]: navOpened})} onClick={toggleNav} />
-  
+      <Icons.Hamburger className={cx(S.hamburger, { [S.open]: navOpened })} onClick={toggleNav} />
+
       <Link to="/">
         <Logo className={S.logo} />
       </Link>
-  
+
       <Link to="/cart" className={cx('ripple', S.cart)}>
         <div>
           <Icons.ShoppingCart className={S.icon} />
@@ -30,9 +30,9 @@ const Toolbar = ({ navOpened, toggleNav, cart }) => {
         </div>
       </Link>
     </div>
-  )
+  );
 };
 
 export default connect(
-  state => ({ cart: state.cart })
+  state => ({ cart: state.cart }),
 )(Toolbar);

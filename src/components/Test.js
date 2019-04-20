@@ -1,11 +1,11 @@
-import React from 'react'
-import S from '../styles/Test.module.scss'
-import ItemResult from './ItemResult'
-import furniture from '../meble.json'
-import NoItem from '../pages/NoItem'
+import React from 'react';
+import S from '../styles/Test.module.scss';
+import ItemResult from './ItemResult';
+import furniture from '../meble.json';
+import NoItem from '../pages/NoItem';
 
 const Test = ({ match: { params } }) => {
-  const list = furniture.filter(x => x.category.toLowerCase() === params.category)
+  const list = furniture.filter(x => x.category.toLowerCase() === params.category);
   return (
     <React.Fragment>
       {list.length > 0 && (
@@ -15,7 +15,7 @@ const Test = ({ match: { params } }) => {
       )}
       {list.length === 0 && <NoItem />}
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default Test;

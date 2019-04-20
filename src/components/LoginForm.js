@@ -1,14 +1,19 @@
 import React from 'react';
-import cx from 'classnames'
-import { Field, reduxForm } from 'redux-form'
-import Button from './Button'
+import cx from 'classnames';
+import { Field, reduxForm } from 'redux-form';
+import Button from './Button';
 
 import S from '../styles/LoginScreen.module.scss';
 
 
 const LoginForm = ({ handleSubmit, error }) => (
   <form className={cx(S.loginForm, 'card')} onSubmit={handleSubmit}>
-    <h4 className="title">Witaj, <strong>zaloguj się</strong> aby korzystać z aplikacji!</h4>
+    <h4 className="title">
+Witaj,
+      <strong>zaloguj się</strong>
+      {' '}
+aby korzystać z aplikacji!
+    </h4>
     {error && <p className={S.error}>{error}</p>}
 
     <Field className={S.email} name="email" component="input" type="email" required placeholder="Adres email" autoComplete="email" />
@@ -22,5 +27,5 @@ const LoginForm = ({ handleSubmit, error }) => (
 );
 
 export default reduxForm({
-  form: 'login'
+  form: 'login',
 })(LoginForm);
