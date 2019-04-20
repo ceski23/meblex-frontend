@@ -8,7 +8,7 @@ import { Furniture } from '../assets';
 import * as API from '../api';
 import RegistrationForm from '../components/RegistrationForm';
 import Loading from '../components/Loading';
-import { setLoginStatus } from '../redux/auth';
+import { setLoginStatus } from '../redux/loginStatus';
 
 const Registration = ({ history, setLoginStatus }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +53,6 @@ const Registration = ({ history, setLoginStatus }) => {
 };
 
 export default connect(
-  state => ({ loggedIn: state.auth.loggedIn }),
+  state => ({ loggedIn: state.loginStatus.loggedIn }),
   { setLoginStatus },
 )(Registration);
