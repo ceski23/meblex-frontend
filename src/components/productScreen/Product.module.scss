@@ -1,0 +1,262 @@
+@import '../shared/variables';
+
+.product {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  margin-bottom: 20px;
+
+  .images {
+    background: #fff;
+    scroll-snap-type: x mandatory;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    height: 350px;
+    position: relative;
+
+    // @media (hover: hover) and (pointer: fine) {
+    //   &:after {
+    //     content: '';
+    //     width: 100vw;
+    //     height: 100%;
+    //     background: red;
+    //     position: absolute;
+    //   }
+    // }
+
+    .image {
+      object-fit: contain;
+      scroll-snap-align: start;
+      width: 100%;
+      padding: 0 20px;
+    }
+  }
+
+  .name {
+    padding: 20px 30px 0;
+    margin: 0;
+  }
+
+  .id {
+    padding: 0px 30px;
+    color: transparentize($colorText, .3);
+    font-size: .8em;
+  }
+}
+
+.info {
+  // background: $colorBackgroundGray;
+  // box-shadow: 0 0px 10px $colorShadowDark;
+  // border-top: 1px solid $colorShadowDark;
+
+  .priceBox {
+    padding: 20px 0;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: transparentize($colorPrimary, 0.9);
+
+    h3 {
+      margin: 0;
+    }
+
+    .icon {
+      height: 40px;
+      fill: #0034a2;
+      margin-right: 20px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: $colorPrimary;
+      margin: 0;
+      font-size: 1.8em;
+    }
+  }
+
+  .freeShipping {
+    font-size: .8em;
+    padding: 0;
+    margin: 0;
+  }
+
+  .title {
+    margin: 0 0 20px 0;
+  }
+
+  .buyBox {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    position: relative;
+    justify-content: center;
+    margin: 40px 0;
+
+    .amount {
+      width: 70px;
+      height: 100%;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      font-weight: bold;
+      font-size: 1.5em;
+      text-align: center;
+    }
+
+    .addToCart {
+      height: 100%;
+      margin: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  .descBox {
+    padding: 20px 30px;
+
+    .desc {
+      strong {
+        color: $colorTextDark;
+      }
+    }
+  }
+
+  .sizesBox {
+    padding: 20px 30px;
+
+    .size {
+      display: flex;
+      flex-direction: row;
+      padding: 5px 0;
+
+      & p {
+        margin: 0;
+        width: 100px;
+      }
+    }
+  }
+
+  p {
+    text-align: justify;
+  }
+}
+
+.customSizeBox {
+  margin: 20px 0;
+  padding: 30px;
+  background: $colorPrimary;
+  text-align: center;
+
+  h4 {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  p {
+    color: transparentize(#fff, .2);
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+
+  .button {
+    border: 2px solid #fff;
+    color: #fff;
+  }
+}
+
+.partsBox {
+  padding: 20px 30px;
+
+  .title {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+
+  .parts {
+    display: flex;
+    flex-direction: column;
+
+    .part {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px 20px;
+      box-shadow: 0px 1px 3px $colorShadowDark;
+      margin: 7px 0px;
+
+      .add {
+        padding: 3px 10px;
+        margin: 0;
+      }
+
+      .amount {
+        margin: 0;
+        padding: 0;
+        font-weight: bold;
+        color: $colorTextDark;
+        font-size: 1.5em;
+        margin-right: 20px;
+
+        span {
+          font-size: .8em;
+          color: $colorTextDark;
+        }
+      }
+
+      .name {
+        color: $colorTextDark;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        flex: 1;
+      }
+    }
+  }
+}
+
+.resBox {
+  padding: 20px 30px;
+
+  .res {
+    display: flex;
+    flex-direction: row;
+
+    .i {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+
+      .text {
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .info {
+        margin: 0;
+        font-size: 0.8em;
+      }
+    }
+
+    .img {
+      width: 40px;
+      height: 40px;
+      display: inline-block;
+      border-radius: 50%;
+      border: 2px solid;
+      margin-right: 20px;
+    }
+  }
+}

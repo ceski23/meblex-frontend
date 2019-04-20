@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import './styles/main.scss';
+import './components/shared/main.scss';
 import { Provider } from 'react-redux';
-import App from './components/App';
+import App from './components/shell/App';
 import * as serviceWorker from './serviceWorker';
 import { store, persistor } from './store';
 

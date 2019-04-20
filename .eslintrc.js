@@ -11,6 +11,7 @@ module.exports = {
         "react/prop-types": "off", // 😬
         "no-unused-vars": "warn",
         "jsx-a11y/click-events-have-key-events": "off",
-        "react/jsx-one-expression-per-line": "off"
+        "react/jsx-one-expression-per-line": "off",
+        "linebreak-style": "off"
     }
 };
