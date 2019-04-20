@@ -14,5 +14,5 @@ const UserInfo = ({ toggleNav, user }) => (
 );
 
 export default connect(state => ({
-  user: state.loginStatus.user,
+  user: state.auth.user,
 }))(UserInfo);

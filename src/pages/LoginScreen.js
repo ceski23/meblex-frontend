@@ -8,7 +8,7 @@ import { Furniture } from '../assets';
 import * as API from '../api';
 import LoginForm from '../components/LoginForm';
 import Loading from '../components/Loading';
-import { setLoginStatus } from '../redux/loginStatus';
+import { setLoginStatus } from '../redux/auth';
 
 
 const LoginScreen = ({ history, setLoginStatus }) => {
@@ -44,6 +44,6 @@ const LoginScreen = ({ history, setLoginStatus }) => {
 };
 
 export default connect(
-  state => ({ loggedIn: state.loginStatus.loggedIn }),
+  state => ({ loggedIn: state.auth.loggedIn }),
   { setLoginStatus },
 )(LoginScreen);
