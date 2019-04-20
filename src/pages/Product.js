@@ -1,12 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import ReactMarkdown from 'react-markdown';
 import S from '../styles/Product.module.scss';
 import Button from '../components/Button';
 // import scroll from 'react-scroll-to-component'
 import { addItemsToCart } from '../redux/cart';
 
 
-const Product = ({ match: { params }, addItemsToCart, cart }) => {
+const Product = ({ addItemsToCart }) => {
   const materials = {
     1: 'https://media.istockphoto.com/photos/beech-wood-texture-picture-id185869660',
     2: 'http://www.tkaniny-meblowe.pl/6039/tkanina-cablo-10-ag.jpg',
@@ -18,7 +19,7 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
     count: 14,
     price: 420.0,
     size: '47x48x104',
-    description: '<p><b>Krzesło FLORIDA</b> zwraca uwagę stylizacją retro oraz ozdobnym pikowaniem na powierzchni oparcia. To idealny mebel by podkreślić szyk i elegancję wnętrza. Przeznaczone do gabinetu domowego lub salonu Krzesło <b>FLORIDA</b> zwraca uwagę gustownym wykonaniem i wykończeniem. Najlepiej prezentuje się w przestronnych pomieszczeniach, które w pełni mogą wyeksponować jego walory dekoracyjne.</p><p>Doskonale komponuje się z meblami i dodatkami dekoracyjnymi w stylu industrialnym lub klasycznym. <b>FLORIDA</b> jest krzesłem komfortowym. W siedzisku zostały umieszczone sprężyny faliste, które w połączeniu z pianką sprawiają, że jest ono bardzo miękkie i wygodne. Za sprężystość oparcia odpowiadają pasy tapicerskie oraz piankowe wypełnienie. Stelaż wykonany z drewna bukowego gwarantuje trwałość mebla oraz nadaje jego wyglądowi estetyki i dyskretnej elegancji.</p><p><b>Wykończenie</b><br/>Tkanina <b>INARI</b> użyta do obicia mebla to materiał grubo tkany o fakturze zbliżonej do lnu. Świetnie sprawdza się pod kątem aranżacyjnym. Nogi krzesła są lakierowane, wykonane są z drewna bukowego.</p>',
+    description: '**Krzesło FLORIDA** zwraca uwagę stylizacją retro oraz ozdobnym pikowaniem na powierzchni oparcia. To idealny mebel by podkreślić szyk i elegancję wnętrza. Przeznaczone do gabinetu domowego lub salonu Krzesło **FLORIDA** zwraca uwagę gustownym wykonaniem i wykończeniem. Najlepiej prezentuje się w przestronnych pomieszczeniach, które w pełni mogą wyeksponować jego walory dekoracyjne.\n\nDoskonale komponuje się z meblami i dodatkami dekoracyjnymi w stylu industrialnym lub klasycznym. **FLORIDA** jest krzesłem komfortowym. W siedzisku zostały umieszczone sprężyny faliste, które w połączeniu z pianką sprawiają, że jest ono bardzo miękkie i wygodne. Za sprężystość oparcia odpowiadają pasy tapicerskie oraz piankowe wypełnienie. Stelaż wykonany z drewna bukowego gwarantuje trwałość mebla oraz nadaje jego wyglądowi estetyki i dyskretnej elegancji.\n\n**Wykończenie**  \nTkanina **INARI** użyta do obicia mebla to materiał grubo tkany o fakturze zbliżonej do lnu. Świetnie sprawdza się pod kątem aranżacyjnym. Nogi krzesła są lakierowane, wykonane są z drewna bukowego.',
     room_id: 0,
     category_id: 0,
     photos: [
@@ -102,10 +103,7 @@ const Product = ({ match: { params }, addItemsToCart, cart }) => {
   return (
     <div className={S.product}>
       <h3 className={S.name}>{product.name}</h3>
-      <p className={S.id}>
-Numer produktu:
-        {product.id}
-      </p>
+      <p className={S.id}>Numer produktu: {product.id}</p>
 
       <div className={S.images} ref={refe}>
         {product.photos.map((photo, i) => (
@@ -117,11 +115,7 @@ Numer produktu:
         <div className={S.priceBox}>
           <h3>Cena:</h3>
           <div>
-            <p className={S.price}>
-              {product.price}
-              {' '}
-zł
-            </p>
+            <p className={S.price}>{product.price} zł</p>
             <p className={S.freeShipping}>+ Darmowa wysyłka!</p>
           </div>
         </div>
@@ -133,7 +127,9 @@ zł
 
         <div className={S.descBox}>
           <h3 className={S.title}>Opis</h3>
-          <div dangerouslySetInnerHTML={{ __html: product.description }} />
+          <div className={S.desc}>
+            <ReactMarkdown source={product.description} />
+          </div>
         </div>
 
         <div className={S.resBox}>
@@ -166,27 +162,15 @@ zł
           <h3 className={S.title}>Wymiary</h3>
           <span className={S.size}>
             <p>Szerokość:</p>
-            <b>
-              {product.size.split('x')[0]}
-              {' '}
-cm
-            </b>
+            <b>{product.size.split('x')[0]} cm</b>
           </span>
           <span className={S.size}>
             <p>Głębokość:</p>
-            <b>
-              {product.size.split('x')[1]}
-              {' '}
-cm
-            </b>
+            <b>{product.size.split('x')[1]} cm</b>
           </span>
           <span className={S.size}>
             <p>Wysokość:</p>
-            <b>
-              {product.size.split('x')[2]}
-              {' '}
-cm
-            </b>
+            <b>{product.size.split('x')[2]} cm</b>
           </span>
         </div>
       </div>
@@ -214,6 +198,6 @@ cm
 };
 
 export default connect(
-  state => ({ cart: state.cart }),
+  null,
   { addItemsToCart },
 )(Product);
