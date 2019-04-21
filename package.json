@@ -21,6 +21,7 @@
     "redux": "^4.0.1",
     "redux-form": "^8.1.0",
     "redux-form-input-masks": "^2.0.1",
+    "redux-thunk": "^2.3.0",
     "use-async-effect": "^2.0.1",
     "use-debounce": "^1.1.1"
   },
@@ -48,6 +49,7 @@
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
-    "node-sass": "^4.11.0"
+    "node-sass": "^4.11.0",
+    "redux-devtools-extension": "^2.13.8"
   }
 }
