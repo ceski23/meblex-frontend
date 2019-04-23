@@ -74,3 +74,47 @@
     }
   }
 }
+
+
+
+$filterBoxHeight: 60px;
+
+.filterBox {
+  background: #fff;
+  position: fixed;
+  top: calc(100vh - #{$filterBoxHeight});
+  left: 0;
+  width: 100%;
+  box-shadow: 0px -1px 20px $colorShadowDark;
+  transition: .5s;
+  height: 100%;
+
+  &.open {
+    top: 70px;
+
+    .header .icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 20px;
+    align-items: center;
+    justify-content: space-between;
+    height: $filterBoxHeight;
+
+    .title {
+      margin: 0;
+      font-size: 1.2em;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      transition: .3s;
+      transform: rotate(-90deg);
+    }
+  }
+}

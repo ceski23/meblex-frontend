@@ -5,11 +5,13 @@ import cx from 'classnames';
 import S from './Main.module.scss';
 import { Furniture } from '../../assets';
 import SearchBox from './SearchBox';
+import { ReactComponent as Chevron } from '../../assets/chevron.svg';
 
 
 const Main = () => {
   const [searchResults, setSearchResults] = useState([]);
   const handleSearch = results => setSearchResults(results);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   const getIcon = type => ({
     krzesło: Furniture.DiningChair,
@@ -45,11 +47,7 @@ const Main = () => {
             <Icon className={S.icon} />
             <div className={S.info}>
               <h4 className={S.name}>{r.item.name}</h4>
-              <p className={S.color}>
-                {r.item.color}
-,
-                {' '}
-                {r.item.material.split(' ')[0]}
+              <p className={S.color}>{r.item.color}, {r.item.material.split(' ')[0]}
               </p>
             </div>
             <h3 className={S.price}>
@@ -68,6 +66,13 @@ const Main = () => {
           </Link>
         ))}
       </section>
+
+      <div className={cx(S.filterBox, { [S.open]: filterOpen })}>
+        <div className={S.header} tabIndex={0} role="button" onClick={() => setFilterOpen(!filterOpen)}>
+          <h3 className={S.title}>Filtry</h3>
+          <Chevron className={S.icon} />
+        </div>
+      </div>
     </React.Fragment>
   );
 };
