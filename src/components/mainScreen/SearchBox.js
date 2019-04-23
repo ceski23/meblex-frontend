@@ -24,7 +24,7 @@ const SearchBox = ({ callback, listing }) => {
   useEffect(() => {
     if (debouncedFilter.length === 0) callback([]);
     else if (debouncedFilter.length >= 3) callback(fuse.search(debouncedFilter).slice(0, 50));
-  }, [debouncedFilter]);
+  }, [callback, debouncedFilter, fuse]);
 
 
   const clearInput = () => setFilter('');

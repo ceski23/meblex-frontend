@@ -1,5 +1,8 @@
 module.exports = {
-    "extends": "airbnb",
+    "extends": [
+      "react-app",
+      "airbnb",
+    ],
     "parser": "babel-eslint",
     "env": {
         "browser": true
@@ -17,6 +20,6 @@ module.exports = {
         "react/jsx-one-expression-per-line": "off",
         "linebreak-style": "off",
         "object-curly-newline": "off",
-        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
     }
 };
