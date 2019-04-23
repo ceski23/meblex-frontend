@@ -1,8 +1,9 @@
 # Stage 1
 FROM node:11.9.0 as react-build
 WORKDIR /app
-COPY . ./
+COPY package.json yarn.lock ./
 RUN yarn
+COPY . ./
 RUN yarn build
 
 # Stage 2 - the production environment
