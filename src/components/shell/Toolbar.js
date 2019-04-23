@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
-import { connect } from 'react-redux';
 
 import S from './Toolbar.module.scss';
 import { Icons } from '../../assets';
 import { ReactComponent as Logo } from '../../assets/meblex_logo.svg';
 
 
-const Toolbar = ({ navOpened, toggleNav, cart }) => {
+const Toolbar = ({ navOpened, toggleNav }) => {
+  const cart = useSelector(state => state.cart);
   const [cartSize, setCartSize] = useState(0);
 
   useEffect(() => {
@@ -33,6 +34,4 @@ const Toolbar = ({ navOpened, toggleNav, cart }) => {
   );
 };
 
-export default connect(
-  state => ({ cart: state.cart }),
-)(Toolbar);
+export default Toolbar;

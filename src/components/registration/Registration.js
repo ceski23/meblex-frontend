@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SubmissionError } from 'redux-form';
-import { connect } from 'react-redux';
+import { useActions } from 'react-redux';
 
 import { ReactComponent as Logo } from '../../assets/meblex_logo.svg';
 import S from './Registration.module.scss';
@@ -8,9 +8,10 @@ import { Furniture } from '../../assets';
 import * as API from '../../api';
 import RegistrationForm from './RegistrationForm';
 import Loading from '../shared/Loading';
-import { setLoginStatus } from '../../redux/auth';
+import { setLoginStatus as loginStatusAction } from '../../redux/auth';
 
-const Registration = ({ history, setLoginStatus }) => {
+const Registration = ({ history }) => {
+  const setLoginStatus = useActions(status => loginStatusAction(status));
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async (values) => {
@@ -52,7 +53,4 @@ const Registration = ({ history, setLoginStatus }) => {
   );
 };
 
-export default connect(
-  state => ({ loggedIn: state.auth.loggedIn }),
-  { setLoginStatus },
-)(Registration);
+export default Registration;

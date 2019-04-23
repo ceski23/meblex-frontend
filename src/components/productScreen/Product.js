@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { connect } from 'react-redux';
+import { useActions } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import S from './Product.module.scss';
 import Button from '../shared/Button';
@@ -7,7 +7,7 @@ import Button from '../shared/Button';
 import { addItemsToCart } from '../../redux/cart';
 
 
-const Product = ({ addItemsToCart }) => {
+const Product = () => {
   const materials = {
     1: 'https://media.istockphoto.com/photos/beech-wood-texture-picture-id185869660',
     2: 'http://www.tkaniny-meblowe.pl/6039/tkanina-cablo-10-ag.jpg',
@@ -76,6 +76,8 @@ const Product = ({ addItemsToCart }) => {
 
   const refe = useRef();
   const [amount, setAmount] = useState(1);
+  const addToCart = useActions(item => addItemsToCart(item));
+
   // const [currImage, setCurrImage] = useState(1);
 
   // const handleClick = () => {
@@ -91,12 +93,12 @@ const Product = ({ addItemsToCart }) => {
   };
 
   const addPart = () => {
-    addItemsToCart({ amount: 1 });
+    addToCart({ amount: 1 });
   };
 
   const addPoF = () => {
     if (parseInt(amount, 10)) {
-      addItemsToCart({ amount: parseInt(amount, 10) });
+      addToCart({ amount: parseInt(amount, 10) });
     }
   };
 
@@ -197,7 +199,4 @@ const Product = ({ addItemsToCart }) => {
   );
 };
 
-export default connect(
-  null,
-  { addItemsToCart },
-)(Product);
+export default Product;
