@@ -260,3 +260,43 @@
     }
   }
 }
+
+
+.breadcrumbs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+
+  .crumb {
+    padding: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    // flex: 1;
+    transition: .3s;
+
+    &:first-child {
+      display: flex;
+    }
+
+    &:last-child {
+      flex: 1;
+      color: $colorPrimary;
+    }
+  }
+
+  .home {
+    fill: #042365;
+    width: 20px;
+    height: 20px;
+  }
+
+  .chevron {
+    stroke: $colorTextDark;
+    stroke-width: 10px;
+    width: 10px;
+    height: 10px;
+  }
+}

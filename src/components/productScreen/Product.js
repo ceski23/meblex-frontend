@@ -5,6 +5,8 @@ import S from './Product.module.scss';
 import Button from '../shared/Button';
 // import scroll from 'react-scroll-to-component'
 import { addItemsToCart } from '../../redux/cart';
+import { ReactComponent as Chevron } from '../../assets/chevron.svg';
+import { ReactComponent as Home } from '../../assets/home_alt.svg';
 
 
 const Product = ({ addItemsToCart }) => {
@@ -101,99 +103,108 @@ const Product = ({ addItemsToCart }) => {
   };
 
   return (
-    <div className={S.product}>
-      <h3 className={S.name}>{product.name}</h3>
-      <p className={S.id}>Numer produktu: {product.id}</p>
-
-      <div className={S.images} ref={refe}>
-        {product.photos.map((photo, i) => (
-          <img src={photo.path} alt={i} key={i} className={S.image} />
-        ))}
+    <React.Fragment>
+      <div className={S.breadcrumbs}>
+        <span className={S.crumb}><Home className={S.home} /></span><Chevron className={S.chevron} />
+        <span className={S.crumb}>Do salonu</span><Chevron className={S.chevron} />
+        <span className={S.crumb}>Krzesła</span><Chevron className={S.chevron} />
+        <span className={S.crumb}>Krzesło FLORIDA</span>
       </div>
 
-      <div className={S.info}>
-        <div className={S.priceBox}>
-          <h3>Cena:</h3>
-          <div>
-            <p className={S.price}>{product.price} zł</p>
-            <p className={S.freeShipping}>+ Darmowa wysyłka!</p>
+      <div className={S.product}>
+        <h3 className={S.name}>{product.name}</h3>
+        <p className={S.id}>Numer produktu: {product.id}</p>
+
+        <div className={S.images} ref={refe}>
+          {product.photos.map((photo, i) => (
+            <img src={photo.path} alt={i} key={i} className={S.image} />
+          ))}
+        </div>
+
+        <div className={S.info}>
+          <div className={S.priceBox}>
+            <h3>Cena:</h3>
+            <div>
+              <p className={S.price}>{product.price} zł</p>
+              <p className={S.freeShipping}>+ Darmowa wysyłka!</p>
+            </div>
+          </div>
+
+          <div className={S.buyBox}>
+            <input type="number" value={amount} onChange={handleAmountChange} className={S.amount} />
+            <Button className={S.addToCart} handleClick={addPoF}>Dodaj do koszyka</Button>
+          </div>
+
+          <div className={S.descBox}>
+            <h3 className={S.title}>Opis</h3>
+            <div className={S.desc}>
+              <ReactMarkdown source={product.description} />
+            </div>
+          </div>
+
+          <div className={S.resBox}>
+            <h3 className={S.title}>Materiały</h3>
+            {product.parts.map((part, i) => (
+              <div className={S.res} key={i}>
+                <span className={S.img} style={{ background: `url(${materials[part.material.id]})` }} />
+                <div className={S.i}>
+                  <p className={S.text}>{part.material.name}</p>
+                  <p className={S.info}>{part.name}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={S.resBox}>
+            <h3 className={S.title}>Kolory</h3>
+            {product.parts.map((part, i) => (
+              <div className={S.res} key={i}>
+                <span className={S.img} style={{ background: part.color.hex_code }} />
+                <div className={S.i}>
+                  <p className={S.text}>{part.color.name}</p>
+                  <p className={S.info}>{part.name}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={S.sizesBox}>
+            <h3 className={S.title}>Wymiary</h3>
+            <span className={S.size}>
+              <p>Szerokość:</p>
+              <b>{product.size.split('x')[0]} cm</b>
+            </span>
+            <span className={S.size}>
+              <p>Głębokość:</p>
+              <b>{product.size.split('x')[1]} cm</b>
+            </span>
+            <span className={S.size}>
+              <p>Wysokość:</p>
+              <b>{product.size.split('x')[2]} cm</b>
+            </span>
           </div>
         </div>
 
-        <div className={S.buyBox}>
-          <input type="number" value={amount} onChange={handleAmountChange} className={S.amount} />
-          <Button className={S.addToCart} handleClick={addPoF}>Dodaj do koszyka</Button>
+        <div className={S.customSizeBox}>
+          <h4>Nie pasuje Ci rozmiar tego mebla?</h4>
+          <p>Wyślij zapytanie, a nasi konsultanci sprawdzą czy możesz go dostać w innym rozmiarze</p>
+          <Button type="secondary" className={S.button}>Wyślij zapytanie</Button>
         </div>
 
-        <div className={S.descBox}>
-          <h3 className={S.title}>Opis</h3>
-          <div className={S.desc}>
-            <ReactMarkdown source={product.description} />
+        <div className={S.partsBox}>
+          <h3 className={S.title}>Części</h3>
+          <p>Części, z których składa się ten mebel:</p>
+          <div className={S.parts}>
+            {product.parts.map((part, i) => (
+              <div className={S.part} key={i}>
+                <p className={S.name}>{part.name}</p>
+                <Button className={S.add} type="secondary" handleClick={addPart}>+</Button>
+              </div>
+            ))}
           </div>
         </div>
-
-        <div className={S.resBox}>
-          <h3 className={S.title}>Materiały</h3>
-          {product.parts.map((part, i) => (
-            <div className={S.res} key={i}>
-              <span className={S.img} style={{ background: `url(${materials[part.material.id]})` }} />
-              <div className={S.i}>
-                <p className={S.text}>{part.material.name}</p>
-                <p className={S.info}>{part.name}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className={S.resBox}>
-          <h3 className={S.title}>Kolory</h3>
-          {product.parts.map((part, i) => (
-            <div className={S.res} key={i}>
-              <span className={S.img} style={{ background: part.color.hex_code }} />
-              <div className={S.i}>
-                <p className={S.text}>{part.color.name}</p>
-                <p className={S.info}>{part.name}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className={S.sizesBox}>
-          <h3 className={S.title}>Wymiary</h3>
-          <span className={S.size}>
-            <p>Szerokość:</p>
-            <b>{product.size.split('x')[0]} cm</b>
-          </span>
-          <span className={S.size}>
-            <p>Głębokość:</p>
-            <b>{product.size.split('x')[1]} cm</b>
-          </span>
-          <span className={S.size}>
-            <p>Wysokość:</p>
-            <b>{product.size.split('x')[2]} cm</b>
-          </span>
-        </div>
       </div>
-
-      <div className={S.customSizeBox}>
-        <h4>Nie pasuje Ci rozmiar tego mebla?</h4>
-        <p>Wyślij zapytanie, a nasi konsultanci sprawdzą czy możesz go dostać w innym rozmiarze</p>
-        <Button type="secondary" className={S.button}>Wyślij zapytanie</Button>
-      </div>
-
-      <div className={S.partsBox}>
-        <h3 className={S.title}>Części</h3>
-        <p>Części, z których składa się ten mebel:</p>
-        <div className={S.parts}>
-          {product.parts.map((part, i) => (
-            <div className={S.part} key={i}>
-              <p className={S.name}>{part.name}</p>
-              <Button className={S.add} type="secondary" handleClick={addPart}>+</Button>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    </React.Fragment>
   );
 };
 
