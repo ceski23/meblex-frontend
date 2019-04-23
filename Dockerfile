@@ -1,5 +1,5 @@
 # Stage 1
-FROM node:9.6.1 as react-build
+FROM node:11.9.0 as react-build
 WORKDIR /app
 COPY . ./
 RUN yarn
