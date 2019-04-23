@@ -32,11 +32,11 @@ const App = withRouter(({ history, loggedIn, setLoginStatus, logout, accessToken
       };
       loginStatusChecking();
     }
-  }, [accessToken, logout]);
+  }, [accessToken, logout, setLoginStatus]);
 
   useEffect(() => {
     if (!loggedIn) history.replace('/logowanie');
-  }, [loggedIn]);
+  }, [history, loggedIn]);
 
   return (
     <Switch>
