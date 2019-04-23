@@ -72,6 +72,25 @@ const Main = () => {
           <h3 className={S.title}>Filtry</h3>
           <Chevron className={S.icon} />
         </div>
+        <div className={S.filters}>
+
+          <div className={S.filter}>
+            <h4 className={S.name}>Kolor:</h4>
+            <select className={S.input}>
+              <option>1</option>
+              <option>2</option>
+            </select>
+          </div>
+
+          <div className={S.filter}>
+            <h4 className={S.name}>Materiał:</h4>
+            <select className={S.input}>
+              <option>1</option>
+              <option>2</option>
+            </select>
+          </div>
+
+        </div>
       </div>
     </React.Fragment>
   );

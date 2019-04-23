@@ -87,10 +87,14 @@ $filterBoxHeight: 60px;
   width: 100%;
   box-shadow: 0px -1px 20px $colorShadowDark;
   transition: .5s;
-  height: 100%;
+  height: calc(100vh - 60px);
 
   &.open {
     top: 70px;
+
+    .header {
+      background: $colorBackgroundGray;
+    }
 
     .header .icon {
       transform: rotate(90deg);
@@ -104,6 +108,9 @@ $filterBoxHeight: 60px;
     align-items: center;
     justify-content: space-between;
     height: $filterBoxHeight;
+    border-bottom: 1px solid $colorText;
+    background: #fff;
+    transition: .5s;
 
     .title {
       margin: 0;
@@ -116,5 +123,28 @@ $filterBoxHeight: 60px;
       transition: .3s;
       transform: rotate(-90deg);
     }
+  }
+}
+
+
+
+
+.filters {
+  padding: 20px 30px;
+}
+
+.filter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px 0;
+
+  .name {
+    margin: 0;
+    margin-right: 20px;
+  }
+
+  .input {
+    flex: 1;
   }
 }
