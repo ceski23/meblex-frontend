@@ -2,7 +2,6 @@
   "name": "frontreact",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://tania-sila-robocza.github.io/Meblex-Frontend",
   "dependencies": {
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
