@@ -1,0 +1,31 @@
+@import '../shared/variables.scss';
+
+.userProfile {
+  padding: 30px 20px;
+
+  .title {
+    margin: 0;
+    margin-bottom: 30px;
+  }
+
+  .userForm {
+    .field {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin: 20px 0;
+
+      .label {
+        margin: 0;
+        margin-right: 20px;
+        font-size: 1em;
+        // white-space: nowrap;
+      }
+
+      .input {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+  }
+}
