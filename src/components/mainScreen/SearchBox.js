@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Fuse from 'fuse.js';
 import { useDebounce } from 'use-debounce';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Icons } from '../../assets';
 import S from './SearchBox.module.scss';
 
-const SearchBox = ({ callback, listing }) => {
+const SearchBox = ({ callback }) => {
+  const listing = useSelector(state => state.listing.furniture);
   const [filter, setFilter] = useState('');
   const [debouncedFilter] = useDebounce(filter, 400);
 
@@ -39,6 +40,4 @@ const SearchBox = ({ callback, listing }) => {
   );
 };
 
-export default connect(state => ({
-  listing: state.listing.furniture,
-}))(SearchBox);
+export default SearchBox;

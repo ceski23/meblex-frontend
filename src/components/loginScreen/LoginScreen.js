@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SubmissionError } from 'redux-form';
-import { connect } from 'react-redux';
+import { useActions } from 'react-redux';
 
 import { ReactComponent as Logo } from '../../assets/meblex_logo.svg';
 import S from './LoginScreen.module.scss';
@@ -8,11 +8,12 @@ import { Furniture } from '../../assets';
 import * as API from '../../api';
 import LoginForm from './LoginForm';
 import Loading from '../shared/Loading';
-import { setLoginStatus } from '../../redux/auth';
+import { setLoginStatus as loginAction } from '../../redux/auth';
 
 
-const LoginScreen = ({ history, setLoginStatus }) => {
+const LoginScreen = ({ history }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const setLoginStatus = useActions(status => loginAction(status));
 
   const handleLogin = async (values) => {
     setIsLoading(true);
@@ -43,7 +44,4 @@ const LoginScreen = ({ history, setLoginStatus }) => {
   );
 };
 
-export default connect(
-  state => ({ loggedIn: state.auth.loggedIn }),
-  { setLoginStatus },
-)(LoginScreen);
+export default LoginScreen;

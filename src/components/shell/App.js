@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector, useActions } from 'react-redux';
 
 import '../shared/main.scss';
 
@@ -10,10 +10,18 @@ import Content from './Content';
 import * as API from '../../api';
 import Registration from '../registration/Registration';
 import Loading from '../shared/Loading';
-import { logout, setLoginStatus } from '../../redux/auth';
+import { logout as logoutAction, setLoginStatus as loginStatusAction } from '../../redux/auth';
 
 
-const App = withRouter(({ history, loggedIn, setLoginStatus, logout, accessToken }) => {
+const App = withRouter(({ history }) => {
+  const loggedIn = useSelector(state => state.auth.loggedIn);
+  const accessToken = useSelector(state => state.auth.access_token);
+
+  const { logout, setLoginStatus } = useActions({
+    logout: logoutAction,
+    setLoginStatus: loginStatusAction,
+  }, []);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -32,7 +40,7 @@ const App = withRouter(({ history, loggedIn, setLoginStatus, logout, accessToken
       };
       loginStatusChecking();
     }
-  }, [accessToken, logout, setLoginStatus]);
+  }, [accessToken, setLoginStatus]);
 
   useEffect(() => {
     if (!loggedIn) history.replace('/logowanie');
@@ -60,10 +68,4 @@ const App = withRouter(({ history, loggedIn, setLoginStatus, logout, accessToken
 });
 
 
-export default connect(
-  state => ({
-    loggedIn: state.auth.loggedIn,
-    accessToken: state.auth.access_token,
-  }),
-  { logout, setLoginStatus },
-)(App);
+export default App;

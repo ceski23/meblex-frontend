@@ -1,18 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import S from './UserInfo.module.scss';
 import { Icons } from '../../assets';
 
 
-const UserInfo = ({ toggleNav, user }) => (
-  <Link to="/profil" className={S.link} onClick={toggleNav}>
-    <Icons.User className={S.photo} />
-    <p className={S.text}>{user.name}</p>
-  </Link>
-);
+const UserInfo = ({ toggleNav }) => {
+  const user = useSelector(state => state.auth.user);
 
-export default connect(state => ({
-  user: state.auth.user,
-}))(UserInfo);
+  return (
+    <Link to="/profil" className={S.link} onClick={toggleNav}>
+      <Icons.User className={S.photo} />
+      <p className={S.text}>{user.name}</p>
+    </Link>
+  );
+};
+
+export default UserInfo;
