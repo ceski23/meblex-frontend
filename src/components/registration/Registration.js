@@ -15,7 +15,6 @@ const Registration = ({ history }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async (values) => {
-    console.log(values);
     setIsLoading(true);
     try {
       await API.register(values);

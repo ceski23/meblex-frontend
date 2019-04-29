@@ -15,7 +15,7 @@ import { logout as logoutAction, setLoginStatus as loginStatusAction } from '../
 
 const App = withRouter(({ history }) => {
   const loggedIn = useSelector(state => state.auth.loggedIn);
-  const accessToken = useSelector(state => state.auth.access_token);
+  const accessToken = useSelector(state => state.auth.accessToken);
 
   const { logout, setLoginStatus } = useActions({
     logout: logoutAction,
@@ -32,11 +32,11 @@ const App = withRouter(({ history }) => {
       const loginStatusChecking = async () => {
         try {
           await API.checkStatus();
-          setIsLoading(false);
           setLoginStatus(true);
         } catch (error) {
-          setIsLoading(false);
+          if (error === 401) setLoginStatus(false);
         }
+        setIsLoading(false);
       };
       loginStatusChecking();
     }

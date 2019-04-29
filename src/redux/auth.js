@@ -17,8 +17,8 @@ const initState = {
   user: {
     name: 'Ingvar Kamprad',
   },
-  access_token: undefined,
-  refresh_token: undefined,
+  accessToken: undefined,
+  refreshToken: undefined,
 };
 
 const loginReducer = (state = initState, action) => {
@@ -27,14 +27,14 @@ const loginReducer = (state = initState, action) => {
       return { ...state, loggedIn: action.payload };
 
     case SET_ACCESS_TOKEN:
-      return { ...state, access_token: action.payload };
+      return { ...state, accessToken: action.payload };
 
     case SET_REFRESH_TOKEN:
-      return { ...state, refresh_token: action.payload };
+      return { ...state, refreshToken: action.payload };
 
     case LOGOUT:
       return {
-        ...state, loggedIn: false, access_token: undefined, refresh_token: undefined,
+        ...state, loggedIn: false, accessToken: undefined, refreshToken: undefined,
       };
 
     default:
@@ -45,5 +45,5 @@ const loginReducer = (state = initState, action) => {
 export default persistReducer({
   key: 'auth',
   storage: localForage,
-  whitelist: ['access_token', 'refresh_token'],
+  whitelist: ['accessToken', 'refreshToken'],
 }, loginReducer);

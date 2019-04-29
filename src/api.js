@@ -5,10 +5,10 @@ import axios from 'axios';
 import { store } from './store';
 import { setAccessToken, setRefreshToken } from './redux/auth';
 
-let accessToken = store.getState().auth.access_token;
+let { accessToken } = store.getState().auth;
 
 const client = axios.create({
-  baseURL: 'https://api.meblex.tk/api/',
+  baseURL: 'https://api.wip.meblex.tk/api/',
   headers: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${accessToken}`,
@@ -16,7 +16,7 @@ const client = axios.create({
 });
 
 store.subscribe(() => {
-  accessToken = store.getState().auth.access_token;
+  ({ accessToken } = store.getState().auth);
   client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 });
 
@@ -52,8 +52,8 @@ client.interceptors.request.use((config) => {
 // Check if got new tokens
 client.interceptors.response.use((response) => {
   if (response && (response.status === 200 || response.status === 201)) {
-    if (response.data.access_token) store.dispatch(setAccessToken(response.data.access_token));
-    if (response.data.refresh_token) store.dispatch(setRefreshToken(response.data.refresh_token));
+    if (response.data.accessToken) store.dispatch(setAccessToken(response.data.accessToken));
+    if (response.data.refreshToken) store.dispatch(setRefreshToken(response.data.refreshToken));
   }
 });
 
@@ -74,6 +74,7 @@ export function getListing() {
 
 export function checkStatus() {
   return client.get('status').catch(err => errorHandler(err, {
+    401: 401,
     default: 'Wystąpił błąd, spróbuj jeszcze raz!',
   }));
 }
@@ -87,7 +88,7 @@ export function login(data) {
 }
 
 export function relogin() {
-  const data = { token: store.getState().auth.refresh_token };
+  const data = { token: store.getState().auth.refreshToken };
   return client.post('Auth/refresh', data).catch(err => errorHandler(err, {
     default: 'Wystąpił błąd, spróbuj jeszcze raz!',
   }));
