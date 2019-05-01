@@ -12,6 +12,11 @@ const postCodeMask = createTextMask({
   guide: false,
 });
 
+const nipMask = createTextMask({
+  pattern: '9999999999',
+  guide: false,
+});
+
 const UserProfileForm = ({ handleSubmit, error }) => (
   <form className={S.userForm} onSubmit={handleSubmit}>
     {/* {error && <p className={S.error}>{error}</p>} */}
@@ -91,6 +96,7 @@ const UserProfileForm = ({ handleSubmit, error }) => (
         placeholder="NIP"
         className={S.input}
         validate={[required, nip]}
+        {...nipMask}
       />
     </div>
 
