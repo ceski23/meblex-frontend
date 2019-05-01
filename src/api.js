@@ -1,14 +1,23 @@
 /* eslint-disable no-use-before-define */
 import axios from 'axios';
+import store from './store';
+import { setAccessToken, setRefreshToken } from './redux/auth';
+
+let { accessToken } = store.getState().auth;
 
 const client = axios.create({
-  baseURL: 'https://api.meblex.tk/api/',
+  baseURL: 'https://api.wip.meblex.tk/api/',
   headers: {
     'Content-Type': 'application/json',
     ...(!localStorage.getItem('access_token') ? {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`,
     } : {}),
   },
+});
+
+store.subscribe(() => {
+  ({ accessToken } = store.getState().auth);
+  client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 });
 
 
@@ -40,11 +49,8 @@ let authInterceptor = client.interceptors.response.use(authIntResponse, authIntE
 
 client.interceptors.response.use((response) => {
   if (response && (response.status === 200 || response.status === 201)) {
-    if (response.data.access_token && response.data.refresh_token) {
-      localStorage.setItem('access_token', response.data.access_token);
-      localStorage.setItem('refresh_token', response.data.refresh_token);
-      client.defaults.headers.Authorization = `Bearer ${response.data.access_token}`;
-    }
+    if (response.data.accessToken) store.dispatch(setAccessToken(response.data.accessToken));
+    if (response.data.refreshToken) store.dispatch(setRefreshToken(response.data.refreshToken));
   }
 });
 
@@ -64,7 +70,8 @@ export function getListing() {
 }
 
 export function checkStatus() {
-  return client.get('status').catch(err => errorHandler(err, {
+  return client.get('Auth/check').catch(err => errorHandler(err, {
+    401: 401,
     default: 'Wystąpił błąd, spróbuj jeszcze raz!',
   }));
 }
@@ -78,7 +85,7 @@ export function login(data) {
 }
 
 export function relogin() {
-  const data = { token: localStorage.getItem('refresh_token') };
+  const data = { token: store.getState().auth.refreshToken };
   return client.post('Auth/refresh', data).catch(err => errorHandler(err, {
     default: 'Wystąpił błąd, spróbuj jeszcze raz!',
   }));
@@ -89,4 +96,8 @@ export function register(data) {
     400: err.response.data || { title: 'Nieprawidłowe dane!' },
     default: 'Wystąpił błąd, spróbuj jeszcze raz',
   }));
+}
+
+export function ping() {
+  return client.get('Test/ping');
 }

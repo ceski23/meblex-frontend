@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import './styles/main.scss';
+import './components/shared/main.scss';
 import { Provider } from 'react-redux';
-import App from './components/App';
+import App from './components/shell/App';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
 

@@ -1,9 +1,15 @@
 module.exports = {
-    "extends": "airbnb",
+    "extends": [
+      "react-app",
+      "airbnb",
+    ],
     "parser": "babel-eslint",
     "env": {
         "browser": true
     },
+    "plugins": [
+      "react-hooks"
+    ],
     "rules": {
         "react/no-array-index-key": "off",
         "react/jsx-filename-extension": "off",
@@ -11,6 +17,9 @@ module.exports = {
         "react/prop-types": "off", // 😬
         "no-unused-vars": "warn",
         "jsx-a11y/click-events-have-key-events": "off",
-        "react/jsx-one-expression-per-line": "off"
+        "react/jsx-one-expression-per-line": "off",
+        "linebreak-style": "off",
+        "object-curly-newline": "off",
+        "react-hooks/exhaustive-deps": "warn",
     }
 };
