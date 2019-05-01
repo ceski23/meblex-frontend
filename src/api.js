@@ -74,6 +74,7 @@ export function login(data) {
     (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz!' : {
       400: err.response.data.title || 'Nieprawidłowe dane!',
       401: err.response.data.title || 'Nieprawidłowy email i/lub hasło!',
+      404: err.response.data.error || 'Nie znaleziono takiego użytkownika',
     }[code]
   )));
 }

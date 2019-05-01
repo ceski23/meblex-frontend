@@ -32,7 +32,6 @@ const App = withRouter(({ history }) => {
       const loginStatusChecking = async () => {
         try {
           await API.checkStatus();
-          await API.ping(); // TODO: Remove this
           setLoginStatus(true);
         } catch (error) {
           if (error === 401) setLoginStatus(false);
