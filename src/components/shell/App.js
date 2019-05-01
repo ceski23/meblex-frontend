@@ -26,12 +26,13 @@ const App = withRouter(({ history }) => {
 
   useEffect(() => {
     if (!accessToken) {
-      // logout();
+      logout();
       setIsLoading(false);
     } else {
       const loginStatusChecking = async () => {
         try {
           await API.checkStatus();
+          await API.ping(); // TODO: Remove this
           setLoginStatus(true);
         } catch (error) {
           if (error === 401) setLoginStatus(false);
@@ -40,7 +41,7 @@ const App = withRouter(({ history }) => {
       };
       loginStatusChecking();
     }
-  }, [accessToken, setLoginStatus]);
+  }, [accessToken, logout, setLoginStatus]);
 
   useEffect(() => {
     if (!loggedIn) history.replace('/logowanie');

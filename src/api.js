@@ -73,7 +73,7 @@ export function getListing() {
 }
 
 export function checkStatus() {
-  return client.get('status').catch(err => errorHandler(err, {
+  return client.get('Auth/check').catch(err => errorHandler(err, {
     401: 401,
     default: 'Wystąpił błąd, spróbuj jeszcze raz!',
   }));
@@ -99,4 +99,8 @@ export function register(data) {
     400: err.response.data || { title: 'Nieprawidłowe dane!' },
     default: 'Wystąpił błąd, spróbuj jeszcze raz',
   }));
+}
+
+export function ping() {
+  return client.get('Test/ping');
 }
