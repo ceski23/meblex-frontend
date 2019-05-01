@@ -27,7 +27,7 @@ const App = withRouter(({ history }) => {
   useEffect(() => {
     if (!accessToken) {
       logout();
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 0);
     } else {
       const loginStatusChecking = async () => {
         try {
@@ -37,7 +37,7 @@ const App = withRouter(({ history }) => {
         } catch (error) {
           if (error === 401) setLoginStatus(false);
         }
-        setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 0);
       };
       loginStatusChecking();
     }
