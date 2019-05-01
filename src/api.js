@@ -100,3 +100,11 @@ export function register(data) {
 export function ping() {
   return client.get('Test/ping');
 }
+
+export function updateUserData(data) {
+  return client.put('User/update', data).catch(err => errorHandler(err, code => (
+    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz' : {
+      400: err.response.data.title || 'Nieprawidłowe dane!',
+    }
+  )));
+}
