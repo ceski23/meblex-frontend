@@ -66,7 +66,11 @@ function errorHandler(error, callback) {
 }
 
 export function checkStatus() {
-  return client.get('Auth/check');
+  return client.get('Auth/check').catch(err => errorHandler(err, code => (
+    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz!' : {
+      401: 401,
+    }[code]
+  )));
 }
 
 export function login(data) {
