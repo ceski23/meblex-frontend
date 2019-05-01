@@ -28,7 +28,9 @@ const LoginScreen = ({ history }) => {
   };
 
   return (
-    <Loading isLoading={isLoading} text="Logowanie...">
+    <React.Fragment>
+      <Loading isLoading={isLoading} text="Logowanie..." />
+
       <section className={S.welcome}>
         <div className={S.icons}>
           {Object.keys(Furniture).map((key, i) => {
@@ -40,7 +42,7 @@ const LoginScreen = ({ history }) => {
         <Logo className={S.logo} />
         <LoginForm onSubmit={handleLogin} />
       </section>
-    </Loading>
+    </React.Fragment>
   );
 };
 

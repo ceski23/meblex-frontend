@@ -14,7 +14,7 @@ const postCodeMask = createTextMask({
 });
 
 const nipMask = createTextMask({
-  pattern: '999999999',
+  pattern: '9999999999',
   guide: false,
 });
 

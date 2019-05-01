@@ -1,0 +1,45 @@
+@import '../shared/variables.scss';
+
+.userProfile {
+  padding: 30px 20px;
+
+  .title {
+    margin: 0;
+    margin-bottom: 30px;
+  }
+
+  .subTitle {
+    margin: 0;
+    margin-bottom: 30px;
+    padding-top: 50px;
+  }
+
+  .userForm {
+    display: flex;
+    flex-direction: column;
+
+    .field {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin: 10px 0;
+
+      .label {
+        margin: 0;
+        margin-right: 20px;
+        font-size: 1em;
+        // width: 35%;
+        // text-align: right;
+      }
+
+      .input {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+
+    .updateProfile {
+      margin: 30px 0;
+    }
+  }
+}

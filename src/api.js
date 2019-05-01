@@ -59,49 +59,53 @@ client.interceptors.response.use((response) => {
 });
 
 
-function errorHandler(error, x) {
-  if (error.response) return Promise.reject(x[error.response.status]);
-  if (error.request) return Promise.reject(x.default);
-  return Promise.reject(x.default);
-}
-
-
-export function getListing() {
-  return client.get('listing').catch(err => errorHandler(err, {
-    401: err.response.data.title,
-    default: 'Wystąpił błąd, spróbuj jeszcze raz!',
-  }));
+function errorHandler(error, callback) {
+  if (error.response) return Promise.reject(callback(error.response.status));
+  if (error.request) return Promise.reject(callback());
+  return Promise.reject(callback());
 }
 
 export function checkStatus() {
-  return client.get('Auth/check').catch(err => errorHandler(err, {
-    401: 401,
-    default: 'Wystąpił błąd, spróbuj jeszcze raz!',
-  }));
+  return client.get('Auth/check').catch(err => errorHandler(err, code => (
+    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz!' : {
+      401: 401,
+    }[code]
+  )));
 }
 
 export function login(data) {
-  return client.post('Auth/login', data).catch(err => errorHandler(err, {
-    400: err.response.data.title || 'Nieprawidłowe dane!',
-    401: err.response.data.title || 'Nieprawidłowy email i/lub hasło!',
-    default: 'Wystąpił błąd, spróbuj jeszcze raz!',
-  }));
+  return client.post('Auth/login', data).catch(err => errorHandler(err, code => (
+    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz!' : {
+      400: err.response.data.title || 'Nieprawidłowe dane!',
+      401: err.response.data.title || 'Nieprawidłowy email i/lub hasło!',
+      404: err.response.data.error || 'Nie znaleziono takiego użytkownika',
+    }[code]
+  )));
 }
 
 export function relogin() {
-  const data = { token: store.getState().auth.refreshToken };
-  return client.post('Auth/refresh', data).catch(err => errorHandler(err, {
-    default: 'Wystąpił błąd, spróbuj jeszcze raz!',
-  }));
+  return client.post('Auth/refresh', {
+    token: store.getState().auth.refreshToken,
+  });
 }
 
 export function register(data) {
-  return client.post('Auth/register', data).catch(err => errorHandler(err, {
-    400: err.response.data || { title: 'Nieprawidłowe dane!' },
-    default: 'Wystąpił błąd, spróbuj jeszcze raz',
-  }));
+  return client.post('Auth/register', data).catch(err => errorHandler(err, code => (
+    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz' : {
+      400: err.response.data || { title: 'Nieprawidłowe dane!' },
+      409: err.response.data || { title: 'Użytkownik o takim adresie email już istnieje' },
+    }
+  )));
 }
 
 export function ping() {
   return client.get('Test/ping');
+}
+
+export function updateUserData(data) {
+  return client.put('User/update', data).catch(err => errorHandler(err, code => (
+    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz' : {
+      400: err.response.data.title || 'Nieprawidłowe dane!',
+    }
+  )));
 }

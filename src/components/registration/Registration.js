@@ -36,7 +36,9 @@ const Registration = ({ history }) => {
   };
 
   return (
-    <Loading isLoading={isLoading} text="Rejestrowanie...">
+    <React.Fragment>
+      <Loading isLoading={isLoading} text="Rejestrowanie..." />
+
       <section className={S.registration}>
         <div className={S.icons}>
           {Object.keys(Furniture).map((key, i) => {
@@ -48,7 +50,7 @@ const Registration = ({ history }) => {
         <Logo className={S.logo} />
         <RegistrationForm onSubmit={handleRegister} />
       </section>
-    </Loading>
+    </React.Fragment>
   );
 };
 

@@ -11,6 +11,7 @@ import NotFound from '../shared/NotFound';
 import Main from '../mainScreen/Main';
 import Test from '../mainScreen/Test';
 import Product from '../productScreen/Product';
+import UserProfile from '../userProfile/UserProfile';
 
 // import * as API from '../api'
 
@@ -35,6 +36,7 @@ const Content = () => {
           <Route path="/" exact component={Main} />
           <Route path="/produkty/:product" component={Product} />
           <Route path="/katalog/:category" component={Test} />
+          <Route path="/profil" component={UserProfile} />
           <Route component={NotFound} />
         </Switch>
       </div>
