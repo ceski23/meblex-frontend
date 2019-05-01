@@ -1,8 +1,6 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable no-use-before-define */
-
 import axios from 'axios';
-import { store } from './store';
+import store from './store';
 import { setAccessToken, setRefreshToken } from './redux/auth';
 
 let { accessToken } = store.getState().auth;
@@ -11,7 +9,9 @@ const client = axios.create({
   baseURL: 'https://api.wip.meblex.tk/api/',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${accessToken}`,
+    ...(!localStorage.getItem('access_token') ? {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    } : {}),
   },
 });
 
@@ -28,9 +28,12 @@ const authIntError = async (error) => {
   if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/login')) {
     client.interceptors.response.eject(authInterceptor);
     try {
-      await relogin();
+      const response = await relogin();
+      localStorage.setItem('access_token', response.data.access_token);
+      localStorage.setItem('refresh_token', response.data.refresh_token);
       authInterceptor = client.interceptors.response.use(authIntResponse, authIntError);
-      errorResponse.config.headers.Authorization = `Bearer ${accessToken}`;
+      errorResponse.config.headers.Authorization = `Bearer ${response.data.access_token}`;
+      client.defaults.headers.Authorization = `Bearer ${response.data.access_token}`;
       return client(errorResponse.config);
     } catch (e) {
       authInterceptor = client.interceptors.response.use(authIntResponse, authIntError);
@@ -43,13 +46,7 @@ const authIntError = async (error) => {
 
 let authInterceptor = client.interceptors.response.use(authIntResponse, authIntError);
 
-// If no valid token then remove header
-client.interceptors.request.use((config) => {
-  if (accessToken === undefined) delete config.headers.Authorization;
-  return config;
-});
 
-// Check if got new tokens
 client.interceptors.response.use((response) => {
   if (response && (response.status === 200 || response.status === 201)) {
     if (response.data.accessToken) store.dispatch(setAccessToken(response.data.accessToken));
