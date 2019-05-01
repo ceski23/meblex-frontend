@@ -21,5 +21,6 @@ module.exports = {
         "linebreak-style": "off",
         "object-curly-newline": "off",
         "react-hooks/exhaustive-deps": "warn",
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     }
 };
