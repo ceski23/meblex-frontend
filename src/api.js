@@ -93,6 +93,7 @@ export function register(data) {
   return client.post('Auth/register', data).catch(err => errorHandler(err, code => (
     (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz' : {
       400: err.response.data || { title: 'Nieprawidłowe dane!' },
+      409: err.response.data || { title: 'Użytkownik o takim adresie email już istnieje' },
     }
   )));
 }
