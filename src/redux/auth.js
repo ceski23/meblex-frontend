@@ -16,6 +16,7 @@ const initState = {
   loggedIn: true,
   user: {
     name: 'Ingvar Kamprad',
+    email: 'admin@internet.ru',
   },
   accessToken: undefined,
   refreshToken: undefined,
