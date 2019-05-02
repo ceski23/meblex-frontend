@@ -94,7 +94,7 @@ export function register(data) {
     (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz' : {
       400: err.response.data || { title: 'Nieprawidłowe dane!' },
       409: err.response.data || { title: 'Użytkownik o takim adresie email już istnieje' },
-    }
+    }[code]
   )));
 }
 
@@ -106,6 +106,14 @@ export function updateUserData(data) {
   return client.put('User/update', data).catch(err => errorHandler(err, code => (
     (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz' : {
       400: err.response.data.title || 'Nieprawidłowe dane!',
-    }
+    }[code]
   )));
 }
+
+export const updateUserPassword = data => (
+  client.put('User/password', data).catch(err => errorHandler(err, code => (
+    (!code) ? '' : {
+      409: err.response.data.title || '',
+    }[code]
+  )))
+);

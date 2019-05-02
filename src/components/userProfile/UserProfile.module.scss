@@ -14,9 +14,17 @@
     padding-top: 50px;
   }
 
-  .userForm {
+  .userForm, .passwordForm {
     display: flex;
     flex-direction: column;
+
+    .error {
+      margin-top: -10px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center;
+      color: red;
+    }
 
     .field {
       display: flex;
