@@ -10,12 +10,17 @@ import Content from './Content';
 import * as API from '../../api';
 import Registration from '../registration/Registration';
 import Loading from '../shared/Loading';
-import { logout as logoutAction, setLoginStatus as loginStatusAction } from '../../redux/auth';
+import {
+  logout as logoutAction,
+  setLoginStatus as loginStatusAction,
+  setUserData as setUserDataAction,
+} from '../../redux/auth';
 
 
 const App = withRouter(({ history }) => {
   const loggedIn = useSelector(state => state.auth.loggedIn);
   const accessToken = useSelector(state => state.auth.accessToken);
+  const setUserData = useActions(data => setUserDataAction(data));
 
   const { logout, setLoginStatus } = useActions({
     logout: logoutAction,
@@ -33,14 +38,17 @@ const App = withRouter(({ history }) => {
         try {
           await API.checkStatus();
           setLoginStatus(true);
+
+          const userData = await API.getUserData();
+          setUserData(userData);
         } catch (error) {
-          if (error === 401) setLoginStatus(false);
+          //
         }
         setTimeout(() => setIsLoading(false), 0);
       };
       loginStatusChecking();
     }
-  }, [accessToken, logout, setLoginStatus]);
+  }, [accessToken, logout, setLoginStatus, setUserData]);
 
   useEffect(() => {
     if (!loggedIn) history.replace('/logowanie');

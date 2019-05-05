@@ -5,9 +5,9 @@ import axios from 'axios';
 import { store } from './store';
 import { setAccessToken, setRefreshToken } from './redux/auth';
 
-let { accessToken } = store.getState().auth;
+let { accessToken, refreshToken } = store.getState().auth;
 
-const client = axios.create({
+export const client = axios.create({
   baseURL: 'https://api.wip.meblex.tk/api/',
   headers: {
     'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ const client = axios.create({
 });
 
 store.subscribe(() => {
-  ({ accessToken } = store.getState().auth);
+  ({ accessToken, refreshToken } = store.getState().auth);
   client.defaults.headers.Authorization = `Bearer ${accessToken}`;
 });
 
@@ -56,46 +56,44 @@ client.interceptors.response.use((response) => {
     if (response.data.accessToken) store.dispatch(setAccessToken(response.data.accessToken));
     if (response.data.refreshToken) store.dispatch(setRefreshToken(response.data.refreshToken));
   }
+  return response;
 });
 
 
 function errorHandler(error, callback) {
   if (error.response) return Promise.reject(callback(error.response.status));
-  if (error.request) return Promise.reject(callback());
-  return Promise.reject(callback());
+  if (error.request) return Promise.reject(callback('default'));
+  return Promise.reject(callback('default'));
 }
 
+const defaultErrorCallback = (err, code) => ({
+  title: {
+    500: 'Błąd serwera!',
+    default: 'Wystąpił błąd, spróbuj jeszcze raz!',
+  }[code] || err.response.data.detail || err.response.data.title,
+  errors: err.response.data.errors || [],
+});
+
 export function checkStatus() {
-  return client.get('Auth/check').catch(err => errorHandler(err, code => (
-    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz!' : {
-      401: 401,
-    }[code]
-  )));
+  return client.get('Auth/check');
 }
 
 export function login(data) {
-  return client.post('Auth/login', data).catch(err => errorHandler(err, code => (
-    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz!' : {
-      400: err.response.data.title || 'Nieprawidłowe dane!',
-      401: err.response.data.title || 'Nieprawidłowy email i/lub hasło!',
-      404: err.response.data.error || 'Nie znaleziono takiego użytkownika',
-    }[code]
-  )));
+  return client.post('Auth/login', data).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ));
 }
 
 export function relogin() {
-  return client.post('Auth/refresh', {
-    token: store.getState().auth.refreshToken,
+  return client.put('Auth/refresh', {
+    token: refreshToken,
   });
 }
 
 export function register(data) {
-  return client.post('Auth/register', data).catch(err => errorHandler(err, code => (
-    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz' : {
-      400: err.response.data || { title: 'Nieprawidłowe dane!' },
-      409: err.response.data || { title: 'Użytkownik o takim adresie email już istnieje' },
-    }
-  )));
+  return client.post('Auth/register', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ));
 }
 
 export function ping() {
@@ -103,9 +101,25 @@ export function ping() {
 }
 
 export function updateUserData(data) {
-  return client.put('User/update', data).catch(err => errorHandler(err, code => (
-    (!code) ? 'Wystąpił błąd, spróbuj jeszcze raz' : {
-      400: err.response.data.title || 'Nieprawidłowe dane!',
-    }
-  )));
+  return client.put('User/update', data).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ));
 }
+
+export const updateUserPassword = data => (
+  client.put('User/password', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const updateUserEmail = data => (
+  client.put('User/email', data).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const getUserData = data => (
+  client.get('User', data).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);

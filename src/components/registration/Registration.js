@@ -23,11 +23,6 @@ const Registration = ({ history }) => {
     } catch (err) {
       setIsLoading(false);
 
-      Object.keys(err.errors).forEach((key) => {
-        err.errors[key.toLowerCase()] = String(err.errors[key]);
-        delete err.errors[key];
-      });
-
       throw new SubmissionError({
         _error: err.title,
         ...err.errors,
