@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useActions } from 'react-redux';
 import { SubmissionError } from 'redux-form';
 import UserProfileForm from './UserProfileForm';
 import PasswordChangeForm from './PasswordChangeForm';
@@ -8,20 +8,19 @@ import EmailChangeForm from './EmailChangeForm';
 import * as API from '../../api';
 
 import S from './UserProfile.module.scss';
+import { setUserData as setUserDataAction } from '../../redux/auth';
 
 const UserProfile = () => {
   const user = useSelector(state => state.auth.user);
+  const setUserData = useActions(data => setUserDataAction(data));
 
   const updateUserProfile = async (values) => {
     // setIsLoading(true);
     try {
-      await API.updateUserData(values);
+      const userData = await API.updateUserData(values);
+      console.log('UD;', userData);
+      setUserData(userData);
     } catch (error) {
-      Object.keys(error.errors).forEach((key) => {
-        error.errors[key.toLowerCase()] = String(error.errors[key]);
-        delete error.errors[key];
-      });
-
       throw new SubmissionError({
         _error: error.title,
         ...error.errors,
@@ -36,11 +35,6 @@ const UserProfile = () => {
       const { repeatPassword, ...data } = values;
       await API.updateUserPassword(data);
     } catch (error) {
-      Object.keys(error.errors).forEach((key) => {
-        error.errors[key.toLowerCase()] = String(error.errors[key]);
-        delete error.errors[key];
-      });
-
       throw new SubmissionError({
         _error: error.title,
         ...error.errors,
@@ -54,12 +48,6 @@ const UserProfile = () => {
     try {
       await API.updateUserEmail(values);
     } catch (error) {
-      console.log(error);
-      Object.keys(error.errors).forEach((key) => {
-        error.errors[key.toLowerCase()] = String(error.errors[key]);
-        delete error.errors[key];
-      });
-
       throw new SubmissionError({
         _error: error.title,
         ...error.errors,
@@ -74,7 +62,7 @@ const UserProfile = () => {
       <UserProfileForm initialValues={user} onSubmit={updateUserProfile} />
 
       <h3 className={S.subTitle}>Zmiana adresu email</h3>
-      <EmailChangeForm initialValues={user} onSubmit={updateEmail} />
+      <EmailChangeForm initialValues={user.email} onSubmit={updateEmail} />
 
       <h3 className={S.subTitle}>Zmiana hasła</h3>
       <PasswordChangeForm onSubmit={updatePassword} />

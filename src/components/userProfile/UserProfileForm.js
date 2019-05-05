@@ -87,9 +87,9 @@ const UserProfileForm = ({ handleSubmit, error }) => (
       <Field
         name="nip"
         component={FieldX}
-        type="number"
+        type="tel"
         className={S.input}
-        validate={[required, nip]}
+        validate={[nip]}
         {...nipMask}
       />
     </div>

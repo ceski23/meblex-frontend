@@ -79,7 +79,7 @@ const RegistrationForm = ({ handleSubmit, error }) => (
       validate={[required, maxLength32]}
     />
     <Field
-      name="postCode"
+      name="postcode"
       component={FieldX}
       type="tel"
       placeholder="Kod pocztowy"

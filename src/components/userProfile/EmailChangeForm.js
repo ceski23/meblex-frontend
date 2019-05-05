@@ -13,7 +13,7 @@ const EmailChangeForm = ({ handleSubmit, error }) => (
     <div className={S.field}>
       <h4 className={S.label}>Adres email:</h4>
       <Field
-        name="email"
+        name="newemail"
         component={FieldX}
         type="email"
         autoComplete="email"

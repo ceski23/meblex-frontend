@@ -8,22 +8,24 @@ import { Furniture } from '../../assets';
 import * as API from '../../api';
 import LoginForm from './LoginForm';
 import Loading from '../shared/Loading';
-import { setLoginStatus as loginAction } from '../../redux/auth';
+import { setLoginStatus as loginAction, setUserData as setUserDataAction } from '../../redux/auth';
 
 
 const LoginScreen = ({ history }) => {
   const [isLoading, setIsLoading] = useState(false);
   const setLoginStatus = useActions(status => loginAction(status));
+  const setUserData = useActions(data => setUserDataAction(data));
 
   const handleLogin = async (values) => {
     setIsLoading(true);
     try {
-      await API.login(values);
+      const { accessToken, refreshToken, ...userData } = await API.login(values);
+      setUserData(userData);
       setLoginStatus(true);
       history.replace('/');
     } catch (err) {
       setIsLoading(false);
-      throw new SubmissionError({ _error: err });
+      throw new SubmissionError({ _error: err.title });
     }
   };
 

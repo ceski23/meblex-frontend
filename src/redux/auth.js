@@ -6,18 +6,17 @@ export const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS';
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 export const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN';
 export const LOGOUT = 'LOGOUT';
+export const SET_USER_DATA = 'SET_USER_DATA';
 
 export const setLoginStatus = status => ({ type: SET_LOGIN_STATUS, payload: status });
 export const setAccessToken = token => ({ type: SET_ACCESS_TOKEN, payload: token });
 export const setRefreshToken = token => ({ type: SET_REFRESH_TOKEN, payload: token });
 export const logout = () => ({ type: LOGOUT });
+export const setUserData = data => ({ type: SET_USER_DATA, payload: data });
 
 const initState = {
   loggedIn: true,
-  user: {
-    name: 'Ingvar Kamprad',
-    email: 'admin@internet.ru',
-  },
+  user: {},
   accessToken: undefined,
   refreshToken: undefined,
 };
@@ -32,6 +31,9 @@ const loginReducer = (state = initState, action) => {
 
     case SET_REFRESH_TOKEN:
       return { ...state, refreshToken: action.payload };
+
+    case SET_USER_DATA:
+      return { ...state, user: action.payload };
 
     case LOGOUT:
       return {
