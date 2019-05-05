@@ -30,3 +30,7 @@ export const postCode = value => (
 export const nip = value => (
   value && !/^\d{10}$/.test(value) ? 'Nieprawidłowy NIP' : undefined
 );
+
+export const passwordMatch = (value, allValues) => (
+  value !== allValues.newPassword ? 'Hasła nie są identyczne' : undefined
+);

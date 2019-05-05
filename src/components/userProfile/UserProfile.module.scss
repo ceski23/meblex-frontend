@@ -14,14 +14,22 @@
     padding-top: 50px;
   }
 
-  .userForm {
+  .userForm, .passwordForm, .emailForm {
     display: flex;
     flex-direction: column;
+
+    .error {
+      margin-top: -10px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center;
+      color: red;
+    }
 
     .field {
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
       margin: 10px 0;
 
       .label {
@@ -30,6 +38,8 @@
         font-size: 1em;
         // width: 35%;
         // text-align: right;
+        height: 42px;
+        line-height: 42px;
       }
 
       .input {
