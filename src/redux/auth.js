@@ -37,7 +37,7 @@ const loginReducer = (state = initState, action) => {
 
     case LOGOUT:
       return {
-        ...state, loggedIn: false, accessToken: undefined, refreshToken: undefined,
+        ...state, loggedIn: false, accessToken: undefined, refreshToken: undefined, user: {},
       };
 
     default:
