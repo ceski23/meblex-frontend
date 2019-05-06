@@ -1,5 +1,6 @@
 import localForage from 'localforage';
 import { persistReducer } from 'redux-persist';
+import { clearCart } from './cart';
 
 
 export const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS';
@@ -11,8 +12,12 @@ export const SET_USER_DATA = 'SET_USER_DATA';
 export const setLoginStatus = status => ({ type: SET_LOGIN_STATUS, payload: status });
 export const setAccessToken = token => ({ type: SET_ACCESS_TOKEN, payload: token });
 export const setRefreshToken = token => ({ type: SET_REFRESH_TOKEN, payload: token });
-export const logout = () => ({ type: LOGOUT });
 export const setUserData = data => ({ type: SET_USER_DATA, payload: data });
+
+export const logout = () => (dispatch) => {
+  dispatch(clearCart());
+  dispatch({ type: LOGOUT });
+};
 
 const initState = {
   loggedIn: true,
