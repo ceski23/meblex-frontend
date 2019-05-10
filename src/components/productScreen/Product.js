@@ -3,10 +3,8 @@ import { useActions } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import S from './Product.module.scss';
 import Button from '../shared/Button';
-// import scroll from 'react-scroll-to-component'
+import Breadcrumbs from '../shared/Breadcrumbs';
 import { addItemsToCart } from '../../redux/cart';
-import { ReactComponent as Chevron } from '../../assets/chevron.svg';
-import { ReactComponent as Home } from '../../assets/home_alt.svg';
 
 
 const Product = () => {
@@ -80,16 +78,6 @@ const Product = () => {
   const [amount, setAmount] = useState(1);
   const addToCart = useActions(item => addItemsToCart(item));
 
-  // const [currImage, setCurrImage] = useState(1);
-
-  // const handleClick = () => {
-  //   refe.current.scrollTo({
-  //     left: refe.current.children[currImage].offsetLeft,
-  //     behavior: 'smooth'
-  //   });
-  //   setCurrImage((currImage + 1) % images.length);
-  // }
-
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
   };
@@ -104,14 +92,15 @@ const Product = () => {
     }
   };
 
+  const paths = [
+    { name: 'Do salonu', url: '/katalog/do-salonu' },
+    { name: 'Krzesła', url: '/katalog/do-salonu/krzesla' },
+    { name: 'Krzesło FLORIDA' },
+  ];
+
   return (
     <React.Fragment>
-      <div className={S.breadcrumbs}>
-        <span className={S.crumb}><Home className={S.home} /></span><Chevron className={S.chevron} />
-        <span className={S.crumb}>Do salonu</span><Chevron className={S.chevron} />
-        <span className={S.crumb}>Krzesła</span><Chevron className={S.chevron} />
-        <span className={S.crumb}>Krzesło FLORIDA</span>
-      </div>
+      <Breadcrumbs paths={paths} />
 
       <div className={S.product}>
         <h3 className={S.name}>{product.name}</h3>
