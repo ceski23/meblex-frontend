@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.0.10",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "emotion-theming": "^10.0.10",
     "fuse.js": "^3.4.4",
     "gh-pages": "^2.0.1",
     "localforage": "^1.7.3",

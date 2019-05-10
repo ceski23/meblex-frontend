@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { useSelector, useActions } from 'react-redux';
+import { ThemeProvider } from 'emotion-theming';
 
 import '../shared/main.scss';
+import { theme } from '../../styles';
 
 import LoginScreen from '../loginScreen/LoginScreen';
 import Content from './Content';
@@ -55,23 +57,25 @@ const App = withRouter(({ history }) => {
   }, [history, loggedIn]);
 
   return (
-    <Switch>
-      <Route path="/logowanie" component={LoginScreen} />
-      <Route path="/rejestracja" component={Registration} />
-      <Route
-        path="/wyloguj"
-        render={() => {
-          setTimeout(() => { logout(); });
-        }}
-      />
+    <ThemeProvider theme={theme}>
+      <Switch>
+        <Route path="/logowanie" component={LoginScreen} />
+        <Route path="/rejestracja" component={Registration} />
+        <Route
+          path="/wyloguj"
+          render={() => {
+            setTimeout(() => { logout(); });
+          }}
+        />
 
-      <Route render={() => (
-        <Loading isLoading={isLoading} type="alt" text="Ładowanie...">
-          <Content />
-        </Loading>
-      )}
-      />
-    </Switch>
+        <Route render={() => (
+          <Loading isLoading={isLoading} type="alt" text="Ładowanie...">
+            <Content />
+          </Loading>
+        )}
+        />
+      </Switch>
+    </ThemeProvider>
   );
 });
 
