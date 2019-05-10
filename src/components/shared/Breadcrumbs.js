@@ -27,7 +27,7 @@ const Breadcrumbs = ({ paths }) => {
       text-decoration: none;
       color: ${theme.colors.textDark};
 
-      &:first-of-type {
+      &:first-child {
         display: flex;
       }
 
