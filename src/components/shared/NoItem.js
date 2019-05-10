@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import S from './NoItem.module.scss';
 import Storage from '../../assets/storage.svg';
-import Button from '../shared/Button';
+import Button from './Button';
 
 
 const NoItem = ({ history }) => {

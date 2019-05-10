@@ -2,7 +2,7 @@ import React from 'react';
 import S from './Test.module.scss';
 import ItemResult from './ItemResult';
 import furniture from '../../meble.json';
-import NoItem from '../productScreen/NoItem';
+import NoItem from '../shared/NoItem';
 
 const Test = ({ match: { params } }) => {
   const list = furniture.filter(x => x.category.toLowerCase() === params.category);

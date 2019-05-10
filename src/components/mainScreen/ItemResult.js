@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import S from './ItemResult.module.scss';
 
 const ItemResult = ({ data }) => (
-  <div className={S.result}>
+  <Link to={`/produkty/${data.id}`} className={S.result}>
     <div className={S.img}>
       <img src={data.photos[0]} className={S.image} alt="" />
     </div>
@@ -13,7 +14,7 @@ const ItemResult = ({ data }) => (
       {data.price}
       <span className={S.currency}>zł</span>
     </h3>
-  </div>
+  </Link>
 );
 
 export default ItemResult;
