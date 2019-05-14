@@ -11,20 +11,24 @@ const Button = (props) => {
     [S.secondary]: type === 'secondary',
   });
 
+  const handleFocus = ({ target }) => {
+    setTimeout(() => { target.blur(); }, 300);
+  };
+
   return (
     <React.Fragment>
       {elem === 'button' && (
-        <button {...rest} type="button" className={classes} onClick={handleClick}>
+        <button {...rest} type="button" className={classes} onClick={handleClick} onMouseUp={handleFocus}>
           {children}
         </button>
       )}
 
       {elem === 'input' && (
-        <input {...rest} className={classes} type="submit" value={children} />
+        <input {...rest} className={classes} type="submit" value={children} onMouseUp={handleFocus} />
       )}
 
       {elem === 'link' && (
-        <Link {...rest} className={classes}>
+        <Link {...rest} className={classes} onFocus={handleFocus}>
           {children}
         </Link>
       )}
