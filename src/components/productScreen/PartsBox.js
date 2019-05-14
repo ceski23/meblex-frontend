@@ -39,6 +39,7 @@ const PartsBox = ({ parts }) => {
       padding: 10px 20px;
       box-shadow: 0px 1px 3px ${theme.colors.shadowDark};
       margin: 7px 0px;
+      background: ${theme.colors.backgroundGray};
 
       p {
         color: ${theme.colors.textDark};

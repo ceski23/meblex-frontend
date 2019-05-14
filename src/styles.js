@@ -33,5 +33,6 @@ export const theme = {
     shadow: 'rgba(4, 35, 101, 0.06)',
     shadowDark: 'rgba(4, 35, 101, 0.22)',
     hover: 'rgb(0, 84, 204)',
+    primary_01: 'rgba(0, 105, 255, 0.1)',
   },
 };

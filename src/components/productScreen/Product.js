@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
-import { useActions } from 'react-redux';
-import ReactMarkdown from 'react-markdown';
-import S from './Product.module.scss';
+/** @jsx jsx */
+
+import React, { useRef } from 'react';
+import { css, jsx } from '@emotion/core';
 import Button from '../shared/Button';
 import Breadcrumbs from '../shared/Breadcrumbs';
-import { addItemsToCart } from '../../redux/cart';
 import PartsBox from './PartsBox';
-import ResourcesBox from './ResourcesBox';
+import { useTheme } from '../../helpers';
+import ProductInfo from './ProductInfo';
 
 
 const Product = () => {
@@ -72,19 +72,7 @@ const Product = () => {
   };
 
   const refe = useRef();
-  const [amount, setAmount] = useState(1);
-  const addToCart = useActions(item => addItemsToCart(item));
-
-  const handleAmountChange = (e) => {
-    setAmount(e.target.value);
-  };
-
-
-  const addPoF = () => {
-    if (parseInt(amount, 10)) {
-      addToCart({ amount: parseInt(amount, 10) });
-    }
-  };
+  const theme = useTheme();
 
   const paths = [
     { name: 'Do salonu', url: '/katalog/do-salonu' },
@@ -92,59 +80,97 @@ const Product = () => {
     { name: 'Krzesło FLORIDA' },
   ];
 
+  const style = {
+    product: css`
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      margin-bottom: 20px;
+
+      & > h3 {
+        padding: 20px 30px 0;
+        margin: 0;
+      }
+    `,
+
+    id: css`
+      padding: 0px 30px;
+      color: ${theme.colors.text};
+      font-size: .8em;
+      opacity: .7;
+    `,
+
+    images: css`
+      background: ${theme.colors.background};
+      scroll-snap-type: x mandatory;
+      display: flex;
+      flex-direction: row;
+      overflow-x: scroll;
+      height: 350px;
+      position: relative;
+    `,
+
+    image: css`
+      object-fit: contain;
+      scroll-snap-align: start;
+      width: 100%;
+      padding: 0 20px;
+    `,
+
+    freeShipping: css`
+      font-size: .8em;
+      padding: 0;
+      margin: 0;
+    `,
+
+    customSizeBox: css`
+      margin: 20px 0;
+      padding: 30px;
+      background: ${theme.colors.primary};
+      text-align: center;
+
+      h4 {
+        margin: 0;
+        padding: 0;
+        color: #fff;
+        margin-bottom: 20px;
+      }
+
+      p {
+        color: rgba(255, 255, 255, .8);
+        margin: 0;
+        padding: 0;
+        margin-bottom: 20px;
+        text-align: justify;
+      }
+    `,
+
+    customSizeButton: css`
+      color: #fff !important;
+      border-color: white !important;
+    `,
+  };
+
   return (
     <React.Fragment>
       <Breadcrumbs paths={paths} />
 
-      <div className={S.product}>
-        <h3 className={S.name}>{product.name}</h3>
-        <p className={S.id}>Numer produktu: {product.id}</p>
+      <div css={style.product}>
+        <h3>{product.name}</h3>
+        <p css={style.id}>Numer produktu: {product.id}</p>
 
-        <div className={S.images} ref={refe}>
+        <div css={style.images} ref={refe}>
           {product.photos.map((photo, i) => (
-            <img src={photo.path} alt={i} key={i} className={S.image} />
+            <img src={photo.path} alt={i} key={i} css={style.image} />
           ))}
         </div>
 
-        <div className={S.info}>
-          <div className={S.priceBox}>
-            <h3>Cena:</h3>
-            <div>
-              <p className={S.price}>{product.price} zł</p>
-              <p className={S.freeShipping}>+ Darmowa wysyłka!</p>
-            </div>
-          </div>
+        <ProductInfo product={product} />
 
-          <div className={S.buyBox}>
-            <input type="number" value={amount} onChange={handleAmountChange} className={S.amount} />
-            <Button className={S.addToCart} handleClick={addPoF}>Dodaj do koszyka</Button>
-          </div>
-
-          <div className={S.descBox}>
-            <h3 className={S.title}>Opis</h3>
-            <div className={S.desc}>
-              <ReactMarkdown source={product.description} />
-            </div>
-          </div>
-
-          <ResourcesBox title="Materiały" type="material" parts={product.parts} />
-          <ResourcesBox title="Kolory" type="color" parts={product.parts} />
-
-          <div className={S.sizesBox}>
-            <h3 className={S.title}>Wymiary</h3>
-            {['Szerokość', 'Głębokość', 'Wysokość'].map((dimension, i) => (
-              <span className={S.size}>
-                <p>{dimension}:</p>
-                <b>{product.size.split('x')[i]} cm</b>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className={S.customSizeBox}>
+        <div css={style.customSizeBox}>
           <h4>Nie pasuje Ci rozmiar tego mebla?</h4>
           <p>Wyślij zapytanie, a nasi konsultanci sprawdzą czy możesz go dostać w innym rozmiarze</p>
-          <Button type="secondary" className={S.button}>Wyślij zapytanie</Button>
+          <Button type="secondary" css={style.customSizeButton}>Wyślij zapytanie</Button>
         </div>
 
         <PartsBox parts={product.parts} />
