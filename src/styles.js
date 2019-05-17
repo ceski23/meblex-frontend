@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { css } from '@emotion/core';
+import { css, keyframes } from '@emotion/core';
 
 const breakpointUp = (size, content) => css`
   @media (min-width: ${size}px) {
@@ -36,3 +36,43 @@ export const theme = {
     primary_01: 'rgba(0, 105, 255, 0.1)',
   },
 };
+
+
+const rippleAnimation = keyframes`
+  0% {
+    transform: scale(0, 0);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+`;
+
+export const ripple = (color = 'rgba(97, 97, 97, .2)') => css`
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: calc(50% - 2.5px);
+    left: calc(50% - 2.5px);
+    width: 5px;
+    height: 5px;
+    background: ${color};
+    opacity: 0;
+    border-radius: 50%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+    transition: .3s;
+  }
+
+  &:focus::after {
+    animation: ${rippleAnimation} .5s ease-out;
+  }
+`;

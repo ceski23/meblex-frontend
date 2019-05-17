@@ -94,7 +94,7 @@ const UserProfileForm = ({ handleSubmit, error }) => (
       />
     </div>
 
-    <Button className={S.updateProfile} elem="input">Aktualizuj dane</Button>
+    <Button className={S.updateProfile}>Aktualizuj dane</Button>
   </form>
 );
 

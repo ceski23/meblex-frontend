@@ -22,7 +22,7 @@ const EmailChangeForm = ({ handleSubmit, error }) => (
       />
     </div>
 
-    <Button className={S.updateProfile} elem="input">Zmień adres email</Button>
+    <Button className={S.updateProfile}>Zmień adres email</Button>
   </form>
 );
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
 import Button from '../shared/Button';
 import FieldX from '../shared/FieldX';
 import { email, password, required } from '../../validationRules';
@@ -34,8 +35,8 @@ const LoginForm = ({ handleSubmit, error }) => (
     />
 
     <div className={S.actions}>
-      <Button className={S.login} elem="input">Zaloguj</Button>
-      <Button elem="link" type="secondary" to="/rejestracja">Rejestracja</Button>
+      <Button className={S.login}>Zaloguj</Button>
+      <Button component={Link} variant="secondary" to="/rejestracja">Rejestracja</Button>
     </div>
   </form>
 );

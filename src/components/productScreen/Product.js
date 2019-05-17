@@ -170,7 +170,7 @@ const Product = () => {
         <div css={style.customSizeBox}>
           <h4>Nie pasuje Ci rozmiar tego mebla?</h4>
           <p>Wyślij zapytanie, a nasi konsultanci sprawdzą czy możesz go dostać w innym rozmiarze</p>
-          <Button type="secondary" css={style.customSizeButton}>Wyślij zapytanie</Button>
+          <Button variant="secondary" css={style.customSizeButton}>Wyślij zapytanie</Button>
         </div>
 
         <PartsBox parts={product.parts} />

@@ -12,7 +12,7 @@ const NotFound = ({ history }) => {
       <img src={HikingTraveller} className={S.image} alt="" />
       <h3 className={S.title}>Dotarłeś na koniec świata</h3>
       <span>Co dalej?</span>
-      <Button className={S.goBack} handleClick={handleClick}>Wróć</Button>
+      <Button className={S.goBack} onClick={handleClick}>Wróć</Button>
     </div>
   );
 };

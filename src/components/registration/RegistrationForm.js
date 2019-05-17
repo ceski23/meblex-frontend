@@ -99,7 +99,7 @@ const RegistrationForm = ({ handleSubmit, error }) => (
     />
 
     <div className={S.actions}>
-      <Button className={S.register} elem="input">Zarejestruj</Button>
+      <Button className={S.register}>Zarejestruj</Button>
     </div>
   </form>
 );

@@ -127,7 +127,7 @@ const ProductInfo = ({ product }) => {
 
       <div css={style.buyBox}>
         <input type="number" value={amount} onChange={handleAmountChange} />
-        <Button css={style.addToCart} handleClick={addPoF}>Dodaj do koszyka</Button>
+        <Button css={style.addToCart} onClick={addPoF}>Dodaj do koszyka</Button>
       </div>
 
       <div css={style.descBox}>

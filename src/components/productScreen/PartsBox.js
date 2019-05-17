@@ -68,7 +68,7 @@ const PartsBox = ({ parts }) => {
         {parts.map(part => (
           <div css={style.part} key={part.id}>
             <p>{part.name}</p>
-            <Button css={style.addBtn} type="secondary" handleClick={() => addPart(part.id)}>+</Button>
+            <Button css={style.addBtn} variant="secondary" onClick={() => addPart(part.id)}>+</Button>
           </div>
         ))}
       </div>

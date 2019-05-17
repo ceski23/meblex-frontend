@@ -46,7 +46,7 @@ const PasswordChangeForm = ({ handleSubmit, error }) => (
       />
     </div>
 
-    <Button className={S.updateProfile} elem="input">Zmień hasło</Button>
+    <Button className={S.updateProfile}>Zmień hasło</Button>
   </form>
 );
 

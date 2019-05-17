@@ -12,7 +12,7 @@ const NoItem = ({ history }) => {
     <div className={S.container}>
       <img src={Storage} className={S.image} alt="" />
       <h3 className={S.title}>Nie mamy takich mebli w naszym magazynie</h3>
-      <Button className={S.goBack} handleClick={handleClick}>Wróć</Button>
+      <Button className={S.goBack} onClick={handleClick}>Wróć</Button>
     </div>
   );
 };
