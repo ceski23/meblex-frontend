@@ -25,7 +25,7 @@ const authIntResponse = response => response;
 const authIntError = async (error) => {
   const errorResponse = error.response;
 
-  if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/login')) {
+  if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/logowanie')) {
     client.interceptors.response.eject(authInterceptor);
     try {
       await relogin();

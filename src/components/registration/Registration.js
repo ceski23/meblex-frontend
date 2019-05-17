@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { SubmissionError } from 'redux-form';
-import { useActions } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { Redirect } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/meblex_logo.svg';
 import S from './Registration.module.scss';
 import { Furniture } from '../../assets';
 import * as API from '../../api';
 import RegistrationForm from './RegistrationForm';
 import Loading from '../shared/Loading';
-import { setLoginStatus as loginStatusAction } from '../../redux/auth';
+import { setUserData as setUserDataAction } from '../../redux/auth';
 
-const Registration = ({ history }) => {
-  const setLoginStatus = useActions(status => loginStatusAction(status));
+const Registration = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const setUserData = useCallback(data => dispatch(setUserDataAction(data)), [dispatch]);
+  const user = useSelector(state => state.auth.user);
 
   const handleRegister = async (values) => {
     setIsLoading(true);
+
     try {
       await API.register(values);
-      setLoginStatus(true);
-      history.replace('/');
+      const userData = await API.getUserData();
+      setUserData(userData);
     } catch (err) {
       setIsLoading(false);
 
@@ -33,6 +37,7 @@ const Registration = ({ history }) => {
   return (
     <React.Fragment>
       <Loading isLoading={isLoading} text="Rejestrowanie..." />
+      {user && <Redirect to="/" />}
 
       <section className={S.registration}>
         <div className={S.icons}>
