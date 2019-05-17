@@ -8,6 +8,11 @@ export const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN';
 export const LOGOUT = 'LOGOUT';
 export const SET_USER_DATA = 'SET_USER_DATA';
 
+export const Roles = {
+  USER: 'user',
+  EMPLOYEE: 'employee',
+};
+
 export const setAccessToken = token => ({ type: SET_ACCESS_TOKEN, payload: token });
 export const setRefreshToken = token => ({ type: SET_REFRESH_TOKEN, payload: token });
 export const setUserData = data => ({ type: SET_USER_DATA, payload: data });

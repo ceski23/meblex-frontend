@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import S from './Content.module.scss';
 import '../shared/main.scss';
+import { Roles } from '../../redux/auth';
 
 import Toolbar from './Toolbar';
 import Navigation from './Navigation';
@@ -12,6 +13,7 @@ import Main from '../mainScreen/Main';
 import Test from '../mainScreen/Test';
 import Product from '../productScreen/Product';
 import UserProfile from '../userProfile/UserProfile';
+import ProtectedRoute from './ProtectedRoute';
 
 // import * as API from '../api'
 
@@ -36,7 +38,7 @@ const Content = () => {
           <Route path="/katalog" exact component={Main} />
           <Route path="/katalog/produkty/:product" component={Product} />
           <Route path="/katalog/" component={Test} />
-          <Route path="/profil" component={UserProfile} />
+          <ProtectedRoute path="/profil" roles={[Roles.USER]} component={UserProfile} />
           <Route component={NotFound} />
         </Switch>
       </div>
