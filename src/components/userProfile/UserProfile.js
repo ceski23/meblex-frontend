@@ -62,7 +62,7 @@ const UserProfile = () => {
       <UserProfileForm initialValues={user} onSubmit={updateUserProfile} />
 
       <h3 className={S.subTitle}>Zmiana adresu email</h3>
-      <EmailChangeForm initialValues={user.email} onSubmit={updateEmail} />
+      <EmailChangeForm initialValues={{ newemail: user.email }} onSubmit={updateEmail} />
 
       <h3 className={S.subTitle}>Zmiana hasła</h3>
       <PasswordChangeForm onSubmit={updatePassword} />
