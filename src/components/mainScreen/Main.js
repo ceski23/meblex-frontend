@@ -5,13 +5,12 @@ import cx from 'classnames';
 import S from './Main.module.scss';
 import { Furniture } from '../../assets';
 import SearchBox from './SearchBox';
-import { ReactComponent as Chevron } from '../../assets/chevron.svg';
+import Filters from './Filters';
 
 
 const Main = () => {
   const [searchResults, setSearchResults] = useState([]);
   const handleSearch = results => setSearchResults(results);
-  const [filterOpen, setFilterOpen] = useState(false);
 
   const getIcon = type => ({
     krzesło: Furniture.DiningChair,
@@ -60,38 +59,14 @@ const Main = () => {
 
       <section className={S.categoriesGrid}>
         {categories.map((c, k) => (
-          <Link to={`/katalog/${c.slug}`} className={cx('ripple', S.cat)} key={k}>
+          <Link to={{ pathname: '/katalog/produkty', search: `kategoria=${c.slug}` }} className={cx('ripple', S.cat)} key={k}>
             <c.icon className={S.icon} />
             <h4 className={S.text}>{c.name}</h4>
           </Link>
         ))}
       </section>
 
-      <div className={cx(S.filterBox, { [S.open]: filterOpen })}>
-        <div className={S.header} tabIndex={0} role="button" onClick={() => setFilterOpen(!filterOpen)}>
-          <h3 className={S.title}>Filtry</h3>
-          <Chevron className={S.icon} />
-        </div>
-        <div className={S.filters}>
-
-          <div className={S.filter}>
-            <h4 className={S.name}>Kolor:</h4>
-            <select className={S.input}>
-              <option>1</option>
-              <option>2</option>
-            </select>
-          </div>
-
-          <div className={S.filter}>
-            <h4 className={S.name}>Materiał:</h4>
-            <select className={S.input}>
-              <option>1</option>
-              <option>2</option>
-            </select>
-          </div>
-
-        </div>
-      </div>
+      <Filters />
     </React.Fragment>
   );
 };

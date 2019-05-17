@@ -6,13 +6,15 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import loginReducer from './redux/auth';
 import cartReducer from './redux/cart';
-import listingReducer from './redux/listing';
+import dataReducer from './redux/data';
+import filtersReducer from './redux/filters';
 
 const rootReducer = combineReducers({
   form: formReducer,
   auth: loginReducer,
-  listing: listingReducer,
+  data: dataReducer,
   cart: cartReducer,
+  filters: filtersReducer,
 });
 
 export const store = createStore(rootReducer, composeWithDevTools(

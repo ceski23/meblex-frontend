@@ -33,9 +33,9 @@ const Content = () => {
 
       <div className={cx(S.content, { [S.opened]: navOpened })}>
         <Switch>
-          <Route path="/" exact component={Main} />
-          <Route path="/produkty/:product" component={Product} />
-          <Route path="/katalog/:category" component={Test} />
+          <Route path="/katalog" exact component={Main} />
+          <Route path="/katalog/produkty/:product" component={Product} />
+          <Route path="/katalog/" component={Test} />
           <Route path="/profil" component={UserProfile} />
           <Route component={NotFound} />
         </Switch>
