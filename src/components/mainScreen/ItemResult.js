@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import S from './ItemResult.module.scss';
 
 const ItemResult = ({ data }) => (
-  <Link to={`/produkty/${data.id}`} className={S.result}>
+  <Link to={`katalog/produkty/${data.id}`} className={S.result}>
     <div className={S.img}>
       <img src={data.photos[0]} className={S.image} alt="" />
     </div>

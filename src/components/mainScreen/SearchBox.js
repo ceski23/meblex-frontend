@@ -2,10 +2,10 @@
 
 import { css, jsx } from '@emotion/core';
 
-import React, { useState, useEffect } from 'react';
-import Fuse from 'fuse.js';
-import { useDebounce } from 'use-debounce';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+// import Fuse from 'fuse.js';
+// import { useDebounce } from 'use-debounce';
+// import { useSelector } from 'react-redux';
 import { useTheme } from '../../helpers';
 
 import { Icons } from '../../assets';

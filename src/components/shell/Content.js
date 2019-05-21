@@ -10,7 +10,7 @@ import Toolbar from './Toolbar';
 import Navigation from './Navigation';
 import NotFound from '../shared/NotFound';
 import Main from '../mainScreen/Main';
-import Test from '../mainScreen/Test';
+// import Test from '../mainScreen/Test';
 import Product from '../productScreen/Product';
 import UserProfile from '../userProfile/UserProfile';
 import ProtectedRoute from './ProtectedRoute';
@@ -35,9 +35,9 @@ const Content = () => {
 
       <div className={cx(S.content, { [S.opened]: navOpened })}>
         <Switch>
-          <Route path="/katalog" exact component={Main} />
+          {/* <Route path="/katalog/:cat" component={Test} /> */}
           <Route path="/katalog/produkty/:product" component={Product} />
-          <Route path="/katalog/" component={Test} />
+          <Route path="/katalog" component={Main} />
           <ProtectedRoute path="/profil" roles={[Roles.USER]} component={UserProfile} />
           <Route component={NotFound} />
         </Switch>

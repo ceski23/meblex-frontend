@@ -1,27 +1,27 @@
-export const SET_COLOR_FILTER = 'SET_COLOR_FILTER';
-export const SET_PATTERN_FILTER = 'SET_PATTERN_FILTER';
-export const SET_MATERIAL_FILTER = 'SET_MATERIAL_FILTER';
+export const SET_COLORS_FILTER = 'SET_COLORS_FILTER';
+export const SET_PATTERNS_FILTER = 'SET_PATTERNS_FILTER';
+export const SET_MATERIALS_FILTER = 'SET_MATERIALS_FILTER';
 
-export const setColorFilter = color => ({ type: SET_COLOR_FILTER, payload: color });
-export const setPatternFilter = pattern => ({ type: SET_PATTERN_FILTER, payload: pattern });
-export const setMaterialFilter = material => ({ type: SET_MATERIAL_FILTER, payload: material });
+export const setColorsFilter = colors => ({ type: SET_COLORS_FILTER, payload: colors });
+export const setPatternsFilter = patterns => ({ type: SET_PATTERNS_FILTER, payload: patterns });
+export const setMaterialsFilter = materials => ({ type: SET_MATERIALS_FILTER, payload: materials });
 
 const initState = {
-  color: undefined,
-  material: undefined,
-  pattern: undefined,
+  colors: [],
+  materials: [],
+  patterns: [],
 };
 
 const filtersReducer = (state = initState, action) => {
   switch (action.type) {
-    case SET_COLOR_FILTER:
-      return { ...state, color: action.payload };
+    case SET_COLORS_FILTER:
+      return { ...state, colors: action.payload };
 
-    case SET_PATTERN_FILTER:
-      return { ...state, pattern: action.payload };
+    case SET_PATTERNS_FILTER:
+      return { ...state, patterns: action.payload };
 
-    case SET_MATERIAL_FILTER:
-      return { ...state, material: action.payload };
+    case SET_MATERIALS_FILTER:
+      return { ...state, materials: action.payload };
 
     default:
       return state;

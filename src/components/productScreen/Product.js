@@ -17,8 +17,12 @@ const Product = () => {
     price: 420.0,
     size: '47x48x104',
     description: '**Krzesło FLORIDA** zwraca uwagę stylizacją retro oraz ozdobnym pikowaniem na powierzchni oparcia. To idealny mebel by podkreślić szyk i elegancję wnętrza. Przeznaczone do gabinetu domowego lub salonu Krzesło **FLORIDA** zwraca uwagę gustownym wykonaniem i wykończeniem. Najlepiej prezentuje się w przestronnych pomieszczeniach, które w pełni mogą wyeksponować jego walory dekoracyjne.\n\nDoskonale komponuje się z meblami i dodatkami dekoracyjnymi w stylu industrialnym lub klasycznym. **FLORIDA** jest krzesłem komfortowym. W siedzisku zostały umieszczone sprężyny faliste, które w połączeniu z pianką sprawiają, że jest ono bardzo miękkie i wygodne. Za sprężystość oparcia odpowiadają pasy tapicerskie oraz piankowe wypełnienie. Stelaż wykonany z drewna bukowego gwarantuje trwałość mebla oraz nadaje jego wyglądowi estetyki i dyskretnej elegancji.\n\n**Wykończenie**  \nTkanina **INARI** użyta do obicia mebla to materiał grubo tkany o fakturze zbliżonej do lnu. Świetnie sprawdza się pod kątem aranżacyjnym. Nogi krzesła są lakierowane, wykonane są z drewna bukowego.',
-    room_id: 0,
-    category_id: 0,
+    room: {
+      id: 0, name: 'Do salonu', slug: 'do-salonu',
+    },
+    category: {
+      id: 1, name: 'Krzesła', slug: 'biurka',
+    },
     photos: [
       { path: 'https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-5.jpg' },
       { path: 'https://www.agatameble.pl/media/cache/gallery/images/13/136296/2133-013-002-101-0001-p-6.jpg' },
@@ -36,6 +40,7 @@ const Product = () => {
           id: 2,
         },
         color: {
+          id: 1,
           name: 'Jasny szary',
           hex_code: '#d3d3d3',
         },
@@ -50,6 +55,7 @@ const Product = () => {
           id: 2,
         },
         color: {
+          id: 1,
           name: 'Jasny szary',
           hex_code: '#d3d3d3',
         },
@@ -64,6 +70,7 @@ const Product = () => {
           id: 1,
         },
         color: {
+          id: 2,
           name: 'Biały',
           hex_code: '#ffffff',
         },
@@ -73,12 +80,6 @@ const Product = () => {
 
   const refe = useRef();
   const theme = useTheme();
-
-  const paths = [
-    { name: 'Do salonu', url: '/katalog/do-salonu' },
-    { name: 'Krzesła', url: '/katalog/do-salonu/krzesla' },
-    { name: 'Krzesło FLORIDA' },
-  ];
 
   const style = {
     product: css`
@@ -153,7 +154,12 @@ const Product = () => {
 
   return (
     <React.Fragment>
-      <Breadcrumbs paths={paths} />
+      <Breadcrumbs paths={[
+        { name: product.room.name, url: `/katalog?pokoj=${product.room.slug}` },
+        { name: product.category.name, url: `/katalog?pokoj=${product.room.slug}&kategoria=${product.category.slug}` },
+        { name: product.name },
+      ]}
+      />
 
       <div css={style.product}>
         <h3>{product.name}</h3>

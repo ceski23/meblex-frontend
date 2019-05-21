@@ -1,5 +1,6 @@
 import localForage from 'localforage';
 import { persistReducer } from 'redux-persist';
+import meble from '../meble.json';
 
 
 export const SET_LISTING = 'SET_LISTING';
@@ -47,7 +48,7 @@ export const fetchMaterials = () => (dispatch) => {
 
 
 const initState = {
-  furniture: [],
+  furniture: meble,
   materials: [],
   colors: [],
   patterns: [],

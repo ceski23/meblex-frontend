@@ -6,6 +6,7 @@ import NoItem from '../shared/NoItem';
 
 const Test = ({ match: { params } }) => {
   const list = furniture.filter(x => x.category.toLowerCase() === params.category);
+  console.log(params);
   return (
     <React.Fragment>
       {list.length > 0 && (

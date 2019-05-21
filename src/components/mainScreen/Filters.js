@@ -7,13 +7,9 @@ import { useTheme } from '../../helpers';
 import { ReactComponent as Chevron } from '../../assets/chevron.svg';
 
 import { fetchColors, fetchMaterials, fetchPatterns } from '../../redux/data';
-import {
-  setColorFilter as setColorFilterAction,
-  setPatternFilter as setPatternFilterAction,
-  setMaterialFilter as setMaterialFilterAction,
-} from '../../redux/filters';
+import { setColorsFilter, setPatternsFilter, setMaterialsFilter } from '../../redux/filters';
 
-import IconSelect from './IconSelect';
+import Checkbox from '../shared/Checkbox';
 
 
 const Filters = () => {
@@ -23,9 +19,6 @@ const Filters = () => {
   const data = useSelector(state => state.data);
 
   const filters = useSelector(state => state.filters);
-  const setColorFilter = color => dispatch(setColorFilterAction(color));
-  const setPatternFilter = pattern => dispatch(setPatternFilterAction(pattern));
-  const setMaterialFilter = material => dispatch(setMaterialFilterAction(material));
 
 
   const filterBoxHeight = '60px';
@@ -34,16 +27,21 @@ const Filters = () => {
     filterBox: css`
       background: #fff;
       position: fixed;
-      top: calc(100vh - ${filterBoxHeight});
+      /* top: calc(100vh - ${filterBoxHeight}); */
+      bottom: 0;
       left: 0;
       width: 100%;
       box-shadow: 0px -1px 20px ${theme.colors.shadowDark};
       transition: .5s;
-      height: calc(100vh - 60px);
+      /* height: calc(100vh - 60px); */
+      max-height: ${filterBoxHeight};
+      height: auto;
+      overflow: hidden;
     `,
 
     boxOpened: css`
-      top: 70px;
+      /* top: 70px; */
+      max-height: calc(100vh - 70px);
     `,
 
     header: css`
@@ -72,18 +70,26 @@ const Filters = () => {
 
     filters: css`
       padding: 20px 30px;
+      overflow: scroll;
+      height: calc(100vh - 70px - ${filterBoxHeight});
     `,
 
     filter: css`
       display: flex;
       flex-direction: row;
-      align-items: center;
       padding: 20px 0;
+      align-items: baseline;
 
       & > h4 {
         margin: 0;
         margin-right: 20px;
       }
+    `,
+
+    filterOptions: css`
+      display: flex;
+      flex: 1;
+      flex-wrap: wrap;
     `,
 
     filterInput: css`
@@ -96,6 +102,20 @@ const Filters = () => {
     dispatch(fetchMaterials());
     dispatch(fetchPatterns());
   }, [dispatch]);
+
+  const handleChange = (id, val, type) => {
+    const action = {
+      colors: setColorsFilter,
+      materials: setMaterialsFilter,
+      patterns: setPatternsFilter,
+    }[type];
+
+    dispatch(action(val ? (
+      [...filters[type], ...data[type].filter(f => f.id === id)]
+    ) : (
+      filters[type].filter(f => f.id !== id)
+    )));
+  };
 
   return (
     <div css={[style.filterBox, filtersOpen ? style.boxOpened : null]}>
@@ -113,35 +133,44 @@ const Filters = () => {
 
         <div css={style.filter}>
           <h4>Kolor:</h4>
-          <IconSelect
-            css={style.filterInput}
-            options={data.colors}
-            iconKey="hex_code"
-            current={filters.color}
-            setCurrent={setColorFilter}
-          />
+          <div css={style.filterOptions}>
+            {data.colors.map(c => (
+              <Checkbox
+                key={c.id}
+                label={c.name}
+                checked={filters.colors.some(filter => filter.id === c.id)}
+                onChange={val => handleChange(c.id, val, 'colors')}
+              />
+            ))}
+          </div>
         </div>
 
         <div css={style.filter}>
           <h4>Wzór:</h4>
-          <IconSelect
-            css={style.filterInput}
-            options={data.patterns}
-            iconKey="url"
-            current={filters.pattern}
-            setCurrent={setPatternFilter}
-          />
+          <div css={style.filterOptions}>
+            {data.patterns.map(c => (
+              <Checkbox
+                key={c.id}
+                label={c.name}
+                checked={filters.patterns.some(filter => filter.id === c.id)}
+                onChange={val => handleChange(c.id, val, 'patterns')}
+              />
+            ))}
+          </div>
         </div>
 
         <div css={style.filter}>
           <h4>Materiał:</h4>
-          <IconSelect
-            css={style.filterInput}
-            options={data.materials}
-            iconKey="url"
-            current={filters.material}
-            setCurrent={setMaterialFilter}
-          />
+          <div css={style.filterOptions}>
+            {data.materials.map(c => (
+              <Checkbox
+                key={c.id}
+                label={c.name}
+                checked={filters.materials.some(filter => filter.id === c.id)}
+                onChange={val => handleChange(c.id, val, 'materials')}
+              />
+            ))}
+          </div>
         </div>
 
       </div>

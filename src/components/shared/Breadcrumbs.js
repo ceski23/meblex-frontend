@@ -53,7 +53,7 @@ const Breadcrumbs = ({ paths }) => {
 
   return (
     <div css={style.paths}>
-      <Link to="/" css={style.breadcrumb}>
+      <Link to="/katalog" css={style.breadcrumb}>
         <Home css={style.home} />
       </Link>
 

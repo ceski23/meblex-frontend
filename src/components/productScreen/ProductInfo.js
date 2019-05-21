@@ -143,7 +143,7 @@ const ProductInfo = ({ product }) => {
       <div css={style.sizesBox}>
         <h3>Wymiary</h3>
         {['Szerokość', 'Głębokość', 'Wysokość'].map((dimension, i) => (
-          <span css={style.size}>
+          <span css={style.size} key={i}>
             <p>{dimension}:</p>
             <b>{product.size.split('x')[i]} cm</b>
           </span>
