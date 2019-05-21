@@ -24,7 +24,7 @@ const Main = ({ location: { search } }) => {
 
   const style = {
     title: css`
-      margin: 20px auto;
+      margin: 40px auto 20px;
       width: 80%;
     `,
   };

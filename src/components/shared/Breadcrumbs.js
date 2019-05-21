@@ -19,13 +19,14 @@ const Breadcrumbs = ({ paths }) => {
     `,
 
     breadcrumb: css`
-      padding: 20px;
+      padding: 20px 15px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       transition: .3s;
       text-decoration: none;
       color: ${theme.colors.textDark};
+      font-size: .9em;
 
       &:first-child {
         display: flex;

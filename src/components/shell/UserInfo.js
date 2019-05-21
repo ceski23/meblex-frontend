@@ -9,7 +9,7 @@ import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
 
 
-const UserInfo = ({ toggleNav, location }) => {
+const UserInfo = ({ location }) => {
   const user = useSelector(state => state.auth.user);
   const theme = useTheme();
 
@@ -22,12 +22,15 @@ const UserInfo = ({ toggleNav, location }) => {
       align-items: center;
       background: none;
       transition: .3s;
-      /* border-bottom: 1px solid ${theme.colors.shadowDark}; */
+    `,
 
-      /* &:hover {
-        background: ${theme.colors.primary_01};
-        color: ${theme.colors.primary};
-      } */
+    userInfo: css`
+
+    `,
+
+    role: css`
+      margin: 0;
+      font-size: .8em;
     `,
 
     icon: css`
@@ -49,7 +52,10 @@ const UserInfo = ({ toggleNav, location }) => {
   return (user ? (
     <Link to="/profil" css={style.user}>
       <Icons.User css={style.icon} />
-      <p css={style.username}>{user.name}</p>
+      <div css={style.userInfo}>
+        <h5 css={style.username}>{user.name}</h5>
+        <p css={style.role}>Pracownik</p>
+      </div>
     </Link>
   ) : (
     <Link
@@ -58,7 +64,6 @@ const UserInfo = ({ toggleNav, location }) => {
         state: { from: location },
       }}
       css={style.user}
-      onClick={toggleNav}
     >
       <Icons.User css={style.icon} />
       <p css={style.username}>Zaloguj się</p>
