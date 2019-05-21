@@ -5,10 +5,8 @@ import { jsx, css } from '@emotion/core';
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import cx from 'classnames';
 import { useSelector } from 'react-redux';
 import { useTheme } from '../../helpers';
-import S from './Main.module.scss';
 import { Furniture } from '../../assets';
 import SearchBox from './SearchBox';
 import Filters from './Filters';
@@ -21,11 +19,47 @@ const Main = ({ location: { search } }) => {
   // const handleSearch = results => setSearchResults(results);
   const listing = useSelector(state => state.data.furniture);
   const filters = useSelector(state => state.filters);
+  const theme = useTheme();
 
   const style = {
     title: css`
       margin: 40px auto 20px;
       width: 80%;
+    `,
+
+    grid: css`
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: left;
+      margin: 0;
+      padding: 0;
+    `,
+
+    gridItem: css`
+      width: 33%;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      transition: .3s;
+      text-decoration: none;
+
+      &:hover {
+        background: ${theme.colors.primary_01};
+      }
+
+      & > h4 {
+        margin: 10px auto;
+        margin-top: 15px;
+        font-size: .9em;
+        text-align: center;
+      }
+    `,
+
+    itemIcon: css`
+      margin-top: 10px;
+      height: 40px;
+      fill: ${theme.colors.text};
     `,
   };
 
@@ -75,21 +109,21 @@ const Main = ({ location: { search } }) => {
       )}
 
       <h3 css={style.title}>Pokoje</h3>
-      <section className={S.categoriesGrid}>
+      <section css={style.grid}>
         {rooms.map((c, k) => (
-          <Link to={{ pathname: '/katalog', search: `pokoj=${c.slug}` }} className={cx('ripple', S.cat)} key={k}>
-            <c.icon className={S.icon} />
-            <h4 className={S.text}>{c.name}</h4>
+          <Link to={{ pathname: '/katalog', search: `pokoj=${c.slug}` }} css={style.gridItem} key={k}>
+            <c.icon css={style.itemIcon} />
+            <h4>{c.name}</h4>
           </Link>
         ))}
       </section>
 
       <h3 css={style.title}>Kategorie</h3>
-      <section className={S.categoriesGrid}>
+      <section css={style.grid}>
         {categories.map((c, k) => (
-          <Link to={{ pathname: '/katalog', search: `kategoria=${c.slug}` }} className={cx('ripple', S.cat)} key={k}>
-            <c.icon className={S.icon} />
-            <h4 className={S.text}>{c.name}</h4>
+          <Link to={{ pathname: '/katalog', search: `kategoria=${c.slug}` }} css={style.gridItem} key={k}>
+            <c.icon css={style.itemIcon} />
+            <h4>{c.name}</h4>
           </Link>
         ))}
       </section>

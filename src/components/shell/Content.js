@@ -8,7 +8,7 @@ import { Roles } from '../../redux/auth';
 import Toolbar from './Toolbar';
 import Navigation from './Navigation';
 import NotFound from '../shared/NotFound';
-import Main from '../mainScreen/Main';
+import Catalog from '../catalog/Catalog';
 import Product from '../productScreen/Product';
 import UserProfile from '../userProfile/UserProfile';
 import ProtectedRoute from './ProtectedRoute';
@@ -39,9 +39,8 @@ const Content = () => {
 
       <div css={style.content}>
         <Switch>
-          {/* <Route path="/katalog/:cat" component={Test} /> */}
           <Route path="/katalog/produkty/:product" component={Product} />
-          <Route path="/katalog" component={Main} />
+          <Route path="/katalog" component={Catalog} />
           <ProtectedRoute path="/profil" roles={[Roles.USER]} component={UserProfile} />
           <Route component={NotFound} />
         </Switch>
