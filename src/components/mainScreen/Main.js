@@ -1,8 +1,13 @@
+/** @jsx jsx */
+
+import { jsx, css } from '@emotion/core';
+
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import cx from 'classnames';
 import { useSelector } from 'react-redux';
+import { useTheme } from '../../helpers';
 import S from './Main.module.scss';
 import { Furniture } from '../../assets';
 import SearchBox from './SearchBox';
@@ -17,17 +22,29 @@ const Main = ({ location: { search } }) => {
   const listing = useSelector(state => state.data.furniture);
   const filters = useSelector(state => state.filters);
 
+  const style = {
+    title: css`
+      margin: 20px auto;
+      width: 80%;
+    `,
+  };
+
   const roomFilter = new URLSearchParams(search).get('pokoj');
   const categoryFilter = new URLSearchParams(search).get('kategoria');
 
   const categories = [
     { name: 'Krzesła', slug: 'krzesla', icon: Furniture.DiningChair },
-    { name: 'Wieszaki', slug: 'wieszaki', icon: Furniture.CoatStand },
     { name: 'Biurka', slug: 'biurka', icon: Furniture.Desk },
     { name: 'Lustra', slug: 'lustra', icon: Furniture.Mirror },
-    { name: 'Stoliki pod TV', slug: 'stoliki-tv', icon: Furniture.TvTable },
+    { name: 'Stoliki TV', slug: 'stoliki-tv', icon: Furniture.TvTable },
     { name: 'Sofy', slug: 'sofy', icon: Furniture.Sofa },
     { name: 'Łóżka', slug: 'lozka', icon: Furniture.DoubleBed },
+  ];
+
+  const rooms = [
+    { name: 'Do salonu', slug: 'salon', icon: Furniture.Couch },
+    { name: 'Do kuchni', slug: 'kuchnia', icon: Furniture.Kitchen },
+    { name: 'Do sypialni', slug: 'lazienka', icon: Furniture.SingleBed },
   ];
 
   const furnitureFilter = useCallback((item) => {
@@ -43,7 +60,7 @@ const Main = ({ location: { search } }) => {
 
   return (
     <React.Fragment>
-      <section className="gray">
+      <section>
         <SearchBox />
       </section>
 
@@ -57,7 +74,17 @@ const Main = ({ location: { search } }) => {
         )
       )}
 
+      <h3 css={style.title}>Pokoje</h3>
+      <section className={S.categoriesGrid}>
+        {rooms.map((c, k) => (
+          <Link to={{ pathname: '/katalog', search: `pokoj=${c.slug}` }} className={cx('ripple', S.cat)} key={k}>
+            <c.icon className={S.icon} />
+            <h4 className={S.text}>{c.name}</h4>
+          </Link>
+        ))}
+      </section>
 
+      <h3 css={style.title}>Kategorie</h3>
       <section className={S.categoriesGrid}>
         {categories.map((c, k) => (
           <Link to={{ pathname: '/katalog', search: `kategoria=${c.slug}` }} className={cx('ripple', S.cat)} key={k}>

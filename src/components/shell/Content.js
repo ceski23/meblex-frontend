@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import cx from 'classnames';
+/** @jsx jsx */
 
-import S from './Content.module.scss';
+import { jsx, css } from '@emotion/core';
+import React, { useEffect } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import '../shared/main.scss';
 import { Roles } from '../../redux/auth';
-
 import Toolbar from './Toolbar';
 import Navigation from './Navigation';
 import NotFound from '../shared/NotFound';
 import Main from '../mainScreen/Main';
-// import Test from '../mainScreen/Test';
 import Product from '../productScreen/Product';
 import UserProfile from '../userProfile/UserProfile';
 import ProtectedRoute from './ProtectedRoute';
@@ -19,21 +17,27 @@ import ProtectedRoute from './ProtectedRoute';
 
 
 const Content = () => {
-  const [navOpened, setNavOpened] = useState(false);
-  const toggleNav = () => setNavOpened(!navOpened);
-
   useEffect(() => {
     // const listing = API.getListing();
     // context.setListing(listing);
   }, []);
 
+  const style = {
+    content: css`
+      min-height: calc(100vh - 70px);
+      display: flex;
+      flex-direction: column;
+      transition: transform .3s ease-in-out; 
+      padding-bottom: 70px;
+    `,
+  };
+
   return (
     <React.Fragment>
-      <Toolbar navOpened={navOpened} toggleNav={toggleNav} />
-      <Navigation navOpened={navOpened} toggleNav={toggleNav} />
-      <div role="button" tabIndex={0} className={cx(S.shadow, { [S.enabled]: navOpened })} onClick={toggleNav} />
+      <Toolbar />
+      <Navigation />
 
-      <div className={cx(S.content, { [S.opened]: navOpened })}>
+      <div css={style.content}>
         <Switch>
           {/* <Route path="/katalog/:cat" component={Test} /> */}
           <Route path="/katalog/produkty/:product" component={Product} />

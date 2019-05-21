@@ -35,7 +35,12 @@ const SearchBox = ({ callback }) => {
       height: 60px;
       padding-left: 60px !important;
       padding-right: 60px !important;
-      background: #fff !important;
+      /* background: ${theme.colors.primary} !important; */
+      /* border-color: ${theme.colors.primary} !important; */
+
+      &::placeholder {
+        color: ${theme.colors.textDark};
+      }
     `,
 
     clear: css`

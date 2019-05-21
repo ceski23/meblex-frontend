@@ -9,7 +9,7 @@
   padding: 0;
 
   .cat {
-    width: 50%;
+    width: 33%;
     height: 150px;
     display: flex;
     flex-direction: column;
@@ -24,11 +24,13 @@
     .text {
       margin: 10px auto;
       margin-top: 15px;
-      font-size: 1em;
+      font-size: .9em;
+      text-align: center;
     }
 
     .icon {
       margin-top: 10px;
+      height: 40px;
       fill: $colorText;
     }
   }
@@ -72,55 +74,5 @@
       font-size: 0.7em;
       margin-left: 3px;
     }
-  }
-}
-
-
-
-
-.filterBox {
-  
-
-  &.open {
-    
-
-    .header {
-      
-    }
-
-    .header .icon {
-      
-    }
-  }
-
-  .header {
-    
-
-    .title {
-      
-    }
-
-    .icon {
-      
-    }
-  }
-}
-
-
-
-
-.filters {
-  
-}
-
-.filter {
-  
-
-  .name {
-    
-  }
-
-  .input {
-    
   }
 }

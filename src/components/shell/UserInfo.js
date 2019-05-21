@@ -16,19 +16,18 @@ const UserInfo = ({ toggleNav, location }) => {
   const style = {
     user: css`
       text-decoration: none;
-      color: $colorText;
       padding: 15px;
       display: flex;
       flex-direction: row;
       align-items: center;
       background: none;
       transition: .3s;
-      border-bottom: 1px solid ${theme.colors.shadowDark};
+      /* border-bottom: 1px solid ${theme.colors.shadowDark}; */
 
-      &:hover {
+      /* &:hover {
         background: ${theme.colors.primary_01};
         color: ${theme.colors.primary};
-      }
+      } */
     `,
 
     icon: css`
@@ -43,11 +42,12 @@ const UserInfo = ({ toggleNav, location }) => {
 
     username: css`
       font-weight: bold;
+      color: ${theme.colors.textDark};
     `,
   };
 
   return (user ? (
-    <Link to="/profil" css={style.user} onClick={toggleNav}>
+    <Link to="/profil" css={style.user}>
       <Icons.User css={style.icon} />
       <p css={style.username}>{user.name}</p>
     </Link>
