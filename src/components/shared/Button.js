@@ -19,7 +19,7 @@ const Button = ({ component: Component, variant, icon: Icon, children, ...props 
       border-radius: 5px;
       background: ${theme.colors.primary};
       color: #ffffff;
-      border: none;
+      border: 2px solid ${theme.colors.primary};
       padding: 15px 30px;
       font-size: 1.2em;
       font-weight: bold;
@@ -30,6 +30,7 @@ const Button = ({ component: Component, variant, icon: Icon, children, ...props 
       display: flex;
       flex-direction: row;
       align-items: center;
+      align-self: center;
 
       &:hover {
         background: ${theme.colors.hover};
@@ -37,7 +38,6 @@ const Button = ({ component: Component, variant, icon: Icon, children, ...props 
       `,
 
     secondary: css`
-      border: 2px solid ${theme.colors.primary};
       background: none;
       color: ${theme.colors.primary};
 

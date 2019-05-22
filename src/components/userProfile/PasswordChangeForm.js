@@ -1,54 +1,106 @@
-import React from 'react';
+/** @jsx jsx */
+
+import { jsx, css } from '@emotion/core';
 import { Field, reduxForm } from 'redux-form';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, password, passwordMatch } from '../../validationRules';
 
-import S from './UserProfile.module.scss';
 
-const PasswordChangeForm = ({ handleSubmit, error }) => (
-  <form className={S.passwordForm} onSubmit={handleSubmit}>
-    {error && <p className={S.error}>{error}</p>}
+const PasswordChangeForm = ({ handleSubmit, error }) => {
+  const style = {
+    form: css`
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-shadow: 0px 1px 15px rgba(4, 35, 101, 0.22);
+      border-radius: 5px;
+      padding: 20px;
+    `,
 
-    <div className={S.field}>
-      <h4 className={S.label}>Aktualne hasło:</h4>
-      <Field
-        name="oldPassword"
-        component={FieldX}
-        type="password"
-        autoComplete="current-password"
-        className={S.input}
-        validate={[required, password]}
-      />
-    </div>
+    formError: css`
+      margin-top: -10px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center;
+      color: red;
+    `,
 
-    <div className={S.field}>
-      <h4 className={S.label}>Nowe hasło:</h4>
-      <Field
-        name="newPassword"
-        component={FieldX}
-        type="password"
-        autoComplete="new-password"
-        className={S.input}
-        validate={[required, password]}
-      />
-    </div>
+    fieldWrapper: css`
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      margin: 10px 0;
+      flex-direction: column;
+    `,
 
-    <div className={S.field}>
-      <h4 className={S.label}>Powtórz hasło:</h4>
-      <Field
-        name="repeatPassword"
-        component={FieldX}
-        type="password"
-        autoComplete="new-password"
-        className={S.input}
-        validate={[required, passwordMatch]}
-      />
-    </div>
+    fieldLabel: css`
+      margin: 0;
+      margin-right: 20px;
+      font-size: .9em;
+      height: 42px;
+      line-height: 42px;
+    `,
 
-    <Button className={S.updateProfile}>Zmień hasło</Button>
-  </form>
-);
+    formField: css`
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+    `,
+
+    submitButton: css`
+      margin: 30px 0;
+      display: flex;
+      flex-direction: column;
+    `,
+  };
+
+  return (
+    <form css={style.form} onSubmit={handleSubmit}>
+      {error && <p css={style.formError}>{error}</p>}
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Aktualne hasło:</h4>
+        <Field
+          name="oldPassword"
+          component={FieldX}
+          type="password"
+          autoComplete="current-password"
+          css={style.formField}
+          validate={[required, password]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Nowe hasło:</h4>
+        <Field
+          name="newPassword"
+          component={FieldX}
+          type="password"
+          autoComplete="new-password"
+          css={style.formField}
+          validate={[required, password]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Powtórz hasło:</h4>
+        <Field
+          name="repeatPassword"
+          component={FieldX}
+          type="password"
+          autoComplete="new-password"
+          css={style.formField}
+          validate={[required, passwordMatch]}
+        />
+      </div>
+
+      <div css={style.submitButton}>
+        <Button>Zmień hasło</Button>
+      </div>
+    </form>
+  );
+};
 
 export default reduxForm({
   form: 'userPassword',

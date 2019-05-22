@@ -3,12 +3,13 @@
 import { jsx, css } from '@emotion/core';
 
 const FieldX = ({
-  input, label, type, meta: { touched, error }, ...rest
+  input, meta: { touched, error }, ...rest
 }) => {
   const style = {
     field: css`
       display: flex;
       flex-direction: column-reverse;
+      width: 100%;
 
       input {
         height: 42px;
@@ -25,7 +26,7 @@ const FieldX = ({
   return (
     <div css={style.field}>
       {touched && error && <span css={style.error}>{error}</span>}
-      <input {...input} type={type} {...rest} />
+      <input {...input} {...rest} />
     </div>
   );
 };
