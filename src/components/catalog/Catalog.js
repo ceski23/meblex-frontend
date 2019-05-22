@@ -2,16 +2,17 @@
 
 import { jsx, css } from '@emotion/core';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { useTheme } from '../../helpers';
-import { Furniture } from '../../assets';
+import { Furniture, Icons } from '../../assets';
 import SearchBox from './SearchBox';
 import Filters from './Filters';
 import ItemResult from './ItemResult';
 import NoItem from '../shared/NoItem';
+import Button from '../shared/Button';
 
 
 const Main = ({ location: { search } }) => {
@@ -20,6 +21,7 @@ const Main = ({ location: { search } }) => {
   const listing = useSelector(state => state.data.furniture);
   const filters = useSelector(state => state.filters);
   const theme = useTheme();
+  const [showFilters, setShowFilters] = useState(false);
 
   const style = {
     title: css`
@@ -98,6 +100,10 @@ const Main = ({ location: { search } }) => {
         <SearchBox />
       </section>
 
+      <div css={{ marginBottom: 20, margin: '-30px auto 10px' }}>
+        <Button variant="secondary" icon={Icons.Filter} onClick={() => setShowFilters(true)}>Filtry</Button>
+      </div>
+
       {(categoryFilter || roomFilter) && (
         listing.filter(furnitureFilter).length > 0 ? (
           <div>
@@ -128,7 +134,7 @@ const Main = ({ location: { search } }) => {
         ))}
       </section>
 
-      {(roomFilter || categoryFilter) && <Filters />}
+      {showFilters && <Filters hideModal={() => setShowFilters(false)} />}
     </React.Fragment>
   );
 };

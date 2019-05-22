@@ -63,6 +63,8 @@ import { ReactComponent as User } from './assets/user.svg';
 import { ReactComponent as Price } from './assets/price.svg';
 import { ReactComponent as Settings } from './assets/settings.svg';
 import { ReactComponent as Home } from './assets/home.svg';
+import { ReactComponent as Filter } from './assets/filter.svg';
+import { ReactComponent as Close2 } from './assets/close_2.svg';
 
 // Images
 import { ReactComponent as HikingTraveller } from './assets/hiking_traveller.svg';
@@ -70,7 +72,20 @@ import { ReactComponent as Logistics } from './assets/storage.svg';
 
 
 export const Icons = {
-  Search, JigSaw, Tools, Door, ShoppingBag, ShoppingCart, Hamburger, Close, User, Price, Settings, Home,
+  Search,
+  JigSaw,
+  Tools,
+  Door,
+  ShoppingBag,
+  ShoppingCart,
+  Hamburger,
+  Close,
+  User,
+  Price,
+  Settings,
+  Home,
+  Filter,
+  Close2,
 };
 
 export const Furniture = {

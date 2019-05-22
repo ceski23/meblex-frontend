@@ -10,7 +10,7 @@ export const HTMLButton = props => <button {...props} />;
 // eslint-disable-next-line jsx-a11y/anchor-has-content
 export const HTMLAnchor = props => <a {...props} />;
 
-const Button = ({ component: Component, variant, ...props }) => {
+const Button = ({ component: Component, variant, icon: Icon, children, ...props }) => {
   const theme = useTheme();
 
   const style = {
@@ -27,6 +27,9 @@ const Button = ({ component: Component, variant, ...props }) => {
       margin: 10px;
       transition: .3s;
       text-decoration: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
       &:hover {
         background: ${theme.colors.hover};
@@ -42,6 +45,13 @@ const Button = ({ component: Component, variant, ...props }) => {
         background: ${theme.colors.primary_01};
       }
     `,
+
+    icon: css`
+      width: 20px;
+      height: 20px;
+      margin-right: 20px;
+      fill: ${theme.colors.primary};
+    `,
   };
 
   const handleFocus = ({ target }) => {
@@ -54,7 +64,10 @@ const Button = ({ component: Component, variant, ...props }) => {
       type="submit"
       onMouseUp={handleFocus}
       {...props}
-    />
+    >
+      {Icon && <Icon css={style.icon} />}
+      {children}
+    </Component>
   );
 };
 
