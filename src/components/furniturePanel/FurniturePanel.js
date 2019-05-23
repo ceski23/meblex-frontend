@@ -9,6 +9,8 @@ import { useTheme } from '../../helpers';
 import { ripple } from '../../styles';
 import MaterialsForm from './MaterialsForm';
 import MaterialsList from './MaterialsList';
+import PatternsForm from './PatternsForm';
+import PatternsList from './PatternsList';
 
 const FurniturePanel = () => {
   const theme = useTheme();
@@ -107,6 +109,11 @@ const FurniturePanel = () => {
         </React.Fragment>
 
         <React.Fragment>
+          <div css={style.panel}>
+            <h3 css={style.title}>Dodaj materiał</h3>
+            <PatternsForm />
+          </div>
+          <PatternsList />
         </React.Fragment>
 
       </SwipeableViews>
