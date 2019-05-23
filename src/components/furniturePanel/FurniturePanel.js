@@ -110,7 +110,7 @@ const FurniturePanel = () => {
 
         <React.Fragment>
           <div css={style.panel}>
-            <h3 css={style.title}>Dodaj materiał</h3>
+            <h3 css={style.title}>Dodaj wzór</h3>
             <PatternsForm />
           </div>
           <PatternsList />
