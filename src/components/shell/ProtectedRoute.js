@@ -9,7 +9,7 @@ const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
   const logout = useCallback(() => dispatch(logoutAction()), [dispatch]);
 
   const isUserAuthorized = () => {
-    return true;
+    return !roles || user; // TODO: Remove this
     if (user && user.role) return roles.some(elem => elem === user.role);
     logout();
     return false;

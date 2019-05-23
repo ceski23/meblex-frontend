@@ -1,19 +1,28 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
+import { useSelector } from 'react-redux';
 import { useTheme } from '../../helpers';
 import { Furniture, Icons } from '../../assets';
 import NavItem from './NavItem';
+import { Roles } from '../../redux/auth';
 
 
 const Navigation = () => {
   const theme = useTheme();
+  const user = useSelector(state => state.auth.user);
+
+  const isUserAuthorized = (roles) => {
+    return !roles || user; // TODO: Remove this
+    return !roles || user && user.role && roles.some(elem => elem === user.role);
+  };
 
   const mainItems = [
     { text: 'Pulpit', icon: Icons.Home, url: '/' },
     { text: 'Katalog', icon: Icons.ShoppingBag, url: '/katalog' },
     { text: 'FITTER™', icon: Icons.JigSaw, url: '/fitter' },
     { text: 'DIY', icon: Icons.Tools, url: '/diy' },
+    { text: 'Panel', icon: Icons.Settings, url: '/panel', roles: [Roles.EMPLOYEE] },
   ];
 
   const categories = [
@@ -76,7 +85,9 @@ const Navigation = () => {
   return (
     <div css={style.navigation}>
       {mainItems.map((item, i) => (
-        <NavItem key={i} text={item.text} icon={item.icon} to={item.url} />
+        isUserAuthorized(item.roles) ? (
+          <NavItem key={i} text={item.text} icon={item.icon} to={item.url} />
+        ) : null
       ))}
     </div>
   );
