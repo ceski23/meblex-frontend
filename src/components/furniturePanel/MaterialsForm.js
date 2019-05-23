@@ -2,24 +2,13 @@
 
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm } from 'redux-form';
-import { createTextMask } from 'redux-form-input-masks';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
-import FieldWithColor from './FieldWithColor';
+import FieldWithPreview from './FieldWithPreview';
 
-const colorMask = createTextMask({
-  pattern: '#hhhhhh',
-  maskDefinitions: {
-    h: {
-      regExp: /[A-Fa-f0-9]/,
-      transform: char => char.toLowerCase(),
-    },
-  },
-  guide: false,
-});
 
-const ColorsForm = ({ handleSubmit, error }) => {
+const MaterialsForm = ({ handleSubmit, error }) => {
   const style = {
     form: css`
       display: flex;
@@ -72,7 +61,7 @@ const ColorsForm = ({ handleSubmit, error }) => {
       {error && <p css={style.formError}>{error}</p>}
 
       <div css={style.fieldWrapper}>
-        <h4 css={style.fieldLabel}>Nazwa koloru:</h4>
+        <h4 css={style.fieldLabel}>Nazwa materiału:</h4>
         <Field
           name="name"
           component={FieldX}
@@ -83,24 +72,22 @@ const ColorsForm = ({ handleSubmit, error }) => {
       </div>
 
       <div css={style.fieldWrapper}>
-        <h4 css={style.fieldLabel}>Kod koloru:</h4>
+        <h4 css={style.fieldLabel}>Zdjęcie materiału:</h4>
         <Field
-          name="hex_code"
-          component={FieldWithColor}
-          type="text"
+          name="image"
+          component={FieldWithPreview}
           css={style.formField}
-          validate={[required, maxLength32]}
-          {...colorMask}
+          validate={[required]}
         />
       </div>
 
       <div css={style.submitButton}>
-        <Button>Dodaj kolor</Button>
+        <Button>Dodaj materiał</Button>
       </div>
     </form>
   );
 };
 
 export default reduxForm({
-  form: 'colorsForm',
-})(ColorsForm);
+  form: 'materialsForm',
+})(MaterialsForm);
