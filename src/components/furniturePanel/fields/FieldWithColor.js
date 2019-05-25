@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/core';
 import { ChromePicker } from 'react-color';
 import React, { useState, useRef } from 'react';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import { useTheme } from '../../helpers';
+import { useTheme } from '../../../helpers';
 
 const FieldWithColor = ({
   input, meta: { touched, error }, ...rest

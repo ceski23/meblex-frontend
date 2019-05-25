@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
-import FieldWithPreview from './FieldWithPreview';
+import FieldWithPreview from './fields/FieldWithPreview';
 
 
 const MaterialsForm = ({ handleSubmit, error }) => {

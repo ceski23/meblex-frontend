@@ -2,7 +2,7 @@
 
 import { jsx, css } from '@emotion/core';
 
-const FieldX = ({
+const TextareaField = ({
   input, meta: { touched, error }, ...rest
 }) => {
   const style = {
@@ -10,6 +10,7 @@ const FieldX = ({
       display: flex;
       flex-direction: column-reverse;
       width: 100%;
+      height: 200px;
 
       input {
         height: 42px;
@@ -26,9 +27,9 @@ const FieldX = ({
   return (
     <div css={style.field}>
       {touched && error && <span css={style.error}>{error}</span>}
-      <input {...input} {...rest} />
+      <textarea {...input} {...rest} />
     </div>
   );
 };
 
-export default FieldX;
+export default TextareaField;

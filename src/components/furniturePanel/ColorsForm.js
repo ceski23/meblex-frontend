@@ -6,7 +6,7 @@ import { createTextMask } from 'redux-form-input-masks';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
-import FieldWithColor from './FieldWithColor';
+import FieldWithColor from './fields/FieldWithColor';
 
 const colorMask = createTextMask({
   pattern: '#hhhhhh',

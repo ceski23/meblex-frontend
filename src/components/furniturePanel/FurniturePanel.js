@@ -11,6 +11,7 @@ import MaterialsForm from './MaterialsForm';
 import MaterialsList from './MaterialsList';
 import PatternsForm from './PatternsForm';
 import PatternsList from './PatternsList';
+import AddFurnitureForm from './AddFurnitureForm';
 
 const FurniturePanel = () => {
   const theme = useTheme();
@@ -20,6 +21,8 @@ const FurniturePanel = () => {
   const tabs = [
     'Meble', 'Kolory', 'Materiały', 'Wzory',
   ];
+
+  const sliderMargin = 15;
 
   const style = {
     panel: css`
@@ -60,7 +63,7 @@ const FurniturePanel = () => {
       background: ${theme.colors.primary};
       height: 2px;
       border-radius: 10px;
-      width: ${(100 / tabs.length)}%;
+      width: calc(${(100 / tabs.length)}% - ${2 * sliderMargin}px);
       transition: .3s;
       margin-bottom: 10px;
     `,
@@ -76,6 +79,10 @@ const FurniturePanel = () => {
     setTimeout(() => { target.blur(); }, 300);
   };
 
+  const handleSub = (values) => {
+    console.log(values);
+  };
+
   return (
     <React.Fragment>
       <div css={style.tabs} ref={tabsElem}>
@@ -85,36 +92,44 @@ const FurniturePanel = () => {
           </button>
         ))}
       </div>
-      <span css={[style.slider, { transform: `translateX(${index * 100}%)` }]} />
 
-      <SwipeableViews index={index} onChangeIndex={i => setIndex(i)}>
+      <span css={[style.slider, {
+        transform: `translateX(calc(${index * 100}% + ${(index) * (2 * sliderMargin)}px + ${sliderMargin}px))`,
+      }]}
+      />
 
-        <React.Fragment>
-        </React.Fragment>
+      <SwipeableViews index={index} onChangeIndex={i => setIndex(i)} animateHeight>
 
-        <React.Fragment>
+        <div>
+          <div css={style.panel}>
+            <h3 css={style.title}>Dodaj mebel</h3>
+            <AddFurnitureForm onSubmit={handleSub} />
+          </div>
+        </div>
+
+        <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj kolor</h3>
             <ColorsForm />
           </div>
           <ColorsList />
-        </React.Fragment>
+        </div>
 
-        <React.Fragment>
+        <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj materiał</h3>
             <MaterialsForm />
           </div>
           <MaterialsList />
-        </React.Fragment>
+        </div>
 
-        <React.Fragment>
+        <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj wzór</h3>
             <PatternsForm />
           </div>
           <PatternsList />
-        </React.Fragment>
+        </div>
 
       </SwipeableViews>
     </React.Fragment>

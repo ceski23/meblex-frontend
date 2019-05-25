@@ -2,7 +2,7 @@
 
 import { jsx, css } from '@emotion/core';
 
-const FieldX = ({
+const SelectField = ({
   input, meta: { touched, error }, ...rest
 }) => {
   const style = {
@@ -11,7 +11,7 @@ const FieldX = ({
       flex-direction: column-reverse;
       width: 100%;
 
-      input {
+      select {
         height: 42px;
       }
     `,
@@ -19,16 +19,16 @@ const FieldX = ({
     error: css`
       color: red;
       font-size: 0.7em;
-      padding-top: 10px;
+      padding: 10px 0;
     `,
   };
 
   return (
     <div css={style.field}>
       {touched && error && <span css={style.error}>{error}</span>}
-      <input {...input} {...rest} />
+      <select {...input} {...rest} />
     </div>
   );
 };
 
-export default FieldX;
+export default SelectField;

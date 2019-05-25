@@ -2,7 +2,7 @@
 
 import { jsx, css } from '@emotion/core';
 import React, { useState, useRef } from 'react';
-import { useTheme } from '../../helpers';
+import { useTheme } from '../../../helpers';
 
 const FieldWithPreview = ({
   input: { onChange, onBlur, value: omitValue, ...inputProps },
