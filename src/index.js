@@ -8,13 +8,16 @@ import { Provider } from 'react-redux';
 import App from './components/shell/App';
 import * as serviceWorker from './serviceWorker';
 import { store, persistor } from './store';
+import ScrollToTop from 'react-router-scroll-top';
 
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <App />
+        <ScrollToTop>
+          <App />
+        </ScrollToTop>
       </BrowserRouter>
     </PersistGate>
   </Provider>,
