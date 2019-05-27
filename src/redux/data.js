@@ -7,6 +7,8 @@ export const SET_LISTING = 'SET_LISTING';
 export const SET_COLORS = 'SET_COLORS';
 export const SET_PATTERNS = 'SET_PATTERNS';
 export const SET_MATERIALS = 'SET_MATERIALS';
+export const SET_ROOMS = 'SET_ROOMS';
+export const SET_CATEGORIES = 'SET_CATEGORIES';
 
 export const setListing = data => ({ type: SET_LISTING, payload: data });
 
@@ -46,12 +48,39 @@ export const fetchMaterials = () => (dispatch) => {
   ]));
 };
 
+export const setRooms = rooms => ({ type: SET_ROOMS, payload: rooms });
+
+export const fetchRooms = () => (dispatch) => {
+  // TODO: Add fetching rooms from API
+  dispatch(setRooms([
+    { id: 1, name: 'Do salonu', slug: 'salon' },
+    { id: 2, name: 'Do kuchni', slug: 'kuchnia' },
+    { id: 3, name: 'Do sypialni', slug: 'lazienka' },
+  ]));
+};
+
+export const setCategories = categories => ({ type: SET_CATEGORIES, payload: categories });
+
+export const fetchCategories = () => (dispatch) => {
+  // TODO: Add fetching categories from API
+  dispatch(setCategories([
+    { id: 1, name: 'Krzesła', slug: 'krzesla' },
+    { id: 2, name: 'Biurka', slug: 'biurka' },
+    { id: 3, name: 'Lustra', slug: 'lustra' },
+    { id: 4, name: 'Stoliki TV', slug: 'stoliki-tv' },
+    { id: 5, name: 'Sofy', slug: 'sofy' },
+    { id: 6, name: 'Łóżka', slug: 'lozka' },
+  ]));
+};
+
 
 const initState = {
   furniture: meble,
   materials: [],
   colors: [],
   patterns: [],
+  rooms: [],
+  categories: [],
 };
 
 const dataReducer = (state = initState, action) => {
@@ -67,6 +96,12 @@ const dataReducer = (state = initState, action) => {
 
     case SET_MATERIALS:
       return { ...state, materials: [...action.payload] };
+
+    case SET_CATEGORIES:
+      return { ...state, categories: [...action.payload] };
+
+    case SET_ROOMS:
+      return { ...state, rooms: [...action.payload] };
 
     default:
       return state;

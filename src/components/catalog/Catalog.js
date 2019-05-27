@@ -6,8 +6,8 @@ import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-import { useTheme } from '../../helpers';
-import { Furniture, Icons } from '../../assets';
+import { useTheme, getRoomIcon, getCategoryIcon } from '../../helpers';
+import { Icons } from '../../assets';
 import SearchBox from './SearchBox';
 import Filters from './Filters';
 import ItemResult from './ItemResult';
@@ -20,6 +20,13 @@ const Main = ({ location: { search } }) => {
   // const handleSearch = results => setSearchResults(results);
   const listing = useSelector(state => state.data.furniture);
   const filters = useSelector(state => state.filters);
+
+  const rawCategories = useSelector(state => state.data.categories);
+  const rawRooms = useSelector(state => state.data.rooms);
+  const rooms = rawRooms.map(room => ({ ...room, icon: getRoomIcon(room.slug) }));
+  const categories = rawCategories.map(category => ({ ...category, icon: getCategoryIcon(category.slug) }));
+
+
   const theme = useTheme();
   const [showFilters, setShowFilters] = useState(false);
 
@@ -68,20 +75,6 @@ const Main = ({ location: { search } }) => {
   const roomFilter = new URLSearchParams(search).get('pokoj');
   const categoryFilter = new URLSearchParams(search).get('kategoria');
 
-  const categories = [
-    { name: 'Krzesła', slug: 'krzesla', icon: Furniture.DiningChair },
-    { name: 'Biurka', slug: 'biurka', icon: Furniture.Desk },
-    { name: 'Lustra', slug: 'lustra', icon: Furniture.Mirror },
-    { name: 'Stoliki TV', slug: 'stoliki-tv', icon: Furniture.TvTable },
-    { name: 'Sofy', slug: 'sofy', icon: Furniture.Sofa },
-    { name: 'Łóżka', slug: 'lozka', icon: Furniture.DoubleBed },
-  ];
-
-  const rooms = [
-    { name: 'Do salonu', slug: 'salon', icon: Furniture.Couch },
-    { name: 'Do kuchni', slug: 'kuchnia', icon: Furniture.Kitchen },
-    { name: 'Do sypialni', slug: 'lazienka', icon: Furniture.SingleBed },
-  ];
 
   const furnitureFilter = useCallback((item) => {
     // const roomTest = (!roomFilter || item.category.id === categories.filter(cat => cat.slug === categoryFilter)[0].id);
@@ -116,20 +109,20 @@ const Main = ({ location: { search } }) => {
 
       <h3 css={style.title}>Pokoje</h3>
       <section css={style.grid}>
-        {rooms.map((c, k) => (
-          <Link to={{ pathname: '/katalog', search: `pokoj=${c.slug}` }} css={style.gridItem} key={k}>
-            <c.icon css={style.itemIcon} />
-            <h4>{c.name}</h4>
+        {rooms.map((Room, k) => (
+          <Link to={{ pathname: '/katalog', search: `pokoj=${Room.slug}` }} css={style.gridItem} key={k}>
+            <Room.icon css={style.itemIcon} />
+            <h4>{Room.name}</h4>
           </Link>
         ))}
       </section>
 
       <h3 css={style.title}>Kategorie</h3>
       <section css={style.grid}>
-        {categories.map((c, k) => (
-          <Link to={{ pathname: '/katalog', search: `kategoria=${c.slug}` }} css={style.gridItem} key={k}>
-            <c.icon css={style.itemIcon} />
-            <h4>{c.name}</h4>
+        {categories.map((Cat, k) => (
+          <Link to={{ pathname: '/katalog', search: `kategoria=${Cat.slug}` }} css={style.gridItem} key={k}>
+            <Cat.icon css={style.itemIcon} />
+            <h4>{Cat.name}</h4>
           </Link>
         ))}
       </section>

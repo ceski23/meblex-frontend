@@ -14,6 +14,7 @@ import Registration from '../registration/Registration';
 import Loading from '../shared/Loading';
 import { setUserData as setUserDataAction } from '../../redux/auth';
 import Logout from './Logout';
+import { fetchRooms, fetchCategories, fetchColors, fetchMaterials, fetchPatterns } from '../../redux/data';
 
 
 const App = withRouter(() => {
@@ -38,7 +39,13 @@ const App = withRouter(() => {
       loginStatusChecking();
     }
     setIsLoading(false);
-  }, [accessToken, setUserData]);
+
+    dispatch(fetchRooms());
+    dispatch(fetchCategories());
+    dispatch(fetchColors());
+    dispatch(fetchMaterials());
+    dispatch(fetchPatterns());
+  }, [accessToken, dispatch, setUserData]);
 
   return (
     <ThemeProvider theme={theme}>

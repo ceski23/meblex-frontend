@@ -22,8 +22,8 @@ const AddFurnitureForm = ({ handleSubmit, error }) => {
   const patterns = useSelector(state => state.data.patterns);
   const materials = useSelector(state => state.data.materials);
 
-  const rooms = useSelector(state => state.data.materials);
-  const categories = useSelector(state => state.data.materials);
+  const categories = useSelector(state => state.data.categories);
+  const rooms = useSelector(state => state.data.rooms);
 
   const style = {
     form: css`
