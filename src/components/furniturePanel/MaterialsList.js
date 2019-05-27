@@ -63,7 +63,7 @@ const MaterialsList = () => {
         <h3 css={style.title}>Istniejące materiały</h3>
 
         <div css={style.list}>
-          {materials.map(material => (
+          {materials.sort((a, b) => ((a.name < b.name) ? -1 : 1)).map(material => (
             <div css={style.material} key={material.id}>
               <div css={[style.icon, { backgroundImage: `url(${material.url})` }]} />
               <h4>{material.name}</h4>

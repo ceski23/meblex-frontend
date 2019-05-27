@@ -62,7 +62,7 @@ const ColorsList = () => {
         <h3 css={style.title}>Istniejące kolory</h3>
 
         <div css={style.list}>
-          {colors.map(color => (
+          {colors.sort((a, b) => ((a.name < b.name) ? -1 : 1)).map(color => (
             <div css={style.color} key={color.id}>
               <div css={[style.icon, { backgroundColor: color.hex_code }]} />
               <h4>{color.name}</h4>

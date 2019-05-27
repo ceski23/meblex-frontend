@@ -63,7 +63,7 @@ const PatternsList = () => {
         <h3 css={style.title}>Istniejące wzory</h3>
 
         <div css={style.list}>
-          {patterns.map(pattern => (
+          {patterns.sort((a, b) => ((a.name < b.name) ? -1 : 1)).map(pattern => (
             <div css={style.pattern} key={pattern.id}>
               <div css={[style.icon, { backgroundImage: `url(${pattern.url})` }]} />
               <h4>{pattern.name}</h4>
