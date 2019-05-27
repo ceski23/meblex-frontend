@@ -98,7 +98,7 @@ const FurniturePanel = () => {
       }]}
       />
 
-      <SwipeableViews index={index} onChangeIndex={i => setIndex(i)} animateHeight>
+      <SwipeableViews index={index} onChangeIndex={i => setIndex(i)}>
 
         <div>
           <div css={style.panel}>
