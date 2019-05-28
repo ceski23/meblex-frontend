@@ -68,8 +68,9 @@ const LoginScreen = ({ location }) => {
       const { accessToken, refreshToken, ...userData } = await API.login(values);
       setUserData(userData);
     } catch (err) {
-      setIsLoading(false);
       throw new SubmissionError({ _error: err.title });
+    } finally {
+      setIsLoading(false);
     }
   };
 

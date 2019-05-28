@@ -47,8 +47,9 @@ const UserProfile = () => {
         _error: error.title,
         ...error.errors,
       });
+    } finally {
+      setUserUpdateLoading(false);
     }
-    setUserUpdateLoading(false);
   };
 
   const updatePassword = async (values) => {
@@ -61,8 +62,9 @@ const UserProfile = () => {
         _error: error.title,
         ...error.errors,
       });
+    } finally {
+      setPasswordUpdateLoading(false);
     }
-    setPasswordUpdateLoading(false);
   };
 
   const updateEmail = async (values) => {
@@ -74,8 +76,9 @@ const UserProfile = () => {
         _error: error.title,
         ...error.errors,
       });
+    } finally {
+      setEmailUpdateLoading(false);
     }
-    setEmailUpdateLoading(false);
   };
 
   return (

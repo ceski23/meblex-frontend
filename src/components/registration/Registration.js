@@ -22,18 +22,17 @@ const Registration = () => {
 
   const handleRegister = async (values) => {
     setIsLoading(true);
-
     try {
       await API.register(values);
       const userData = await API.getUserData();
       setUserData(userData);
     } catch (err) {
-      setIsLoading(false);
-
       throw new SubmissionError({
         _error: err.title,
         ...err.errors,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
