@@ -3,12 +3,14 @@
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm } from 'redux-form';
 import { useSelector } from 'react-redux';
+import { createTextMask } from 'redux-form-input-masks';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, size } from '../../validationRules';
 import ItemResult from '../catalog/ItemResult';
 
-const CustomSizeForm = ({ handleSubmit, error, isLoading, item }) => {
+
+const CustomSizeForm = ({ handleSubmit, error, isLoading, item, ...props }) => {
   const style = {
     furniture: css`
       padding: 0 0 20px;
@@ -59,6 +61,11 @@ const CustomSizeForm = ({ handleSubmit, error, isLoading, item }) => {
     `,
   };
 
+  const x = size => '999';
+  const sizeMask = createTextMask({
+    pattern: x(props.inputValues),
+  });
+
   return (
     <form css={style.form} onSubmit={handleSubmit}>
       {error && <p css={style.formError}>{error}</p>}
@@ -75,7 +82,9 @@ const CustomSizeForm = ({ handleSubmit, error, isLoading, item }) => {
           component={FieldX}
           type="text"
           css={style.formField}
-          validate={[required, maxLength32, size]}
+          validate={[required, maxLength32]}
+          {...sizeMask}
+          onChange={() => console.log(props)}
         />
       </div>
 
