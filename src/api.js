@@ -11,6 +11,7 @@ export const client = axios.create({
   baseURL: 'https://api.wip.meblex.tk/api/',
   headers: {
     'Content-Type': 'application/json',
+    'Accept-Language': 'pl-PL',
     Authorization: `Bearer ${accessToken}`,
   },
 });
@@ -25,7 +26,7 @@ const authIntResponse = response => response;
 const authIntError = async (error) => {
   const errorResponse = error.response;
 
-  if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/logowanie')) {
+  if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/login')) {
     client.interceptors.response.eject(authInterceptor);
     try {
       await relogin();
