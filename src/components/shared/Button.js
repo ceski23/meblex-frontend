@@ -30,7 +30,7 @@ const Button = ({
       margin: 10px;
       transition: .3s;
       text-decoration: none;
-      display: flex;
+      display: inline-flex;
       flex-direction: row;
       align-items: center;
       align-self: center;
@@ -69,7 +69,7 @@ const Button = ({
   return (
     <Component
       css={[style.button, (variant === 'secondary' ? style.secondary : null)]}
-      type="submit"
+      type="button"
       onMouseUp={handleFocus}
       {...props}
     >

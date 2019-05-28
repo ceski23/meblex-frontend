@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/core';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../helpers';
 
-const ItemResult = ({ data }) => {
+const ItemResult = ({ data, ...props }) => {
   const theme = useTheme();
 
   const style = {
@@ -52,7 +52,7 @@ const ItemResult = ({ data }) => {
   };
 
   return (
-    <Link to={`katalog/produkty/${data.id}`} css={style.result}>
+    <Link to={`katalog/produkty/${data.id}`} css={style.result} {...props}>
       <div css={style.image}>
         <img src={data.photos[0]} alt={data.name} />
       </div>

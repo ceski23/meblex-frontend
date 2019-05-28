@@ -76,6 +76,8 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
 
     addButton: css`
       margin: 0 auto;
+      display: flex;
+      flex-direction: column;
     `,
 
     remove: css`
