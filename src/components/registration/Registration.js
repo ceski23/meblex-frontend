@@ -11,7 +11,6 @@ import { ReactComponent as Logo } from '../../assets/meblex_logo.svg';
 import { Furniture } from '../../assets';
 import * as API from '../../api';
 import RegistrationForm from './RegistrationForm';
-import Loading from '../shared/Loading';
 import { setUserData as setUserDataAction } from '../../redux/auth';
 
 const Registration = () => {
@@ -79,7 +78,6 @@ const Registration = () => {
 
   return (
     <React.Fragment>
-      <Loading isLoading={isLoading} text="Rejestrowanie..." />
       {user && <Redirect to="/" />}
 
       <section css={style.welcome}>
@@ -91,7 +89,7 @@ const Registration = () => {
         </div>
 
         <Logo css={style.logo} />
-        <RegistrationForm onSubmit={handleRegister} />
+        <RegistrationForm onSubmit={handleRegister} isLoading={isLoading} />
       </section>
     </React.Fragment>
   );

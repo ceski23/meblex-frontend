@@ -17,7 +17,7 @@ const nipMask = createTextMask({
   guide: false,
 });
 
-const UserProfileForm = ({ handleSubmit, error }) => {
+const UserProfileForm = ({ handleSubmit, error, isLoading }) => {
   const style = {
     form: css`
       display: flex;
@@ -143,7 +143,7 @@ const UserProfileForm = ({ handleSubmit, error }) => {
       </div>
 
       <div css={style.submitButton}>
-        <Button>Aktualizuj dane</Button>
+        <Button isLoading={isLoading} type="submit">Aktualizuj dane</Button>
       </div>
     </form>
   );

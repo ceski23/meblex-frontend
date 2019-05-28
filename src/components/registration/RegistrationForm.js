@@ -19,7 +19,7 @@ const nipMask = createTextMask({
 });
 
 
-const RegistrationForm = ({ handleSubmit, error }) => {
+const RegistrationForm = ({ handleSubmit, error, isLoading }) => {
   const theme = useTheme();
 
   const style = {
@@ -185,7 +185,7 @@ const RegistrationForm = ({ handleSubmit, error }) => {
       </div>
 
       <div css={style.actions}>
-        <Button type="submit" css={style.button}>Zarejestruj</Button>
+        <Button type="submit" css={style.button} isLoading={isLoading}>Zarejestruj</Button>
       </div>
     </form>
   );

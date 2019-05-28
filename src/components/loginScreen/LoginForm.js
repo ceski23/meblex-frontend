@@ -3,15 +3,12 @@
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { useTheme } from '../../helpers';
 import Button from '../shared/Button';
 import FieldX from '../shared/FieldX';
 import { email, password, required } from '../../validationRules';
 
 
-const LoginForm = ({ handleSubmit, error }) => {
-  const theme = useTheme();
-
+const LoginForm = ({ handleSubmit, error, isLoading }) => {
   const style = {
     form: css`
       z-index: 1;
@@ -26,10 +23,6 @@ const LoginForm = ({ handleSubmit, error }) => {
       color: red;
       font-weight: bold;
       text-align: center;
-    `,
-
-    field: css`
-      margin: 10px 0;
     `,
 
     actions: css`
@@ -65,6 +58,8 @@ const LoginForm = ({ handleSubmit, error }) => {
       margin: 0;
       margin-right: 20px;
       font-size: .9em;
+      height: 42px;
+      line-height: 42px;
     `,
   };
 
@@ -98,8 +93,8 @@ const LoginForm = ({ handleSubmit, error }) => {
       </div>
 
       <div css={style.actions}>
-        <Button css={style.loginButton}>Zaloguj</Button>
-        <Button type="submit" component={Link} variant="secondary" to="/rejestracja">Rejestracja</Button>
+        <Button css={style.loginButton} type="submit" isLoading={isLoading}>Zaloguj</Button>
+        <Button component={Link} variant="secondary" to="/rejestracja">Rejestracja</Button>
       </div>
     </form>
   );

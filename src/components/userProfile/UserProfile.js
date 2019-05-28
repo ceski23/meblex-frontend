@@ -4,6 +4,7 @@
 import { jsx, css } from '@emotion/core';
 import { useSelector, useActions } from 'react-redux';
 import { SubmissionError } from 'redux-form';
+import { useState } from 'react';
 import UserProfileForm from './UserProfileForm';
 import PasswordChangeForm from './PasswordChangeForm';
 import EmailChangeForm from './EmailChangeForm';
@@ -14,6 +15,10 @@ import { setUserData as setUserDataAction } from '../../redux/auth';
 const UserProfile = () => {
   const user = useSelector(state => state.auth.user);
   const setUserData = useActions(data => setUserDataAction(data));
+
+  const [userUpdateLoading, setUserUpdateLoading] = useState(false);
+  const [emailUpdateLoading, setEmailUpdateLoading] = useState(false);
+  const [passwordUpdateLoading, setPasswordUpdateLoading] = useState(false);
 
   const style = {
     userProfile: css`
@@ -33,10 +38,9 @@ const UserProfile = () => {
   };
 
   const updateUserProfile = async (values) => {
-    // setIsLoading(true);
+    setUserUpdateLoading(true);
     try {
       const userData = await API.updateUserData(values);
-      console.log('UD;', userData);
       setUserData(userData);
     } catch (error) {
       throw new SubmissionError({
@@ -44,11 +48,11 @@ const UserProfile = () => {
         ...error.errors,
       });
     }
-    // setIsloading(false);
+    setUserUpdateLoading(false);
   };
 
   const updatePassword = async (values) => {
-    // setIsLoading(true);
+    setPasswordUpdateLoading(true);
     try {
       const { repeatPassword, ...data } = values;
       await API.updateUserPassword(data);
@@ -58,11 +62,11 @@ const UserProfile = () => {
         ...error.errors,
       });
     }
-    // setIsloading(false);
+    setPasswordUpdateLoading(false);
   };
 
   const updateEmail = async (values) => {
-    // setIsLoading(true);
+    setEmailUpdateLoading(true);
     try {
       await API.updateUserEmail(values);
     } catch (error) {
@@ -71,19 +75,19 @@ const UserProfile = () => {
         ...error.errors,
       });
     }
-    // setIsloading(false);
+    setEmailUpdateLoading(false);
   };
 
   return (
     <div css={style.userProfile}>
       <h3 css={style.title}>Twoje dane</h3>
-      <UserProfileForm initialValues={user} onSubmit={updateUserProfile} />
+      <UserProfileForm initialValues={user} onSubmit={updateUserProfile} isLoading={userUpdateLoading} />
 
       <h3 css={style.subTitle}>Zmiana adresu email</h3>
-      <EmailChangeForm initialValues={{ newemail: user.email }} onSubmit={updateEmail} />
+      <EmailChangeForm initialValues={{ newemail: user.email }} onSubmit={updateEmail} isLoading={emailUpdateLoading} />
 
       <h3 css={style.subTitle}>Zmiana hasła</h3>
-      <PasswordChangeForm onSubmit={updatePassword} />
+      <PasswordChangeForm onSubmit={updatePassword} isLoading={passwordUpdateLoading} />
 
       <h3 css={style.subTitle}>Historia zamówień</h3>
     </div>

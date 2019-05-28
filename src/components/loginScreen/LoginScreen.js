@@ -11,7 +11,6 @@ import { ReactComponent as Logo } from '../../assets/meblex_logo.svg';
 import { Furniture } from '../../assets';
 import * as API from '../../api';
 import LoginForm from './LoginForm';
-import Loading from '../shared/Loading';
 import { setUserData as setUserDataAction } from '../../redux/auth';
 
 
@@ -44,14 +43,14 @@ const LoginScreen = ({ location }) => {
     icons: css`
       opacity: .5;
       position: absolute;
-      height: 100%;
+      height: 100vh;
       top: 0;
       left: 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       overflow: hidden;
-      margin-top: 20px;
+      padding-top: 20px;
     `,
 
     icon: css`
@@ -78,8 +77,6 @@ const LoginScreen = ({ location }) => {
     <React.Fragment>
       {user && <Redirect to={from} />}
 
-      <Loading isLoading={isLoading} text="Logowanie..." />
-
       <section css={style.welcome}>
         <div css={style.icons}>
           {Object.keys(Furniture).map((key, i) => {
@@ -89,7 +86,7 @@ const LoginScreen = ({ location }) => {
         </div>
 
         <Logo css={style.logo} />
-        <LoginForm onSubmit={handleLogin} />
+        <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
       </section>
     </React.Fragment>
   );

@@ -6,7 +6,7 @@ import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, email } from '../../validationRules';
 
-const EmailChangeForm = ({ handleSubmit, error }) => {
+const EmailChangeForm = ({ handleSubmit, error, isLoading }) => {
   const style = {
     form: css`
       display: flex;
@@ -71,7 +71,7 @@ const EmailChangeForm = ({ handleSubmit, error }) => {
       </div>
 
       <div css={style.submitButton}>
-        <Button>Zmień adres email</Button>
+        <Button isLoading={isLoading} type="submit">Zmień adres email</Button>
       </div>
     </form>
   );
