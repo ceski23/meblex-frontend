@@ -34,6 +34,7 @@ const Button = ({
       flex-direction: row;
       align-items: center;
       align-self: center;
+      justify-content: center;
 
       &:hover {
         background: ${theme.colors.hover};

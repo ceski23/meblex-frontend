@@ -139,6 +139,16 @@ export const Furniture = {
   Table,
   TvTable,
   Wardrobe,
+  x1: Mirror,
+  x2: Nightstand,
+  x3: OfficeChair,
+  x4: Desk1,
+  x5: Desk,
+  x6: DiningChair,
+  x7: DiningTable,
+  x8: DoubleBed,
+  x9: Dresser,
+  x10: Locker,
 };
 
 

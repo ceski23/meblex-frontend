@@ -44,14 +44,14 @@ const Registration = () => {
       width: 100%;
       height: 100%;
       min-height: 100vh;
-      background: ${theme.colors.primary};
+      background: ${theme.colors.background};
       position: relative;
       padding: 0;
     `,
 
     logo: css`
       margin: 30px 0;
-      fill: #fff;
+      fill: ${theme.colors.primary};
       height: 70px;
     `,
 
@@ -65,14 +65,15 @@ const Registration = () => {
       flex-wrap: wrap;
       justify-content: center;
       overflow: hidden;
+      margin-top: 20px;
     `,
 
     icon: css`
-      margin: 40px;
+      margin: 20px 30px;
       display: inline-block;
-      width: 40px;
-      height: 40px;
-      fill: #fff;
+      width: 30px;
+      height: 30px;
+      fill: ${theme.colors.primary};
     `,
   };
 
