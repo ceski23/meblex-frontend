@@ -2,15 +2,13 @@
 
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm } from 'redux-form';
-import { useSelector } from 'react-redux';
-import { createTextMask } from 'redux-form-input-masks';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, size } from '../../validationRules';
 import ItemResult from '../catalog/ItemResult';
 
 
-const CustomSizeForm = ({ handleSubmit, error, isLoading, item, ...props }) => {
+const CustomSizeForm = ({ handleSubmit, error, isLoading, item }) => {
   const style = {
     furniture: css`
       padding: 0 0 20px;
@@ -61,18 +59,16 @@ const CustomSizeForm = ({ handleSubmit, error, isLoading, item, ...props }) => {
     `,
   };
 
-  const x = size => '999';
-  const sizeMask = createTextMask({
-    pattern: x(props.inputValues),
-  });
-
   return (
     <form css={style.form} onSubmit={handleSubmit}>
       {error && <p css={style.formError}>{error}</p>}
 
       <div>
         <h4 css={style.fieldLabel}>Wybrany mebel:</h4>
-        <ItemResult css={style.furniture} data={{ ...item, photos: item.photos.map(p => p.path) }} />
+        <ItemResult
+          css={style.furniture}
+          data={{ ...item, photos: item.photos.map(p => p.path) }}
+        />
       </div>
 
       <div css={style.fieldWrapper}>
@@ -82,9 +78,7 @@ const CustomSizeForm = ({ handleSubmit, error, isLoading, item, ...props }) => {
           component={FieldX}
           type="text"
           css={style.formField}
-          validate={[required, maxLength32]}
-          {...sizeMask}
-          onChange={() => console.log(props)}
+          validate={[required, maxLength32, size]}
         />
       </div>
 
