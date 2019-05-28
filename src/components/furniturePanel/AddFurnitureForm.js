@@ -17,7 +17,7 @@ const priceMask = createNumberMask({
   allowEmpty: true,
 });
 
-const AddFurnitureForm = ({ handleSubmit, error }) => {
+const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
   const colors = useSelector(state => state.data.colors);
   const patterns = useSelector(state => state.data.patterns);
   const materials = useSelector(state => state.data.materials);
@@ -94,6 +94,7 @@ const AddFurnitureForm = ({ handleSubmit, error }) => {
           component={SelectField}
           css={style.formField}
           validate={[required]}
+          parse={value => Number(value)}
         >
           <option disabled />
           {colors.map(color => (
@@ -111,6 +112,7 @@ const AddFurnitureForm = ({ handleSubmit, error }) => {
           component={SelectField}
           css={style.formField}
           validate={[required]}
+          parse={value => Number(value)}
         >
           <option disabled />
           {patterns.map(p => (
@@ -128,6 +130,7 @@ const AddFurnitureForm = ({ handleSubmit, error }) => {
           component={SelectField}
           css={style.formField}
           validate={[required]}
+          parse={value => Number(value)}
         >
           <option disabled />
           {materials.map(m => (
@@ -207,6 +210,7 @@ const AddFurnitureForm = ({ handleSubmit, error }) => {
           component={SelectField}
           css={style.formField}
           validate={[required]}
+          parse={value => Number(value)}
         >
           <option disabled />
           {categories.map(category => (
@@ -220,7 +224,7 @@ const AddFurnitureForm = ({ handleSubmit, error }) => {
       <FieldArray name="parts" component={PartsSubform} />
 
       <div css={style.submitButton}>
-        <Button type="submit">Dodaj mebel</Button>
+        <Button type="submit" isLoading={isLoading}>Dodaj mebel</Button>
       </div>
     </form>
   );

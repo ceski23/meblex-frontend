@@ -19,7 +19,7 @@ const colorMask = createTextMask({
   guide: false,
 });
 
-const ColorsForm = ({ handleSubmit, error }) => {
+const ColorsForm = ({ handleSubmit, error, isLoading }) => {
   const style = {
     form: css`
       display: flex;
@@ -95,7 +95,7 @@ const ColorsForm = ({ handleSubmit, error }) => {
       </div>
 
       <div css={style.submitButton}>
-        <Button>Dodaj kolor</Button>
+        <Button type="submit" isLoading={isLoading}>Dodaj kolor</Button>
       </div>
     </form>
   );

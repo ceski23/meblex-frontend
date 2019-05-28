@@ -123,6 +123,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
               component={SelectField}
               css={style.formField}
               validate={[required]}
+              parse={value => Number(value)}
             >
               <option disabled />
               {colors.map(color => (
@@ -140,6 +141,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
               component={SelectField}
               css={style.formField}
               validate={[required]}
+              parse={value => Number(value)}
             >
               <option disabled />
               {patterns.map(p => (
@@ -157,6 +159,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
               component={SelectField}
               css={style.formField}
               validate={[required]}
+              parse={value => Number(value)}
             >
               <option disabled />
               {materials.map(m => (

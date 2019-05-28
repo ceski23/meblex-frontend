@@ -4,13 +4,16 @@ import { jsx, css } from '@emotion/core';
 import PropTypes from 'prop-types';
 import { useTheme } from '../../helpers';
 import { ripple } from '../../styles';
+import LoadingSpinner from './LoadingSpinner';
 
 // eslint-disable-next-line react/button-has-type
 export const HTMLButton = props => <button {...props} />;
 // eslint-disable-next-line jsx-a11y/anchor-has-content
 export const HTMLAnchor = props => <a {...props} />;
 
-const Button = ({ component: Component, variant, icon: Icon, children, ...props }) => {
+const Button = ({
+  component: Component, variant, icon: Icon, children, isLoading, ...props
+}) => {
   const theme = useTheme();
 
   const style = {
@@ -52,6 +55,11 @@ const Button = ({ component: Component, variant, icon: Icon, children, ...props 
       margin-right: 20px;
       fill: ${theme.colors.primary};
     `,
+
+    loading: css`
+      width: 30px;
+      margin-right: 20px;
+    `,
   };
 
   const handleFocus = ({ target }) => {
@@ -65,6 +73,7 @@ const Button = ({ component: Component, variant, icon: Icon, children, ...props 
       onMouseUp={handleFocus}
       {...props}
     >
+      <LoadingSpinner css={style.loading} isLoading={isLoading} />
       {Icon && <Icon css={style.icon} />}
       {children}
     </Component>

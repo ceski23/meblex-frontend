@@ -8,7 +8,7 @@ import { required, maxLength32 } from '../../validationRules';
 import FieldWithPreview from './fields/FieldWithPreview';
 
 
-const MaterialsForm = ({ handleSubmit, error }) => {
+const MaterialsForm = ({ handleSubmit, error, isLoading }) => {
   const style = {
     form: css`
       display: flex;
@@ -82,7 +82,7 @@ const MaterialsForm = ({ handleSubmit, error }) => {
       </div>
 
       <div css={style.submitButton}>
-        <Button>Dodaj materiał</Button>
+        <Button type="submit" isLoading={isLoading}>Dodaj materiał</Button>
       </div>
     </form>
   );

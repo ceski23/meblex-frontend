@@ -18,6 +18,11 @@ const FurniturePanel = () => {
   const [index, setIndex] = useState(0);
   const tabsElem = useRef();
 
+  const [furnitureFormLoading, setFurnitureFormLoading] = useState(false);
+  const [colorFormLoading, setColorFormLoading] = useState(false);
+  const [materialFormLoading, setMaterialFormLoading] = useState(false);
+  const [patternFormLoading, setPatternFormLoading] = useState(false);
+
   const tabs = [
     'Meble', 'Kolory', 'Materiały', 'Wzory',
   ];
@@ -81,6 +86,8 @@ const FurniturePanel = () => {
 
   const handleSub = (values) => {
     console.log(values);
+    setFurnitureFormLoading(true);
+    setTimeout(() => setFurnitureFormLoading(false), 4000);
   };
 
   return (
@@ -103,14 +110,14 @@ const FurniturePanel = () => {
         <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj mebel</h3>
-            <AddFurnitureForm onSubmit={handleSub} />
+            <AddFurnitureForm onSubmit={handleSub} isLoading={furnitureFormLoading} />
           </div>
         </div>
 
         <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj kolor</h3>
-            <ColorsForm />
+            <ColorsForm isLoading={colorFormLoading} />
           </div>
           <ColorsList />
         </div>
@@ -118,7 +125,7 @@ const FurniturePanel = () => {
         <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj materiał</h3>
-            <MaterialsForm />
+            <MaterialsForm isLoading={materialFormLoading} />
           </div>
           <MaterialsList />
         </div>
@@ -126,7 +133,7 @@ const FurniturePanel = () => {
         <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj wzór</h3>
-            <PatternsForm />
+            <PatternsForm isLoading={patternFormLoading} />
           </div>
           <PatternsList />
         </div>
