@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
-import React, { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useTheme } from '../../../helpers';
 
 const FieldWithPreview = ({

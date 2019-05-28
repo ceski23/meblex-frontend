@@ -2,7 +2,7 @@
 
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm, FieldArray } from 'redux-form';
-import { createNumberMask, createTextMask } from 'redux-form-input-masks';
+import { createNumberMask } from 'redux-form-input-masks';
 import { useSelector } from 'react-redux';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';

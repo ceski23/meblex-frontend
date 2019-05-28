@@ -19,7 +19,7 @@ const Main = ({ location: { search } }) => {
   // const [searchResults, setSearchResults] = useState([]);
   // const handleSearch = results => setSearchResults(results);
   const listing = useSelector(state => state.data.furniture);
-  const filters = useSelector(state => state.filters);
+  // const filters = useSelector(state => state.filters);
 
   const rawCategories = useSelector(state => state.data.categories);
   const rawRooms = useSelector(state => state.data.rooms);

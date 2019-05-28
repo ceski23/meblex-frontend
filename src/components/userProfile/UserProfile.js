@@ -81,13 +81,24 @@ const UserProfile = () => {
   return (
     <div css={style.userProfile}>
       <h3 css={style.title}>Twoje dane</h3>
-      <UserProfileForm initialValues={user} onSubmit={updateUserProfile} isLoading={userUpdateLoading} />
+      <UserProfileForm
+        initialValues={user}
+        onSubmit={updateUserProfile}
+        isLoading={userUpdateLoading}
+      />
 
       <h3 css={style.subTitle}>Zmiana adresu email</h3>
-      <EmailChangeForm initialValues={{ newemail: user.email }} onSubmit={updateEmail} isLoading={emailUpdateLoading} />
+      <EmailChangeForm
+        initialValues={{ newemail: user.email }}
+        onSubmit={updateEmail}
+        isLoading={emailUpdateLoading}
+      />
 
       <h3 css={style.subTitle}>Zmiana hasła</h3>
-      <PasswordChangeForm onSubmit={updatePassword} isLoading={passwordUpdateLoading} />
+      <PasswordChangeForm
+        onSubmit={updatePassword}
+        isLoading={passwordUpdateLoading}
+      />
 
       <h3 css={style.subTitle}>Historia zamówień</h3>
     </div>

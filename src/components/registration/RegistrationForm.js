@@ -3,7 +3,6 @@
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm } from 'redux-form';
 import { createTextMask } from 'redux-form-input-masks';
-import { useTheme } from '../../helpers';
 import Button from '../shared/Button';
 import FieldX from '../shared/FieldX';
 import { email, password, required, maxLength32, postCode, nip } from '../../validationRules';
@@ -20,8 +19,6 @@ const nipMask = createTextMask({
 
 
 const RegistrationForm = ({ handleSubmit, error, isLoading }) => {
-  const theme = useTheme();
-
   const style = {
     form: css`
       z-index: 1;

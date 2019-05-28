@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { css, jsx } from '@emotion/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '../../helpers';
