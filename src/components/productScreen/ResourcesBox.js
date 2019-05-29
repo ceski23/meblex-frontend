@@ -33,7 +33,7 @@ const ResourcesBox = ({ title, product, type }) => {
     info: css`
       display: flex;
       flex-direction: column;
-      margin-bottom: 15px;
+      justify-content: center;
 
       p {
         margin: 0;

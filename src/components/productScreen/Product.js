@@ -281,7 +281,9 @@ const Product = ({ match: { params } }) => {
               <Button variant="secondary" css={style.customSizeButton}>Wyślij zapytanie</Button>
             </div>
 
-            <PartsBox parts={product.parts} />
+            {product.parts.length > 0 && (
+              <PartsBox parts={product.parts} />
+            )}
           </div>
         </React.Fragment>
       )}
