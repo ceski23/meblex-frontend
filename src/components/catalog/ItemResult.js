@@ -14,6 +14,7 @@ const ItemResult = ({ data }) => {
       align-items: center;
       padding: 20px 20px;
       text-decoration: none;
+      width: 100%;
     `,
 
     image: css`
@@ -54,7 +55,7 @@ const ItemResult = ({ data }) => {
   return (
     <Link to={`katalog/produkty/${data.id}`} css={style.result}>
       <div css={style.image}>
-        <img src={data.photos[0]} alt={data.name} />
+        <img src={`https://api.wip.meblex.tk/images/${data.photoNames[0]}`} alt={data.name} />
       </div>
       <div css={style.textBox}>
         <h4 css={style.text}>{data.name}</h4>

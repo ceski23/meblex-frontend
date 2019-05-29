@@ -64,7 +64,7 @@ const PatternsList = () => {
 
         <div css={style.list}>
           {patterns.sort((a, b) => ((a.name < b.name) ? -1 : 1)).map(pattern => (
-            <div css={style.pattern} key={pattern.id}>
+            <div css={style.pattern} key={pattern.patternId}>
               <div css={[style.icon, { backgroundImage: `url(${pattern.url})` }]} />
               <h4>{pattern.name}</h4>
               <span css={style.remove} role="button" tabIndex={0}>

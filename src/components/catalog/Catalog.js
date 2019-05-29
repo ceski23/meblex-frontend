@@ -15,7 +15,7 @@ import NoItem from '../shared/NoItem';
 import Button from '../shared/Button';
 
 
-const Main = ({ location: { search } }) => {
+const Catalog = ({ location: { search } }) => {
   // const [searchResults, setSearchResults] = useState([]);
   // const handleSearch = results => setSearchResults(results);
   const listing = useSelector(state => state.data.furniture);
@@ -23,8 +23,8 @@ const Main = ({ location: { search } }) => {
 
   const rawCategories = useSelector(state => state.data.categories);
   const rawRooms = useSelector(state => state.data.rooms);
-  const rooms = rawRooms.map(room => ({ ...room, icon: getRoomIcon(room.slug) }));
-  const categories = rawCategories.map(category => ({ ...category, icon: getCategoryIcon(category.slug) }));
+  const rooms = rawRooms.map(room => ({ ...room, icon: getRoomIcon(room.roomId) }));
+  const categories = rawCategories.map(category => ({ ...category, icon: getCategoryIcon(category.categoryId) }));
 
 
   const theme = useTheme();
@@ -109,8 +109,8 @@ const Main = ({ location: { search } }) => {
 
       <h3 css={style.title}>Pokoje</h3>
       <section css={style.grid}>
-        {rooms.map((Room, k) => (
-          <Link to={{ pathname: '/katalog', search: `pokoj=${Room.slug}` }} css={style.gridItem} key={k}>
+        {rooms.map(Room => (
+          <Link to={{ pathname: '/katalog', search: `pokoj=${Room.slug}` }} css={style.gridItem} key={Room.roomId}>
             <Room.icon css={style.itemIcon} />
             <h4>{Room.name}</h4>
           </Link>
@@ -119,8 +119,8 @@ const Main = ({ location: { search } }) => {
 
       <h3 css={style.title}>Kategorie</h3>
       <section css={style.grid}>
-        {categories.map((Cat, k) => (
-          <Link to={{ pathname: '/katalog', search: `kategoria=${Cat.slug}` }} css={style.gridItem} key={k}>
+        {categories.map(Cat => (
+          <Link to={{ pathname: '/katalog', search: `kategoria=${Cat.slug}` }} css={style.gridItem} key={Cat.categoryId}>
             <Cat.icon css={style.itemIcon} />
             <h4>{Cat.name}</h4>
           </Link>
@@ -132,4 +132,4 @@ const Main = ({ location: { search } }) => {
   );
 };
 
-export default Main;
+export default Catalog;

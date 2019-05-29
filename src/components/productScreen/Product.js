@@ -8,6 +8,8 @@ import PartsBox from './PartsBox';
 import { useTheme } from '../../helpers';
 import ProductInfo from './ProductInfo';
 
+// TODO: Fix hex_code
+
 
 const Product = () => {
   const product = {

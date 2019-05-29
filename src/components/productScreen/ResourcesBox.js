@@ -53,8 +53,8 @@ const ResourcesBox = ({ title, parts, type }) => {
       <h3 css={style.title}>{title}</h3>
       {parts.map((part) => {
         const background = {
-          material: `url(${materials[part.material.id]})`,
-          color: part.color.hex_code,
+          material: `url(${materials[part.material.materialId]})`,
+          color: part.color.hexCode,
         }[type];
 
         return (

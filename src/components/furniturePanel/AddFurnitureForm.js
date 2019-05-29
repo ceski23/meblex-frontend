@@ -10,6 +10,7 @@ import { required, maxLength32, number, size } from '../../validationRules';
 import PartsSubform from './PartsSubform';
 import SelectField from './fields/SelectField';
 import TextareaField from '../shared/TextareaField';
+import FieldWithPreview from './fields/FieldWithPreview';
 
 const priceMask = createNumberMask({
   suffix: ' zł',
@@ -36,8 +37,8 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
     `,
 
     formError: css`
-      margin-top: -10px;
-      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
       font-weight: bold;
       text-align: center;
       color: red;
@@ -88,6 +89,17 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
       </div>
 
       <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Zdjęcia:</h4>
+        <Field
+          name="photos"
+          component={FieldWithPreview}
+          css={style.formField}
+          validate={[required]}
+          multiple
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Kolor:</h4>
         <Field
           name="color"
@@ -98,7 +110,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
         >
           <option disabled />
           {colors.map(color => (
-            <option key={color.id} value={color.id}>
+            <option key={color.colorId} value={color.colorId}>
               {color.name}
             </option>
           ))}
@@ -116,7 +128,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
         >
           <option disabled />
           {patterns.map(p => (
-            <option key={p.id} value={p.id}>
+            <option key={p.patternId} value={p.patternId}>
               {p.name}
             </option>
           ))}
@@ -134,7 +146,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
         >
           <option disabled />
           {materials.map(m => (
-            <option key={m.id} value={m.id}>
+            <option key={m.materialId} value={m.materialId}>
               {m.name}
             </option>
           ))}
@@ -189,14 +201,14 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Pomieszczenie:</h4>
         <Field
-          name="room"
+          name="roomId"
           component={SelectField}
           css={style.formField}
           validate={[required]}
         >
           <option disabled />
           {rooms.map(room => (
-            <option key={room.id} value={room.id}>
+            <option key={room.roomId} value={room.roomId}>
               {room.name}
             </option>
           ))}
@@ -206,7 +218,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Kategoria:</h4>
         <Field
-          name="category"
+          name="categoryId"
           component={SelectField}
           css={style.formField}
           validate={[required]}
@@ -214,7 +226,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
         >
           <option disabled />
           {categories.map(category => (
-            <option key={category.id} value={category.id}>
+            <option key={category.categoryId} value={category.categoryId}>
               {category.name}
             </option>
           ))}

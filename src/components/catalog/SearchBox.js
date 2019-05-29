@@ -74,7 +74,6 @@ const SearchBox = ({ callback }) => {
 
   return (
     <label htmlFor="searchBox" css={style.searchBox}>
-      {console.log('ww')}
       <Icons.Search css={style.icon} />
 
       <input

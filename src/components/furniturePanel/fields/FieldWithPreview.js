@@ -68,7 +68,7 @@ const FieldWithPreview = ({
   };
 
   const handleChange = handler => ({ target: { files } }) => {
-    handler(files.length ? { file: files[0], name: files[0].name } : {});
+    handler(files.length ? { files } : {});
     setName(files.length ? files[0].name : '');
 
     if (files.length) {

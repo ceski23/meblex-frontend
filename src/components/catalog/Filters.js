@@ -1,12 +1,10 @@
 /** @jsx jsx */
 
-import { useEffect } from 'react';
 import { css, jsx } from '@emotion/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '../../helpers';
 import { ReactComponent as Close } from '../../assets/close_2.svg';
 
-import { fetchColors, fetchMaterials, fetchPatterns } from '../../redux/data';
 import { setColorsFilter, setPatternsFilter, setMaterialsFilter } from '../../redux/filters';
 
 import Checkbox from '../shared/Checkbox';
@@ -98,12 +96,6 @@ const Filters = ({ hideModal }) => {
     `,
   };
 
-  useEffect(() => {
-    dispatch(fetchColors());
-    dispatch(fetchMaterials());
-    dispatch(fetchPatterns());
-  }, [dispatch]);
-
   const handleChange = (id, val, type) => {
     const action = {
       colors: setColorsFilter,
@@ -116,6 +108,7 @@ const Filters = ({ hideModal }) => {
     ) : (
       filters[type].filter(f => f.id !== id)
     )));
+    // TODO: Fix filters
   };
 
   return (
@@ -132,10 +125,10 @@ const Filters = ({ hideModal }) => {
           <div css={style.filterOptions}>
             {data.colors.map(c => (
               <Checkbox
-                key={c.id}
+                key={c.colorId}
                 label={c.name}
-                checked={filters.colors.some(filter => filter.id === c.id)}
-                onChange={val => handleChange(c.id, val, 'colors')}
+                checked={filters.colors.some(filter => filter.id === c.colorId)}
+                onChange={val => handleChange(c.colorId, val, 'colors')}
               />
             ))}
           </div>
@@ -146,10 +139,10 @@ const Filters = ({ hideModal }) => {
           <div css={style.filterOptions}>
             {data.patterns.map(c => (
               <Checkbox
-                key={c.id}
+                key={c.patternId}
                 label={c.name}
-                checked={filters.patterns.some(filter => filter.id === c.id)}
-                onChange={val => handleChange(c.id, val, 'patterns')}
+                checked={filters.patterns.some(filter => filter.id === c.patternId)}
+                onChange={val => handleChange(c.patternId, val, 'patterns')}
               />
             ))}
           </div>
@@ -160,10 +153,10 @@ const Filters = ({ hideModal }) => {
           <div css={style.filterOptions}>
             {data.materials.map(c => (
               <Checkbox
-                key={c.id}
+                key={c.materialId}
                 label={c.name}
-                checked={filters.materials.some(filter => filter.id === c.id)}
-                onChange={val => handleChange(c.id, val, 'materials')}
+                checked={filters.materials.some(filter => filter.id === c.materialId)}
+                onChange={val => handleChange(c.materialId, val, 'materials')}
               />
             ))}
           </div>
