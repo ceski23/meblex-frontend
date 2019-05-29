@@ -22,7 +22,7 @@ const Catalog = ({ location: { search } }) => {
   // const [searchResults, setSearchResults] = useState([]);
   // const handleSearch = results => setSearchResults(results);
   // const listing = useSelector(state => state.data.furniture);
-  // const filters = useSelector(state => state.filters);
+  const filters = useSelector(state => state.filters);
 
   const rawCategories = useSelector(state => state.data.categories);
   const rawRooms = useSelector(state => state.data.rooms);
@@ -107,15 +107,22 @@ const Catalog = ({ location: { search } }) => {
 
   useEffect(() => {
     const fetchFurniture = async () => {
-      const filters = [
+      const colorFilter = filters.colors.length > 0 ? filters.colors : [...(filters.searchBox.color ? [filters.searchBox.color] : [])];
+      const patternFilter = filters.patterns.length > 0 ? filters.patterns : [...(filters.searchBox.pattern ? [filters.searchBox.pattern] : [])];
+      const materialFilter = filters.materials.length > 0 ? filters.materials : [...(filters.searchBox.material ? [filters.searchBox.material] : [])];
+
+      const filter = [
         ...(categoryFilter ? [`category/categoryId eq ${categoryFilter}`] : []),
         ...(roomFilter ? [`room/roomId eq ${roomFilter}`] : []),
+        ...(colorFilter.length ? [`color/colorId in (${colorFilter.map(c => c.colorId).join(',')})`] : []),
+        ...(patternFilter.length ? [`pattern/patternId in (${patternFilter.map(p => p.patternId).join(',')})`] : []),
+        ...(materialFilter.length ? [`material/materialId in (${materialFilter.map(m => m.materialId).join(',')})`] : []),
       ];
 
       setIsLoading(true);
       try {
         const result = await API.getFurniture({
-          filter: `(${filters.join(' and ')})`,
+          filter: `(${filter.join(' and ')})`,
         });
         setFurniture(result);
       } catch (error) {
@@ -126,7 +133,7 @@ const Catalog = ({ location: { search } }) => {
     };
 
     if (categoryFilter || roomFilter) fetchFurniture();
-  }, [categoryFilter, roomFilter]);
+  }, [categoryFilter, filters.colors, filters.materials, filters.patterns, filters.searchBox.color, filters.searchBox.material, filters.searchBox.pattern, roomFilter]);
 
   return (
     <React.Fragment>
