@@ -1,9 +1,10 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
-import { Field, reduxForm, FieldArray } from 'redux-form';
+import { Field, reduxForm, FieldArray, SubmissionError } from 'redux-form';
 import { createNumberMask } from 'redux-form-input-masks';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, number, size } from '../../validationRules';
@@ -11,6 +12,7 @@ import PartsSubform from './PartsSubform';
 import SelectField from './fields/SelectField';
 import TextareaField from '../shared/TextareaField';
 import FieldWithPreview from './fields/FieldWithPreview';
+import * as API from '../../api';
 
 const priceMask = createNumberMask({
   suffix: ' zł',
@@ -18,13 +20,9 @@ const priceMask = createNumberMask({
   allowEmpty: true,
 });
 
-const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
-  const colors = useSelector(state => state.data.colors);
-  const patterns = useSelector(state => state.data.patterns);
-  const materials = useSelector(state => state.data.materials);
-
-  const categories = useSelector(state => state.data.categories);
-  const rooms = useSelector(state => state.data.rooms);
+const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const data = useSelector(state => state.data);
 
   const style = {
     form: css`
@@ -73,8 +71,25 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
     `,
   };
 
+  const submitForm = async (values) => {
+    const { photos, ...data } = values;
+    setIsLoading(true);
+    try {
+      const furnitureData = await API.addFurniture(data, Array.from(photos.files));
+      console.log(furnitureData);
+      reset();
+    } catch (error) {
+      throw new SubmissionError({
+        _error: error.title,
+        ...error.errors,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <form css={style.form} onSubmit={handleSubmit}>
+    <form css={style.form} onSubmit={handleSubmit(submitForm)}>
       {error && <p css={style.formError}>{error}</p>}
 
       <div css={style.fieldWrapper}>
@@ -109,7 +124,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
           parse={value => Number(value)}
         >
           <option disabled />
-          {colors.map(color => (
+          {data.colors.map(color => (
             <option key={color.colorId} value={color.colorId}>
               {color.name}
             </option>
@@ -127,7 +142,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
           parse={value => Number(value)}
         >
           <option disabled />
-          {patterns.map(p => (
+          {data.patterns.map(p => (
             <option key={p.patternId} value={p.patternId}>
               {p.name}
             </option>
@@ -145,7 +160,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
           parse={value => Number(value)}
         >
           <option disabled />
-          {materials.map(m => (
+          {data.materials.map(m => (
             <option key={m.materialId} value={m.materialId}>
               {m.name}
             </option>
@@ -207,7 +222,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
           validate={[required]}
         >
           <option disabled />
-          {rooms.map(room => (
+          {data.rooms.map(room => (
             <option key={room.roomId} value={room.roomId}>
               {room.name}
             </option>
@@ -225,7 +240,7 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
           parse={value => Number(value)}
         >
           <option disabled />
-          {categories.map(category => (
+          {data.categories.map(category => (
             <option key={category.categoryId} value={category.categoryId}>
               {category.name}
             </option>

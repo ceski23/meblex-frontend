@@ -3,8 +3,6 @@
 import React, { useState, useRef } from 'react';
 import { jsx, css } from '@emotion/core';
 import SwipeableViews from 'react-swipeable-views';
-import { SubmissionError } from 'redux-form';
-import { useDispatch } from 'react-redux';
 import ColorsForm from './ColorsForm';
 import ColorsList from './ColorsList';
 import { useTheme } from '../../helpers';
@@ -14,19 +12,11 @@ import MaterialsList from './MaterialsList';
 import PatternsForm from './PatternsForm';
 import PatternsList from './PatternsList';
 import AddFurnitureForm from './AddFurnitureForm';
-import * as API from '../../api';
-import { fetchColors, fetchMaterials, fetchPatterns } from '../../redux/data';
 
 const FurniturePanel = () => {
   const theme = useTheme();
   const [index, setIndex] = useState(0);
   const tabsElem = useRef();
-  const dispatch = useDispatch();
-
-  const [furnitureFormLoading, setFurnitureFormLoading] = useState(false);
-  const [colorFormLoading, setColorFormLoading] = useState(false);
-  const [materialFormLoading, setMaterialFormLoading] = useState(false);
-  const [patternFormLoading, setPatternFormLoading] = useState(false);
 
   const tabs = [
     'Meble', 'Kolory', 'Materiały', 'Wzory',
@@ -89,67 +79,6 @@ const FurniturePanel = () => {
     setTimeout(() => { target.blur(); }, 300);
   };
 
-  const handleAddFurniture = async (values) => {
-    const { photos, ...data } = values;
-    setFurnitureFormLoading(true);
-    try {
-      const furnitureData = await API.addFurniture(data, Array.from(photos.files));
-      console.log(furnitureData);
-    } catch (error) {
-      throw new SubmissionError({
-        _error: error.title,
-        ...error.errors,
-      });
-    } finally {
-      setFurnitureFormLoading(false);
-    }
-  };
-
-  const handleAddColor = async (values) => {
-    setColorFormLoading(true);
-    try {
-      await API.addColor(values);
-      dispatch(fetchColors());
-    } catch (error) {
-      throw new SubmissionError({
-        _error: error.title,
-        ...error.errors,
-      });
-    } finally {
-      setColorFormLoading(false);
-    }
-  };
-
-  const handleAddMaterial = async (values) => {
-    setMaterialFormLoading(true);
-    try {
-      await API.addMaterial(values);
-      dispatch(fetchMaterials());
-    } catch (error) {
-      throw new SubmissionError({
-        _error: error.title,
-        ...error.errors,
-      });
-    } finally {
-      setMaterialFormLoading(false);
-    }
-  };
-
-  const handleAddPattern = async (values) => {
-    setPatternFormLoading(true);
-    try {
-      await API.addPattern(values);
-      dispatch(fetchPatterns());
-    } catch (error) {
-      throw new SubmissionError({
-        _error: error.title,
-        ...error.errors,
-      });
-    } finally {
-      setPatternFormLoading(false);
-    }
-  };
-
   return (
     <React.Fragment>
       <div css={style.tabs} ref={tabsElem}>
@@ -170,14 +99,14 @@ const FurniturePanel = () => {
         <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj mebel</h3>
-            <AddFurnitureForm onSubmit={handleAddFurniture} isLoading={furnitureFormLoading} />
+            <AddFurnitureForm />
           </div>
         </div>
 
         <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj kolor</h3>
-            <ColorsForm isLoading={colorFormLoading} onSubmit={handleAddColor} />
+            <ColorsForm />
           </div>
           <ColorsList />
         </div>
@@ -185,7 +114,7 @@ const FurniturePanel = () => {
         <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj materiał</h3>
-            <MaterialsForm isLoading={materialFormLoading} onSubmit={handleAddMaterial} />
+            <MaterialsForm />
           </div>
           <MaterialsList />
         </div>
@@ -193,7 +122,7 @@ const FurniturePanel = () => {
         <div>
           <div css={style.panel}>
             <h3 css={style.title}>Dodaj wzór</h3>
-            <PatternsForm isLoading={patternFormLoading} onSubmit={handleAddPattern} />
+            <PatternsForm />
           </div>
           <PatternsList />
         </div>
