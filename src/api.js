@@ -146,24 +146,19 @@ export const getMaterials = () => (
 );
 
 export const addMaterial = (values) => {
-  // TODO: Fix adding material
-  // const { photo, ...data } = values;
-  // const formData = new FormData();
-  // formData.set('json', JSON.stringify(data));
-  // formData.append('photo', photo.files[0]);
+  const { photo, ...data } = values;
+  const formData = new FormData();
+  formData.set('json', JSON.stringify(data));
+  formData.append('photo', photo.files[0]);
 
-  // return client({
-  //   method: 'post',
-  //   url: 'Furniture/material',
-  //   data: formData,
-  //   headers: {
-  //     'Content-Type': 'multipart/form-data',
-  //   },
-  // }).catch(err => (
-  //   errorHandler(err, code => defaultErrorCallback(err, code))
-  // ));
-  console.log();
-  return client.post('Furniture/material', values).catch(err => (
+  return client({
+    method: 'post',
+    url: 'Furniture/material',
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ));
 };
@@ -175,24 +170,19 @@ export const getPatterns = () => (
 );
 
 export const addPattern = (values) => {
-  // TODO: Fix adding material
-  // const { photo, ...data } = values;
-  // const formData = new FormData();
-  // formData.set('json', JSON.stringify(data));
-  // formData.append('photo', photo.files[0]);
+  const { photo, ...data } = values;
+  const formData = new FormData();
+  formData.set('json', JSON.stringify(data));
+  formData.append('photo', photo.files[0]);
 
-  // return client({
-  //   method: 'post',
-  //   url: 'Patterns/add',
-  //   data: formData,
-  //   headers: {
-  //     'Content-Type': 'multipart/form-data',
-  //   },
-  // }).catch(err => (
-  //   errorHandler(err, code => defaultErrorCallback(err, code))
-  // ));
-  console.log();
-  return client.post('Furniture/pattern', values).catch(err => (
+  return client({
+    method: 'post',
+    url: 'Patterns/add',
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ));
 };
