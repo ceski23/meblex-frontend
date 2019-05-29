@@ -137,8 +137,9 @@ const ProductInfo = ({ product }) => {
         </div>
       </div>
 
-      <ResourcesBox title="Materiały" type="material" parts={product.parts} />
-      <ResourcesBox title="Kolory" type="color" parts={product.parts} />
+      <ResourcesBox title="Materiały" type="material" product={product} />
+      <ResourcesBox title="Kolory" type="color" product={product} />
+      <ResourcesBox title="Wzory" type="pattern" product={product} />
 
       <div css={style.sizesBox}>
         <h3>Wymiary</h3>

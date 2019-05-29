@@ -1,20 +1,19 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core';
+import { useEffect, useState } from 'react';
 
-const ResourcesBox = ({ title, parts, type }) => {
-  const materials = {
-    1: 'https://media.istockphoto.com/photos/beech-wood-texture-picture-id185869660',
-    2: 'http://www.tkaniny-meblowe.pl/6039/tkanina-cablo-10-ag.jpg',
-  };
+const ResourcesBox = ({ title, product, type }) => {
+  const [data, setData] = useState([]);
 
   const style = {
     box: css`
       padding: 20px 30px;
+      margin-bottom: 20px;
     `,
 
     title: css`
-
+      margin: 0 0 20px 0;
     `,
 
     resource: css`
@@ -48,21 +47,29 @@ const ResourcesBox = ({ title, parts, type }) => {
     `,
   };
 
+  useEffect(() => {
+    setData([
+      ...product.parts.map(part => ({ resource: part[type], name: part.name })),
+      { resource: product[type] },
+    ]);
+  }, [product, type]);
+
   return (
     <div css={style.box}>
       <h3 css={style.title}>{title}</h3>
-      {parts.map((part) => {
+      {data.map((d, k) => {
         const background = {
-          material: `url(${materials[part.material.materialId]})`,
-          color: part.color.hexCode,
+          material: `url(https://api.wip.meblex.tk/images/${d.resource.photo})`,
+          pattern: `url(https://api.wip.meblex.tk/images/${d.resource.photo})`,
+          color: d.resource.hexCode,
         }[type];
 
         return (
-          <div css={style.resource} key={part.id}>
+          <div css={style.resource} key={k}>
             <span css={[style.img, { background }]} />
             <div css={style.info}>
-              <h5>{part[type].name}</h5>
-              <p>{part.name}</p>
+              <h5>{d.resource.name}</h5>
+              {d.name && <p>{d.name}</p>}
             </div>
           </div>
         );
