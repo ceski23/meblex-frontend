@@ -1,56 +1,61 @@
 /** @jsx jsx */
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { css, jsx } from '@emotion/core';
 import Button from '../shared/Button';
 import Breadcrumbs from '../shared/Breadcrumbs';
 import PartsBox from './PartsBox';
 import { useTheme } from '../../helpers';
 import ProductInfo from './ProductInfo';
+import * as API from '../../api';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 // TODO: Add product color/pattern/material
 
 
-const Product = () => {
-  const product = {
-    id: 16,
-    name: 'awdawd',
-    count: 2323,
-    price: 3.23,
-    size: '32x34x390',
-    description: '23',
-    category: {
-      categoryId: 6,
-      name: 'Półki',
-    },
-    room: {
-      roomId: 5,
-      name: 'Jadalnia',
-    },
-    parts: [],
-    photos: [
-      '8214490473d9bb6cf6596361715a6632.png',
-      '5ae29ea7810332c796827edb1b03386f.jpg',
-    ],
-    material: {
-      materialId: 7,
-      name: 'Karton',
-      slug: 'karton',
-      photo: 'Castle.Proxies.MaterialPhotoProxy',
-    },
-    pattern: {
-      patternId: 2,
-      name: 'W kropki',
-      slug: 'kropk',
-      photo: null,
-    },
-    color: {
-      colorId: 6,
-      name: 'Niebieski',
-      hexCode: '#0000FF',
-      slug: '',
-    },
-  };
+const Product = ({ match: { params } }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [product, setProduct] = useState();
+
+  // const product = {
+  //   id: 16,
+  //   name: 'awdawd',
+  //   count: 2323,
+  //   price: 3.23,
+  //   size: '32x34x390',
+  //   description: '23',
+  //   category: {
+  //     categoryId: 6,
+  //     name: 'Półki',
+  //   },
+  //   room: {
+  //     roomId: 5,
+  //     name: 'Jadalnia',
+  //   },
+  //   parts: [],
+  //   photos: [
+  //     '8214490473d9bb6cf6596361715a6632.png',
+  //     '5ae29ea7810332c796827edb1b03386f.jpg',
+  //   ],
+  //   material: {
+  //     materialId: 7,
+  //     name: 'Karton',
+  //     slug: 'karton',
+  //     photo: 'Castle.Proxies.MaterialPhotoProxy',
+  //   },
+  //   pattern: {
+  //     patternId: 2,
+  //     name: 'W kropki',
+  //     slug: 'kropk',
+  //     photo: null,
+  //   },
+  //   color: {
+  //     colorId: 6,
+  //     name: 'Niebieski',
+  //     hexCode: '#0000FF',
+  //     slug: '',
+  //   },
+  // };
 
   // const product = {
   //   id: 1,
@@ -192,37 +197,94 @@ const Product = () => {
       color: #fff !important;
       border-color: white !important;
     `,
+
+    loading: css`
+      width: 50px;
+      height: 50px;
+
+      circle {
+        stroke: ${theme.colors.primary};
+      }
+    `,
+
+    loadingWrapper: css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    `,
   };
+
+  useEffect(() => {
+    const fetchPoF = async () => {
+      setIsLoading(true);
+      try {
+        const res = await API.getPieceOfFurniture(params.product);
+        setProduct({ ...res,
+          material: {
+            materialId: 7,
+            name: 'Karton',
+            slug: 'karton',
+            photo: 'Castle.Proxies.MaterialPhotoProxy',
+          },
+          pattern: {
+            patternId: 2,
+            name: 'W kropki',
+            slug: 'kropk',
+            photo: null,
+          },
+          color: {
+            colorId: 6,
+            name: 'Niebieski',
+            hexCode: '#0000FF',
+            slug: '',
+          } });
+      } catch (err) {
+        //
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPoF();
+  }, [params.product]);
 
   return (
     <React.Fragment>
-      <Breadcrumbs paths={[
-        { name: product.room.name, url: `/katalog?pokoj=${product.room.roomId}` },
-        { name: product.category.name, url: `/katalog?pokoj=${product.room.roomId}&kategoria=${product.category.categoryId}` },
-        { name: product.name },
-      ]}
-      />
-
-      <div css={style.product}>
-        <h3>{product.name}</h3>
-        <p css={style.id}>Numer produktu: {product.id}</p>
-
-        <div css={style.images} ref={refe}>
-          {product.photos.map((photo, i) => (
-            <img src={`url(https://api.wip.meblex.tk/images/${photo}`} alt={i} key={i} css={style.image} />
-          ))}
+      {isLoading ? (
+        <div css={style.loadingWrapper}>
+          <LoadingSpinner css={style.loading} isLoading={isLoading} />
         </div>
+      ) : (
+        <React.Fragment>
+          <Breadcrumbs paths={[
+            { name: product.room.name, url: `/katalog?pokoj=${product.room.roomId}` },
+            { name: product.category.name, url: `/katalog?pokoj=${product.room.roomId}&kategoria=${product.category.categoryId}` },
+            { name: product.name },
+          ]}
+          />
 
-        <ProductInfo product={product} />
+          <div css={style.product}>
+            <h3>{product.name}</h3>
+            <p css={style.id}>Numer produktu: {product.id}</p>
 
-        <div css={style.customSizeBox}>
-          <h4>Nie pasuje Ci rozmiar tego mebla?</h4>
-          <p>Wyślij zapytanie, a nasi konsultanci sprawdzą czy możesz go dostać w innym rozmiarze</p>
-          <Button variant="secondary" css={style.customSizeButton}>Wyślij zapytanie</Button>
-        </div>
+            <div css={style.images} ref={refe}>
+              {product.photos.map((photo, i) => (
+                <img src={`https://api.wip.meblex.tk/images/${photo}`} alt={i} key={i} css={style.image} />
+              ))}
+            </div>
 
-        <PartsBox parts={product.parts} />
-      </div>
+            <ProductInfo product={product} />
+
+            <div css={style.customSizeBox}>
+              <h4>Nie pasuje Ci rozmiar tego mebla?</h4>
+              <p>Wyślij zapytanie, a nasi konsultanci sprawdzą czy możesz go dostać w innym rozmiarze</p>
+              <Button variant="secondary" css={style.customSizeButton}>Wyślij zapytanie</Button>
+            </div>
+
+            <PartsBox parts={product.parts} />
+          </div>
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };
