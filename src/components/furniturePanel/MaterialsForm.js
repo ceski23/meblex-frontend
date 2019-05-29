@@ -20,8 +20,8 @@ const MaterialsForm = ({ handleSubmit, error, isLoading }) => {
     `,
 
     formError: css`
-      margin-top: -10px;
-      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
       font-weight: bold;
       text-align: center;
       color: red;
@@ -74,7 +74,7 @@ const MaterialsForm = ({ handleSubmit, error, isLoading }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Zdjęcie materiału:</h4>
         <Field
-          name="image"
+          name="photo"
           component={FieldWithPreview}
           css={style.formField}
           validate={[required]}

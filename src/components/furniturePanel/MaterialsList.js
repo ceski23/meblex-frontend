@@ -64,7 +64,7 @@ const MaterialsList = () => {
 
         <div css={style.list}>
           {materials.sort((a, b) => ((a.name < b.name) ? -1 : 1)).map(material => (
-            <div css={style.material} key={material.id}>
+            <div css={style.material} key={material.materialId}>
               <div css={[style.icon, { backgroundImage: `url(${material.url})` }]} />
               <h4>{material.name}</h4>
               <span css={style.remove} role="button" tabIndex={0}>

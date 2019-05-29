@@ -17,6 +17,7 @@ const colorMask = createTextMask({
     },
   },
   guide: false,
+  stripMask: false,
 });
 
 const ColorsForm = ({ handleSubmit, error, isLoading }) => {
@@ -31,8 +32,8 @@ const ColorsForm = ({ handleSubmit, error, isLoading }) => {
     `,
 
     formError: css`
-      margin-top: -10px;
-      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
       font-weight: bold;
       text-align: center;
       color: red;
@@ -85,7 +86,7 @@ const ColorsForm = ({ handleSubmit, error, isLoading }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Kod koloru:</h4>
         <Field
-          name="hex_code"
+          name="hexCode"
           component={FieldWithColor}
           type="text"
           css={style.formField}
