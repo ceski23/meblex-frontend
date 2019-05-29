@@ -4,18 +4,16 @@
 import { css, jsx } from '@emotion/core';
 import { useState } from 'react';
 import Fuse from 'fuse.js';
-// import { useDebounce } from 'use-debounce';
-// import { useSelector } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
+import { setSearchboxFilter } from '../../redux/filters';
 
-const SearchBox = ({ callback }) => {
-  // const listing = useSelector(state => state.data.furniture);
+const SearchBox = () => {
   const [filter, setFilter] = useState('krzesło czarne');
-  // const [debouncedFilter] = useDebounce(filter, 400);
   const theme = useTheme();
   const data = useSelector(state => state.data);
+  const dispatch = useDispatch();
 
   const style = {
     searchBox: css`
@@ -99,6 +97,8 @@ const SearchBox = ({ callback }) => {
     console.log('Wzór:', pattern);
     console.log('Materiał:', material);
     console.log('Kategoria:', category);
+
+    dispatch(setSearchboxFilter({ color, pattern, material, category }));
   };
 
   const handleInput = ({ target }) => setFilter(target.value);
