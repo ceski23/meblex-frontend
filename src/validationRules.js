@@ -1,5 +1,5 @@
 export const number = value => (
-  value && !Number.isNaN(parseInt(value, 10)) ? 'Musi być liczbą' : undefined
+  value && Number.isNaN(parseInt(value, 10)) ? 'Musi być liczbą' : undefined
 );
 
 export const minLength = min => value => (
@@ -33,4 +33,8 @@ export const nip = value => (
 
 export const passwordMatch = (value, allValues) => (
   value !== allValues.newPassword ? 'Hasła nie są identyczne' : undefined
+);
+
+export const size = value => (
+  value && !/^\d+x\d+x\d+$/.test(value) ? 'Rozmiar powinien być w formacie: 000x000x000' : undefined
 );

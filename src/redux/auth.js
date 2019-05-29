@@ -1,31 +1,35 @@
 import localForage from 'localforage';
 import { persistReducer } from 'redux-persist';
+import { clearCart } from './cart';
 
 
-export const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS';
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 export const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN';
 export const LOGOUT = 'LOGOUT';
 export const SET_USER_DATA = 'SET_USER_DATA';
 
-export const setLoginStatus = status => ({ type: SET_LOGIN_STATUS, payload: status });
+export const Roles = {
+  USER: 'Client',
+  EMPLOYEE: 'Worker',
+};
+
 export const setAccessToken = token => ({ type: SET_ACCESS_TOKEN, payload: token });
 export const setRefreshToken = token => ({ type: SET_REFRESH_TOKEN, payload: token });
-export const logout = () => ({ type: LOGOUT });
 export const setUserData = data => ({ type: SET_USER_DATA, payload: data });
 
+export const logout = () => (dispatch) => {
+  dispatch(clearCart());
+  dispatch({ type: LOGOUT });
+};
+
 const initState = {
-  loggedIn: true,
-  user: {},
+  user: undefined,
   accessToken: undefined,
   refreshToken: undefined,
 };
 
 const loginReducer = (state = initState, action) => {
   switch (action.type) {
-    case SET_LOGIN_STATUS:
-      return { ...state, loggedIn: action.payload };
-
     case SET_ACCESS_TOKEN:
       return { ...state, accessToken: action.payload };
 
@@ -37,7 +41,7 @@ const loginReducer = (state = initState, action) => {
 
     case LOGOUT:
       return {
-        ...state, loggedIn: false, accessToken: undefined, refreshToken: undefined,
+        ...state, accessToken: undefined, refreshToken: undefined, user: undefined,
       };
 
     default:
@@ -48,5 +52,5 @@ const loginReducer = (state = initState, action) => {
 export default persistReducer({
   key: 'auth',
   storage: localForage,
-  whitelist: ['accessToken', 'refreshToken'],
+  whitelist: ['accessToken', 'refreshToken', 'user'],
 }, loginReducer);

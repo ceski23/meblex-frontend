@@ -1,17 +1,28 @@
-import React from 'react';
-import cx from 'classnames';
+/** @jsx jsx */
 
-import S from './Navigation.module.scss';
+import { jsx, css } from '@emotion/core';
+import { useSelector } from 'react-redux';
+import { useTheme } from '../../helpers';
 import { Furniture, Icons } from '../../assets';
 import NavItem from './NavItem';
-import UserInfo from './UserInfo';
+import { Roles } from '../../redux/auth';
 
 
-const Navigation = ({ navOpened, toggleNav }) => {
+const Navigation = () => {
+  const theme = useTheme();
+  const user = useSelector(state => state.auth.user);
+
+  const isUserAuthorized = (roles) => {
+    return !roles || user; // TODO: Remove this
+    return !roles || user && user.role && roles.some(elem => elem === user.role);
+  };
+
   const mainItems = [
-    { text: 'Katalog produktów', icon: Icons.ShoppingBag, url: '/katalog' },
+    { text: 'Pulpit', icon: Icons.Home, url: '/' },
+    { text: 'Katalog', icon: Icons.ShoppingBag, url: '/katalog' },
     { text: 'FITTER™', icon: Icons.JigSaw, url: '/fitter' },
     { text: 'DIY', icon: Icons.Tools, url: '/diy' },
+    { text: 'Panel', icon: Icons.Settings, url: '/panel', roles: [Roles.EMPLOYEE] },
   ];
 
   const categories = [
@@ -56,35 +67,28 @@ const Navigation = ({ navOpened, toggleNav }) => {
     },
   ];
 
+  const style = {
+    navigation: css`
+      display: flex;
+      flex-direction: row;
+      background: #fff;
+      box-shadow: 0px 1px 20px ${theme.colors.shadowDark};
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 70px;
+      z-index: 2;
+    `,
+  };
+
   return (
-    <div className={cx(S.nav, { [S.open]: navOpened })}>
-      <UserInfo toggleNav={toggleNav} />
-
+    <div css={style.navigation}>
       {mainItems.map((item, i) => (
-        <NavItem
-          key={i}
-          toggleNav={toggleNav}
-          text={item.text}
-          icon={item.icon}
-          url={item.url}
-          replace={item.replace}
-        />
+        isUserAuthorized(item.roles) ? (
+          <NavItem key={i} text={item.text} icon={item.icon} to={item.url} />
+        ) : null
       ))}
-
-      <h5 className={S.catText}>Kategorie:</h5>
-      {categories.map((item, i) => (
-        <NavItem
-          key={i}
-          toggleNav={toggleNav}
-          text={item.text}
-          icon={item.icon}
-          url={item.url}
-          type={item.type}
-        />
-      ))}
-
-      <span className={S.line} />
-      <NavItem toggleNav={toggleNav} text="Wyloguj" type="dense" icon={Icons.Door} url="/wyloguj" replace />
     </div>
   );
 };

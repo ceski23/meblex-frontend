@@ -1,18 +1,23 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { persistStore } from 'redux-persist';
+import thunk from 'redux-thunk';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
 import loginReducer from './redux/auth';
 import cartReducer from './redux/cart';
-import listingReducer from './redux/listing';
+import dataReducer from './redux/data';
+import filtersReducer from './redux/filters';
 
 const rootReducer = combineReducers({
   form: formReducer,
   auth: loginReducer,
-  listing: listingReducer,
+  data: dataReducer,
   cart: cartReducer,
+  filters: filtersReducer,
 });
 
-export const store = createStore(rootReducer, composeWithDevTools());
+export const store = createStore(rootReducer, composeWithDevTools(
+  applyMiddleware(thunk),
+));
 export const persistor = persistStore(store);

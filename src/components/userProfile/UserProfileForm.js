@@ -1,11 +1,11 @@
-import React from 'react';
+/** @jsx jsx */
+
+import { jsx, css } from '@emotion/core';
 import { Field, reduxForm } from 'redux-form';
 import { createTextMask } from 'redux-form-input-masks';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, postCode, nip } from '../../validationRules';
-
-import S from './UserProfile.module.scss';
 
 const postCodeMask = createTextMask({
   pattern: '99-999',
@@ -17,86 +17,137 @@ const nipMask = createTextMask({
   guide: false,
 });
 
-const UserProfileForm = ({ handleSubmit, error }) => (
-  <form className={S.userForm} onSubmit={handleSubmit}>
-    {error && <p className={S.error}>{error}</p>}
+const UserProfileForm = ({ handleSubmit, error, isLoading }) => {
+  const style = {
+    form: css`
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-shadow: 0px 1px 15px rgba(4, 35, 101, 0.22);
+      border-radius: 5px;
+      padding: 20px;
+    `,
 
-    <div className={S.field}>
-      <h4 className={S.label}>Imię i nazwisko:</h4>
-      <Field
-        name="name"
-        component={FieldX}
-        type="text"
-        autoComplete="name"
-        className={S.input}
-        validate={[required, maxLength32]}
-      />
-    </div>
+    formError: css`
+      margin-top: -10px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center;
+      color: red;
+    `,
 
-    <div className={S.field}>
-      <h4 className={S.label}>Adres:</h4>
-      <Field
-        name="address"
-        component={FieldX}
-        type="text"
-        autoComplete="street-address"
-        className={S.input}
-        validate={[required, maxLength32]}
-      />
-    </div>
+    fieldWrapper: css`
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      margin: 10px 0;
+      flex-direction: column;
+    `,
 
-    <div className={S.field}>
-      <h4 className={S.label}>Kod pocztowy:</h4>
-      <Field
-        name="postCode"
-        component={FieldX}
-        type="tel"
-        autoComplete="postal-code"
-        className={S.input}
-        validate={[required, postCode]}
-        {...postCodeMask}
-      />
-    </div>
+    fieldLabel: css`
+      margin: 0;
+      margin-right: 20px;
+      font-size: .9em;
+      height: 42px;
+      line-height: 42px;
+    `,
 
-    <div className={S.field}>
-      <h4 className={S.label}>Województwo:</h4>
-      <Field
-        name="state"
-        component={FieldX}
-        type="text"
-        autoComplete="address-level1"
-        className={S.input}
-        validate={[required, maxLength32]}
-      />
-    </div>
+    formField: css`
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+    `,
 
-    <div className={S.field}>
-      <h4 className={S.label}>Miasto:</h4>
-      <Field
-        name="city"
-        component={FieldX}
-        type="text"
-        autoComplete="address-level2"
-        className={S.input}
-        validate={[required, maxLength32]}
-      />
-    </div>
+    submitButton: css`
+      margin: 30px 0;
+      display: flex;
+      flex-direction: column;
+    `,
+  };
 
-    <div className={S.field}>
-      <h4 className={S.label}>NIP:</h4>
-      <Field
-        name="nip"
-        component={FieldX}
-        type="tel"
-        className={S.input}
-        validate={[nip]}
-        {...nipMask}
-      />
-    </div>
+  return (
+    <form css={style.form} onSubmit={handleSubmit}>
+      {error && <p css={style.formError}>{error}</p>}
 
-    <Button className={S.updateProfile} elem="input">Aktualizuj dane</Button>
-  </form>
-);
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Imię i nazwisko:</h4>
+        <Field
+          name="name"
+          component={FieldX}
+          type="text"
+          autoComplete="name"
+          css={style.formField}
+          validate={[required, maxLength32]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Adres:</h4>
+        <Field
+          name="address"
+          component={FieldX}
+          type="text"
+          autoComplete="street-address"
+          css={style.formField}
+          validate={[required, maxLength32]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Kod pocztowy:</h4>
+        <Field
+          name="postCode"
+          component={FieldX}
+          type="tel"
+          autoComplete="postal-code"
+          css={style.formField}
+          validate={[required, postCode]}
+          {...postCodeMask}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Województwo:</h4>
+        <Field
+          name="state"
+          component={FieldX}
+          type="text"
+          autoComplete="address-level1"
+          css={style.formField}
+          validate={[required, maxLength32]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Miasto:</h4>
+        <Field
+          name="city"
+          component={FieldX}
+          type="text"
+          autoComplete="address-level2"
+          css={style.formField}
+          validate={[required, maxLength32]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>NIP:</h4>
+        <Field
+          name="nip"
+          component={FieldX}
+          type="tel"
+          css={style.formField}
+          validate={[nip]}
+          {...nipMask}
+        />
+      </div>
+
+      <div css={style.submitButton}>
+        <Button isLoading={isLoading} type="submit">Aktualizuj dane</Button>
+      </div>
+    </form>
+  );
+};
 
 export default reduxForm({
   form: 'userProfile',

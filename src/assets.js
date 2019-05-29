@@ -53,7 +53,7 @@ import { ReactComponent as Wardrobe } from './assets/furniture/wardrobe.svg';
 // Icons
 import { ReactComponent as Search } from './assets/search.svg';
 import { ReactComponent as JigSaw } from './assets/jigsaw.svg';
-import { ReactComponent as Tools } from './assets/tools.svg';
+import { ReactComponent as Tools } from './assets/saw.svg';
 import { ReactComponent as Door } from './assets/door.svg';
 import { ReactComponent as ShoppingBag } from './assets/shopping_bag.svg';
 import { ReactComponent as Hamburger } from './assets/hamburger.svg';
@@ -61,6 +61,10 @@ import { ReactComponent as ShoppingCart } from './assets/shopping_cart.svg';
 import { ReactComponent as Close } from './assets/close.svg';
 import { ReactComponent as User } from './assets/user.svg';
 import { ReactComponent as Price } from './assets/price.svg';
+import { ReactComponent as Settings } from './assets/settings.svg';
+import { ReactComponent as Home } from './assets/home.svg';
+import { ReactComponent as Filter } from './assets/filter.svg';
+import { ReactComponent as Close2 } from './assets/close_2.svg';
 
 // Images
 import { ReactComponent as HikingTraveller } from './assets/hiking_traveller.svg';
@@ -68,7 +72,20 @@ import { ReactComponent as Logistics } from './assets/storage.svg';
 
 
 export const Icons = {
-  Search, JigSaw, Tools, Door, ShoppingBag, ShoppingCart, Hamburger, Close, User, Price,
+  Search,
+  JigSaw,
+  Tools,
+  Door,
+  ShoppingBag,
+  ShoppingCart,
+  Hamburger,
+  Close,
+  User,
+  Price,
+  Settings,
+  Home,
+  Filter,
+  Close2,
 };
 
 export const Furniture = {
@@ -122,6 +139,16 @@ export const Furniture = {
   Table,
   TvTable,
   Wardrobe,
+  x1: Mirror,
+  x2: Nightstand,
+  x3: OfficeChair,
+  x4: Desk1,
+  x5: Desk,
+  x6: DiningChair,
+  x7: DiningTable,
+  x8: DoubleBed,
+  x9: Dresser,
+  x10: Locker,
 };
 
 

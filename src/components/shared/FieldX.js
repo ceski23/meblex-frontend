@@ -1,14 +1,34 @@
-import React from 'react';
-import cx from 'classnames';
-import S from './FieldX.module.scss';
+/** @jsx jsx */
+
+import { jsx, css } from '@emotion/core';
 
 const FieldX = ({
-  className, input, label, type, meta: { touched, error }, ...rest
-}) => (
-  <div className={cx(className, S.field)}>
-    {touched && error && <span className={S.fieldError}>{error}</span>}
-    <input {...input} type={type} {...rest} />
-  </div>
-);
+  input, meta: { touched, error }, ...rest
+}) => {
+  const style = {
+    field: css`
+      display: flex;
+      flex-direction: column-reverse;
+      width: 100%;
+
+      input {
+        height: 42px;
+      }
+    `,
+
+    error: css`
+      color: red;
+      font-size: 0.7em;
+      padding-top: 10px;
+    `,
+  };
+
+  return (
+    <div css={style.field}>
+      {touched && error && <span css={style.error}>{error}</span>}
+      <input {...input} {...rest} />
+    </div>
+  );
+};
 
 export default FieldX;

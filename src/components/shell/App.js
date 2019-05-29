@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { ThemeProvider } from 'emotion-theming';
 
 import '../shared/main.scss';
+import { theme } from '../../styles';
 
 import LoginScreen from '../loginScreen/LoginScreen';
 import Content from './Content';
@@ -10,35 +12,23 @@ import Content from './Content';
 import * as API from '../../api';
 import Registration from '../registration/Registration';
 import Loading from '../shared/Loading';
-import {
-  logout as logoutAction,
-  setLoginStatus as loginStatusAction,
-  setUserData as setUserDataAction,
-} from '../../redux/auth';
+import { setUserData as setUserDataAction } from '../../redux/auth';
+import Logout from './Logout';
+import { fetchRooms, fetchCategories, fetchColors, fetchMaterials, fetchPatterns } from '../../redux/data';
 
 
-const App = withRouter(({ history }) => {
-  const loggedIn = useSelector(state => state.auth.loggedIn);
+const App = withRouter(() => {
   const accessToken = useSelector(state => state.auth.accessToken);
-  const setUserData = useActions(data => setUserDataAction(data));
+  const dispatch = useDispatch();
 
-  const { logout, setLoginStatus } = useActions({
-    logout: logoutAction,
-    setLoginStatus: loginStatusAction,
-  }, []);
+  const setUserData = useCallback(data => dispatch(setUserDataAction(data)), [dispatch]);
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!accessToken) {
-      logout();
-      setTimeout(() => setIsLoading(false), 0);
-    } else {
+    if (accessToken) {
       const loginStatusChecking = async () => {
         try {
-          await API.checkStatus();
-          setLoginStatus(true);
-
           const userData = await API.getUserData();
           setUserData(userData);
         } catch (error) {
@@ -48,30 +38,30 @@ const App = withRouter(({ history }) => {
       };
       loginStatusChecking();
     }
-  }, [accessToken, logout, setLoginStatus, setUserData]);
+    setIsLoading(false);
 
-  useEffect(() => {
-    if (!loggedIn) history.replace('/logowanie');
-  }, [history, loggedIn]);
+    dispatch(fetchRooms());
+    dispatch(fetchCategories());
+    dispatch(fetchColors());
+    dispatch(fetchMaterials());
+    dispatch(fetchPatterns());
+  }, [accessToken, dispatch, setUserData]);
 
   return (
-    <Switch>
-      <Route path="/logowanie" component={LoginScreen} />
-      <Route path="/rejestracja" component={Registration} />
-      <Route
-        path="/wyloguj"
-        render={() => {
-          setTimeout(() => { logout(); });
-        }}
-      />
+    <ThemeProvider theme={theme}>
+      <Switch>
+        <Route path="/logowanie" component={LoginScreen} />
+        <Route path="/rejestracja" component={Registration} />
+        <Route path="/wyloguj" component={Logout} />
 
-      <Route render={() => (
-        <Loading isLoading={isLoading} type="alt" text="Ładowanie...">
-          <Content />
-        </Loading>
-      )}
-      />
-    </Switch>
+        <Route render={() => (
+          <Loading isLoading={isLoading} type="alt" text="Ładowanie...">
+            <Content />
+          </Loading>
+        )}
+        />
+      </Switch>
+    </ThemeProvider>
   );
 });
 
