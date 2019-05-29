@@ -9,7 +9,7 @@ import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
 import { setSearchboxFilter } from '../../redux/filters';
 
-const SearchBox = () => {
+const SearchBox = ({ applySearch }) => {
   const [filter, setFilter] = useState('krzesło czarne');
   const theme = useTheme();
   const data = useSelector(state => state.data);

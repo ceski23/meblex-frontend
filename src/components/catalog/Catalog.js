@@ -19,9 +19,6 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 
 
 const Catalog = ({ location: { search } }) => {
-  // const [searchResults, setSearchResults] = useState([]);
-  // const handleSearch = results => setSearchResults(results);
-  // const listing = useSelector(state => state.data.furniture);
   const filters = useSelector(state => state.filters);
 
   const rawCategories = useSelector(state => state.data.categories);
@@ -36,6 +33,9 @@ const Catalog = ({ location: { search } }) => {
 
   const theme = useTheme();
   const [showFilters, setShowFilters] = useState(false);
+
+  const roomFilter = new URLSearchParams(search).get('pokoj');
+  const categoryFilter = new URLSearchParams(search).get('kategoria');
 
   const style = {
     title: css`
@@ -89,35 +89,23 @@ const Catalog = ({ location: { search } }) => {
     `,
   };
 
-  const roomFilter = new URLSearchParams(search).get('pokoj');
-  const categoryFilter = new URLSearchParams(search).get('kategoria');
-
-
-  // const furnitureFilter = useCallback((item) => {
-  //   // const roomTest = (!roomFilter || item.category.id === categories.filter(cat => cat.slug === categoryFilter)[0].id);
-  //   // const categoryTest = (!categoryFilter || item.category === categories.filter(cat => cat.slug === categoryFilter)[0].name);
-
-  //   // const colorTest = (!filters.colors.length || item.parts.map(i => i.color.id).some(e => filters.colors.include(e)));
-  //   // const patternTest = (!filters.patterns.length || item.parts.map(i => i.pattern.id).some(e => filters.patterns.include(e)));
-  //   // const materialTest = (!filters.materials.length || item.parts.map(i => i.material.id).some(e => filters.materials.include(e)));
-  //   // TODO: Fix filtering
-  //   return (categoryTest/* && roomTest && colorTest && patternTest && materialTest */);
-  // }, [categories, categoryFilter]);
-
-
   useEffect(() => {
     const fetchFurniture = async () => {
       const colorFilter = filters.colors.length > 0 ? filters.colors : [...(filters.searchBox.color ? [filters.searchBox.color] : [])];
       const patternFilter = filters.patterns.length > 0 ? filters.patterns : [...(filters.searchBox.pattern ? [filters.searchBox.pattern] : [])];
       const materialFilter = filters.materials.length > 0 ? filters.materials : [...(filters.searchBox.material ? [filters.searchBox.material] : [])];
+      const catFilter = categoryFilter || filters.searchBox.category;
+      const rooFilter = roomFilter || filters.searchBox.room;
 
       const filter = [
-        ...(categoryFilter ? [`category/categoryId eq ${categoryFilter}`] : []),
-        ...(roomFilter ? [`room/roomId eq ${roomFilter}`] : []),
+        ...(catFilter ? [`category/categoryId eq ${catFilter.categoryId}`] : []),
+        ...(rooFilter ? [`room/roomId eq ${roomFilter.roomId}`] : []),
         ...(colorFilter.length ? [`color/colorId in (${colorFilter.map(c => c.colorId).join(',')})`] : []),
         ...(patternFilter.length ? [`pattern/patternId in (${patternFilter.map(p => p.patternId).join(',')})`] : []),
         ...(materialFilter.length ? [`material/materialId in (${materialFilter.map(m => m.materialId).join(',')})`] : []),
       ];
+
+      if (filter.length === 0) return;
 
       setIsLoading(true);
       try {
@@ -132,8 +120,8 @@ const Catalog = ({ location: { search } }) => {
       }
     };
 
-    if (categoryFilter || roomFilter) fetchFurniture();
-  }, [categoryFilter, filters.colors, filters.materials, filters.patterns, filters.searchBox.color, filters.searchBox.material, filters.searchBox.pattern, roomFilter]);
+    fetchFurniture();
+  }, [categoryFilter, filters, filters.colors, filters.materials, filters.patterns, filters.searchBox.color, filters.searchBox.material, filters.searchBox.pattern, roomFilter]);
 
   return (
     <React.Fragment>
