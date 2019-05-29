@@ -2,10 +2,11 @@
 
 import { jsx, css } from '@emotion/core';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { useTheme, getRoomIcon, getCategoryIcon } from '../../helpers';
 import { Icons } from '../../assets';
 import SearchBox from './SearchBox';
@@ -26,6 +27,7 @@ const Catalog = ({ location: { search } }) => {
   const rooms = rawRooms.map(room => ({ ...room, icon: getRoomIcon(room.roomId) }));
   const categories = rawCategories.map(category => ({ ...category, icon: getCategoryIcon(category.categoryId) }));
 
+  const filtersElem = useRef();
 
   const theme = useTheme();
   const [showFilters, setShowFilters] = useState(false);
@@ -94,7 +96,15 @@ const Catalog = ({ location: { search } }) => {
       </section>
 
       <div css={{ marginBottom: 20, margin: '-30px auto 10px' }}>
-        <Button variant="secondary" icon={Icons.Filter} onClick={() => setShowFilters(true)}>Filtry</Button>
+        <Button
+          variant="secondary"
+          icon={Icons.Filter}
+          onClick={() => {
+            setShowFilters(true);
+            disableBodyScroll(filtersElem.current);
+          }}
+        >Filtry
+        </Button>
       </div>
 
       {(categoryFilter || roomFilter) && (
@@ -127,7 +137,15 @@ const Catalog = ({ location: { search } }) => {
         ))}
       </section>
 
-      {showFilters && <Filters hideModal={() => setShowFilters(false)} />}
+      {showFilters && (
+      <Filters
+        hideModal={() => {
+          setShowFilters(false);
+          clearAllBodyScrollLocks();
+        }}
+        ref={filtersElem}
+      />
+      )}
     </React.Fragment>
   );
 };
