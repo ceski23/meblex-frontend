@@ -132,7 +132,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
             >
               <option disabled />
               {colors.map(color => (
-                <option key={color.id} value={color.id}>
+                <option key={color.colorId} value={color.colorId}>
                   {color.name}
                 </option>
               ))}
@@ -150,7 +150,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
             >
               <option disabled />
               {patterns.map(p => (
-                <option key={p.id} value={p.id}>
+                <option key={p.patternId} value={p.patternId}>
                   {p.name}
                 </option>
               ))}
@@ -168,7 +168,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
             >
               <option disabled />
               {materials.map(m => (
-                <option key={m.id} value={m.id}>
+                <option key={m.materialId} value={m.materialId}>
                   {m.name}
                 </option>
               ))}
