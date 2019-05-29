@@ -156,7 +156,7 @@ const Catalog = ({ location: { search } }) => {
         </div>
       )}
 
-      {!isLoading && furniture.length === 0 && (
+      {!isLoading && furniture.length === 0 && (categoryFilter || roomFilter) && (
         <NoItem />
       )}
 
