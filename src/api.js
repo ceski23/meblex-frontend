@@ -199,6 +199,12 @@ export const getFurniture = config => (
   ))
 );
 
+export const getPieceOfFurniture = id => (
+  client.get(`Furniture/pieceOfFurniture/${id}`).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
 export const getRooms = () => (
   client.get('Furniture/rooms').then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
