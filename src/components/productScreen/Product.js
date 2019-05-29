@@ -28,7 +28,7 @@ const Product = () => {
       name: 'Jadalnia',
     },
     parts: [],
-    photoNames: [
+    photos: [
       '8214490473d9bb6cf6596361715a6632.png',
       '5ae29ea7810332c796827edb1b03386f.jpg',
     ],
@@ -208,7 +208,7 @@ const Product = () => {
         <p css={style.id}>Numer produktu: {product.id}</p>
 
         <div css={style.images} ref={refe}>
-          {product.photoNames.map((photo, i) => (
+          {product.photos.map((photo, i) => (
             <img src={`url(https://api.wip.meblex.tk/images/${photo}`} alt={i} key={i} css={style.image} />
           ))}
         </div>

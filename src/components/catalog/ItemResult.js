@@ -7,7 +7,7 @@ import { useTheme, getCategoryIcon } from '../../helpers';
 
 const ItemResult = ({ data }) => {
   const theme = useTheme();
-  const FallbackIcon = getCategoryIcon(data.categoryId);
+  const FallbackIcon = getCategoryIcon(data.category.categoryId);
 
   const style = {
     result: css`
@@ -65,7 +65,7 @@ const ItemResult = ({ data }) => {
     <Link to={`katalog/produkty/${data.id}`} css={style.result}>
       <div css={style.image}>
         <Img
-          src={`https://api.wip.meblex.tk/images/${data.photoNames[0]}`}
+          src={`https://api.wip.meblex.tk/images/${data.photos[0]}`}
           loader={<FallbackIcon css={style.fallbackIcon} />}
           unloader={<FallbackIcon css={style.fallbackIcon} />}
         />

@@ -192,6 +192,7 @@ export const getFurniture = config => (
     params: {
       $orderby: config.sortBy,
       $top: config.limit,
+      $filter: config.filter,
     },
   }).then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
