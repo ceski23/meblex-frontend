@@ -225,13 +225,13 @@ const Product = ({ match: { params } }) => {
             materialId: 7,
             name: 'Karton',
             slug: 'karton',
-            photo: 'Castle.Proxies.MaterialPhotoProxy',
+            photo: '82a77b91f4ba86463e95511825190d89.jpg',
           },
           pattern: {
             patternId: 2,
             name: 'W kropki',
             slug: 'kropk',
-            photo: null,
+            photo: '82a77b91f4ba86463e95511825190d89.jpg',
           },
           color: {
             colorId: 6,
