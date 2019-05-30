@@ -5,6 +5,7 @@ import { Field, reduxForm, FieldArray, SubmissionError } from 'redux-form';
 import { createNumberMask } from 'redux-form-input-masks';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, number, size } from '../../validationRules';
@@ -78,6 +79,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
       const res = await API.addFurniture(data, Array.from(photos.files));
       await API.addParts(parts.map(p => ({ ...p, pieceOfFurnitureId: res.id })));
       reset();
+      toast(`Dodano ${res.name}!`);
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,

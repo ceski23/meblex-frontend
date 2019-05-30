@@ -3,6 +3,7 @@
 import { jsx, css } from '@emotion/core';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import CustomSizeForm from './CustomSizeForm';
 
 
@@ -21,9 +22,9 @@ const CustomSizeRequestPage = ({ location: { state } }) => {
   };
 
   const handleSubmit = (values) => {
-    console.log(values);
     setFormLoading(true);
-    setTimeout(() => setFormLoading(false), 4000);
+    toast('Success Notification !');
+    setFormLoading(false);
   };
 
   return (

@@ -4,6 +4,7 @@ import { jsx, css } from '@emotion/core';
 import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import '../shared/main.scss';
+import { ToastContainer, toast } from 'react-toastify';
 import { Roles } from '../../redux/auth';
 import Toolbar from './Toolbar';
 import Navigation from './Navigation';
@@ -15,6 +16,7 @@ import ProtectedRoute from './ProtectedRoute';
 import CustomSizeRequestPage from '../customSizeForm/CustomSizeRequestPage';
 import WorkerPanel from '../workerPanel/WorkerPanel';
 import Home from '../homeScreen/Home';
+import 'react-toastify/dist/ReactToastify.css';
 
 // import * as API from '../api'
 
@@ -33,6 +35,14 @@ const Content = () => {
       transition: transform .3s ease-in-out; 
       padding-bottom: 70px;
     `,
+
+    toast: css`
+      background: red;
+    `,
+
+    toaster: css`
+      bottom: 80px;
+    `,
   };
 
   return (
@@ -41,6 +51,17 @@ const Content = () => {
       <Navigation />
 
       <div css={style.content}>
+        <ToastContainer
+          css={[style.toaster]}
+          toastClassName="toast"
+          bodyClassName="toastBody"
+          closeButton={false}
+          draggable
+          autoClose={3000}
+          progressClassName="toastProgress"
+          position={toast.POSITION.BOTTOM_CENTER}
+        />
+
         <Switch>
           <Route path="/katalog/produkty/:product" component={Product} />
           <Route path="/katalog" component={Catalog} />

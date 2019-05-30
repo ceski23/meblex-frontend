@@ -5,6 +5,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import slugify from 'slugify';
+import { toast } from 'react-toastify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
@@ -70,6 +71,7 @@ const MaterialsForm = ({ handleSubmit, error, reset }) => {
       const slug = slugify(values.name, { lower: true });
       await API.addMaterial({ ...values, slug });
       reset();
+      toast(`Dodano materiał ${values.name}!`);
       dispatch(fetchMaterials());
     } catch (error) {
       throw new SubmissionError({

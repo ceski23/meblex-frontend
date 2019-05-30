@@ -5,6 +5,7 @@ import { jsx, css } from '@emotion/core';
 import { useSelector, useActions } from 'react-redux';
 import { SubmissionError } from 'redux-form';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import UserProfileForm from './UserProfileForm';
 import PasswordChangeForm from './PasswordChangeForm';
 import EmailChangeForm from './EmailChangeForm';
@@ -42,6 +43,7 @@ const UserProfile = () => {
     try {
       const userData = await API.updateUserData(values);
       setUserData(userData);
+      toast('Zaktualizowano dane!');
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,
@@ -57,6 +59,7 @@ const UserProfile = () => {
     try {
       const { repeatPassword, ...data } = values;
       await API.updateUserPassword(data);
+      toast('Zaktualizowano hasło!');
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,
@@ -71,6 +74,7 @@ const UserProfile = () => {
     setEmailUpdateLoading(true);
     try {
       await API.updateUserEmail(values);
+      toast('Zaktualizowano adres email!');
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,

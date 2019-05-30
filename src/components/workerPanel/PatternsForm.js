@@ -5,6 +5,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import slugify from 'slugify';
+import { toast } from 'react-toastify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
@@ -70,6 +71,7 @@ const PatternsForm = ({ handleSubmit, error, reset }) => {
       const slug = slugify(values.name, { lower: true });
       await API.addPattern({ ...values, slug });
       reset();
+      toast(`Dodano wzór ${values.name}!`);
       dispatch(fetchPatterns());
     } catch (error) {
       throw new SubmissionError({

@@ -6,6 +6,7 @@ import { createTextMask } from 'redux-form-input-masks';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import slugify from 'slugify';
+import { toast } from 'react-toastify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
@@ -81,6 +82,7 @@ const ColorsForm = ({ error, reset, handleSubmit }) => {
     try {
       const slug = slugify(values.name, { lower: true });
       await API.addColor({ ...values, slug });
+      toast(`Dodano kolor ${values.name}!`);
       reset();
       dispatch(fetchColors());
     } catch (error) {
