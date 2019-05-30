@@ -197,7 +197,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
         <Field
           name="size"
           component={FieldX}
-          type="tel"
+          type="text"
           css={style.formField}
           validate={[required, maxLength32, size]}
         />
