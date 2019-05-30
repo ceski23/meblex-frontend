@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import CustomSizeForm from './CustomSizeForm';
 
 
-const UserProfile = ({ location: { state } }) => {
+const CustomSizeRequestPage = ({ location: { state } }) => {
   const [formLoading, setFormLoading] = useState(false);
 
   const style = {
@@ -42,4 +42,4 @@ const UserProfile = ({ location: { state } }) => {
   );
 };
 
-export default UserProfile;
+export default CustomSizeRequestPage;

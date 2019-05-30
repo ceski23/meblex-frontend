@@ -268,6 +268,13 @@ const Product = ({ match: { params } }) => {
             <h3>{product.name}</h3>
             <p css={style.id}>Numer produktu: {product.id}</p>
 
+            <div css={style.images} ref={refe}>
+              {product.photos.map((photo, i) => (
+                <img src={photo.path} alt={i} key={i} css={style.image} />
+              ))}
+            </div>
+            <ProductInfo product={product} />
+
             <div css={style.customSizeBox}>
               <h4>Nie pasuje Ci rozmiar tego mebla?</h4>
               <p>Wyślij zapytanie, a nasi konsultanci sprawdzą czy możesz go dostać w innym rozmiarze</p>

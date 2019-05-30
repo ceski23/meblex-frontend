@@ -65,10 +65,7 @@ const CustomSizeForm = ({ handleSubmit, error, isLoading, item }) => {
 
       <div>
         <h4 css={style.fieldLabel}>Wybrany mebel:</h4>
-        <ItemResult
-          css={style.furniture}
-          data={{ ...item, photos: item.photos.map(p => p.path) }}
-        />
+        <ItemResult css={style.furniture} data={item} />
       </div>
 
       <div css={style.fieldWrapper}>
