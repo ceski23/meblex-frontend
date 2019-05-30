@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Img from 'react-image';
 import { useTheme, getCategoryIcon } from '../../helpers';
 
-const ItemResult = ({ data }) => {
+const ItemResult = ({ data, ...props }) => {
   const theme = useTheme();
   const FallbackIcon = getCategoryIcon(data.category.categoryId);
 
@@ -62,7 +62,7 @@ const ItemResult = ({ data }) => {
   };
 
   return (
-    <Link to={`katalog/produkty/${data.id}`} css={style.result}>
+    <Link to={`katalog/produkty/${data.id}`} css={style.result} {...props}>
       <div css={style.image}>
         <Img
           src={`https://api.wip.meblex.tk/images/${data.photos[0]}`}
