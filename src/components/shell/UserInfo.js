@@ -4,10 +4,8 @@ import { css, jsx } from '@emotion/core';
 import { Link, withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTheme } from '../../helpers';
-
-
 import { Icons } from '../../assets';
-
+import { roleName } from '../../redux/auth';
 
 const UserInfo = ({ location }) => {
   const user = useSelector(state => state.auth.user);
@@ -54,7 +52,7 @@ const UserInfo = ({ location }) => {
       <Icons.User css={style.icon} />
       <div css={style.userInfo}>
         <h5 css={style.username}>{user.name}</h5>
-        <p css={style.role}>{user.role}</p>
+        <p css={style.role}>{roleName(user.role)}</p>
       </div>
     </Link>
   ) : (
