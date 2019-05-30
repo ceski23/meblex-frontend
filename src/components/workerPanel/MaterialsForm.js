@@ -1,14 +1,22 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import slugify from 'slugify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
 import FieldWithPreview from './fields/FieldWithPreview';
+import { fetchMaterials } from '../../redux/data';
+import * as API from '../../api';
 
 
-const MaterialsForm = ({ handleSubmit, error, isLoading }) => {
+const MaterialsForm = ({ handleSubmit, error, reset }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const style = {
     form: css`
       display: flex;
@@ -20,8 +28,8 @@ const MaterialsForm = ({ handleSubmit, error, isLoading }) => {
     `,
 
     formError: css`
-      margin-top: -10px;
-      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
       font-weight: bold;
       text-align: center;
       color: red;
@@ -56,8 +64,25 @@ const MaterialsForm = ({ handleSubmit, error, isLoading }) => {
     `,
   };
 
+  const submitForm = async (values) => {
+    setIsLoading(true);
+    try {
+      const slug = slugify(values.name, { lower: true });
+      await API.addMaterial({ ...values, slug });
+      reset();
+      dispatch(fetchMaterials());
+    } catch (error) {
+      throw new SubmissionError({
+        _error: error.title,
+        ...error.errors,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <form css={style.form} onSubmit={handleSubmit}>
+    <form css={style.form} onSubmit={handleSubmit(submitForm)}>
       {error && <p css={style.formError}>{error}</p>}
 
       <div css={style.fieldWrapper}>
@@ -74,7 +99,7 @@ const MaterialsForm = ({ handleSubmit, error, isLoading }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Zdjęcie materiału:</h4>
         <Field
-          name="image"
+          name="photo"
           component={FieldWithPreview}
           css={style.formField}
           validate={[required]}

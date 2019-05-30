@@ -3,7 +3,6 @@
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm } from 'redux-form';
 import { createTextMask } from 'redux-form-input-masks';
-import { useTheme } from '../../helpers';
 import Button from '../shared/Button';
 import FieldX from '../shared/FieldX';
 import { email, password, required, maxLength32, postCode, nip } from '../../validationRules';
@@ -19,22 +18,16 @@ const nipMask = createTextMask({
 });
 
 
-const RegistrationForm = ({ handleSubmit, error }) => {
-  const theme = useTheme();
-
+const RegistrationForm = ({ handleSubmit, error, isLoading }) => {
   const style = {
     form: css`
       z-index: 1;
-      width: 100%;
-      border-radius: 0;
-      padding: 40px;
-      box-shadow: 0 2px 4px ${theme.colors.shadow};
-      border: 1px solid rgb(229, 232, 237);
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      text-align: justify;
+      width: 90%;
       margin-bottom: 100px;
+      background: #fff;
+      box-shadow: 0px 1px 15px rgba(4, 35, 101, 0.22);
+      border-radius: 5px;
+      padding: 20px;
     `,
 
     formError: css`
@@ -70,6 +63,20 @@ const RegistrationForm = ({ handleSubmit, error }) => {
       margin: 0;
       margin-bottom: 30px;
     `,
+
+    fieldWrapper: css`
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      margin: 10px 0;
+      flex-direction: column;
+    `,
+
+    fieldLabel: css`
+      margin: 0;
+      margin-right: 20px;
+      font-size: .9em;
+    `,
   };
 
   return (
@@ -77,82 +84,105 @@ const RegistrationForm = ({ handleSubmit, error }) => {
       <h4 css={style.title}>Formularz rejestracji</h4>
       {error && <p css={style.formError}>{error}</p>}
 
-      <Field
-        name="email"
-        component={FieldX}
-        type="email"
-        placeholder="Adres email"
-        autoComplete="email"
-        css={style.field}
-        validate={[required, email]}
-      />
-      <Field
-        name="password"
-        component={FieldX}
-        type="password"
-        placeholder="Hasło"
-        autoComplete="new-password"
-        css={style.field}
-        validate={[required, password]}
-      />
-      <Field
-        name="name"
-        component={FieldX}
-        type="text"
-        placeholder="Imię i nazwisko"
-        autoComplete="name"
-        css={style.field}
-        validate={[required, maxLength32]}
-      />
-      <Field
-        name="address"
-        component={FieldX}
-        type="text"
-        placeholder="Adres"
-        autoComplete="street-address"
-        css={style.field}
-        validate={[required, maxLength32]}
-      />
-      <Field
-        name="state"
-        component={FieldX}
-        type="text"
-        placeholder="Województwo"
-        autoComplete="address-level1"
-        css={style.field}
-        validate={[required, maxLength32]}
-      />
-      <Field
-        name="city"
-        component={FieldX}
-        type="text"
-        placeholder="Miasto"
-        autoComplete="address-level2"
-        css={style.field}
-        validate={[required, maxLength32]}
-      />
-      <Field
-        name="postcode"
-        component={FieldX}
-        type="tel"
-        placeholder="Kod pocztowy"
-        autoComplete="postal-code"
-        css={style.field}
-        {...postCodeMask}
-        validate={[required, postCode]}
-      />
-      <Field
-        name="nip"
-        component={FieldX}
-        type="tel"
-        placeholder="NIP"
-        css={style.field}
-        {...nipMask}
-        validate={[nip]}
-      />
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Adres email:</h4>
+        <Field
+          name="email"
+          component={FieldX}
+          type="email"
+          autoComplete="email"
+          css={style.field}
+          validate={[required, email]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Hasło:</h4>
+        <Field
+          name="password"
+          component={FieldX}
+          type="password"
+          autoComplete="new-password"
+          css={style.field}
+          validate={[required, password]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Imię i nazwisko:</h4>
+        <Field
+          name="name"
+          component={FieldX}
+          type="text"
+          autoComplete="name"
+          css={style.field}
+          validate={[required, maxLength32]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Adres:</h4>
+        <Field
+          name="address"
+          component={FieldX}
+          type="text"
+          autoComplete="street-address"
+          css={style.field}
+          validate={[required, maxLength32]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Województwo:</h4>
+        <Field
+          name="state"
+          component={FieldX}
+          type="text"
+          autoComplete="address-level1"
+          css={style.field}
+          validate={[required, maxLength32]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Miasto:</h4>
+        <Field
+          name="city"
+          component={FieldX}
+          type="text"
+          autoComplete="address-level2"
+          css={style.field}
+          validate={[required, maxLength32]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Kod pocztowy:</h4>
+        <Field
+          name="postcode"
+          component={FieldX}
+          type="tel"
+          autoComplete="postal-code"
+          css={style.field}
+          {...postCodeMask}
+          validate={[required, postCode]}
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>NIP:</h4>
+        <Field
+          name="nip"
+          component={FieldX}
+          type="tel"
+          css={style.field}
+          {...nipMask}
+          validate={[nip]}
+        />
+      </div>
 
       <div css={style.actions}>
-        <Button css={style.button}>Zarejestruj</Button>
+        <Button type="submit" css={style.button} isLoading={isLoading}>Zarejestruj</Button>
       </div>
     </form>
   );

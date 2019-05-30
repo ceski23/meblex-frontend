@@ -9,8 +9,8 @@ export const LOGOUT = 'LOGOUT';
 export const SET_USER_DATA = 'SET_USER_DATA';
 
 export const Roles = {
-  USER: 'user',
-  EMPLOYEE: 'employee',
+  USER: 'Client',
+  EMPLOYEE: 'Worker',
 };
 
 export const setAccessToken = token => ({ type: SET_ACCESS_TOKEN, payload: token });

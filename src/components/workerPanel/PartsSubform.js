@@ -3,13 +3,18 @@
 import { jsx, css } from '@emotion/core';
 import { Field } from 'redux-form';
 import { createNumberMask } from 'redux-form-input-masks';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import slugify from 'slugify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, number } from '../../validationRules';
 import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
 import SelectField from './fields/SelectField';
+import { fetchMaterials } from '../../redux/data';
+import * as API from '../../api';
+
 
 const priceMask = createNumberMask({
   suffix: ' zł',
@@ -121,7 +126,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
           <div css={style.fieldWrapper}>
             <h4 css={style.fieldLabel}>Kolor części:</h4>
             <Field
-              name={`${part}.color`}
+              name={`${part}.colorId`}
               component={SelectField}
               css={style.formField}
               validate={[required]}
@@ -129,7 +134,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
             >
               <option disabled />
               {colors.map(color => (
-                <option key={color.id} value={color.id}>
+                <option key={color.colorId} value={color.colorId}>
                   {color.name}
                 </option>
               ))}
@@ -139,7 +144,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
           <div css={style.fieldWrapper}>
             <h4 css={style.fieldLabel}>Wzór części:</h4>
             <Field
-              name={`${part}.pattern`}
+              name={`${part}.patternId`}
               component={SelectField}
               css={style.formField}
               validate={[required]}
@@ -147,7 +152,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
             >
               <option disabled />
               {patterns.map(p => (
-                <option key={p.id} value={p.id}>
+                <option key={p.patternId} value={p.patternId}>
                   {p.name}
                 </option>
               ))}
@@ -157,7 +162,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
           <div css={style.fieldWrapper}>
             <h4 css={style.fieldLabel}>Materiał części:</h4>
             <Field
-              name={`${part}.material`}
+              name={`${part}.materialId`}
               component={SelectField}
               css={style.formField}
               validate={[required]}
@@ -165,7 +170,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
             >
               <option disabled />
               {materials.map(m => (
-                <option key={m.id} value={m.id}>
+                <option key={m.materialId} value={m.materialId}>
                   {m.name}
                 </option>
               ))}

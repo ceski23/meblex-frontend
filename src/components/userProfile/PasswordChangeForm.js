@@ -7,7 +7,7 @@ import Button from '../shared/Button';
 import { required, password, passwordMatch } from '../../validationRules';
 
 
-const PasswordChangeForm = ({ handleSubmit, error }) => {
+const PasswordChangeForm = ({ handleSubmit, error, isLoading }) => {
   const style = {
     form: css`
       display: flex;
@@ -96,7 +96,7 @@ const PasswordChangeForm = ({ handleSubmit, error }) => {
       </div>
 
       <div css={style.submitButton}>
-        <Button>Zmień hasło</Button>
+        <Button isLoading={isLoading} type="submit">Zmień hasło</Button>
       </div>
     </form>
   );

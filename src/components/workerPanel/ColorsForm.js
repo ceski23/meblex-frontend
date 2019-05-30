@@ -1,12 +1,17 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { createTextMask } from 'redux-form-input-masks';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import slugify from 'slugify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
 import FieldWithColor from './fields/FieldWithColor';
+import { fetchColors } from '../../redux/data';
+import * as API from '../../api';
 
 const colorMask = createTextMask({
   pattern: '#hhhhhh',
@@ -17,9 +22,13 @@ const colorMask = createTextMask({
     },
   },
   guide: false,
+  stripMask: false,
 });
 
-const ColorsForm = ({ handleSubmit, error, isLoading }) => {
+const ColorsForm = ({ error, reset, handleSubmit }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const style = {
     form: css`
       display: flex;
@@ -31,8 +40,8 @@ const ColorsForm = ({ handleSubmit, error, isLoading }) => {
     `,
 
     formError: css`
-      margin-top: -10px;
-      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
       font-weight: bold;
       text-align: center;
       color: red;
@@ -67,8 +76,25 @@ const ColorsForm = ({ handleSubmit, error, isLoading }) => {
     `,
   };
 
+  const submitForm = async (values) => {
+    setIsLoading(true);
+    try {
+      const slug = slugify(values.name, { lower: true });
+      await API.addColor({ ...values, slug });
+      reset();
+      dispatch(fetchColors());
+    } catch (error) {
+      throw new SubmissionError({
+        _error: error.title,
+        ...error.errors,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <form css={style.form} onSubmit={handleSubmit}>
+    <form css={style.form} onSubmit={handleSubmit(submitForm)}>
       {error && <p css={style.formError}>{error}</p>}
 
       <div css={style.fieldWrapper}>
@@ -85,7 +111,7 @@ const ColorsForm = ({ handleSubmit, error, isLoading }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Kod koloru:</h4>
         <Field
-          name="hex_code"
+          name="hexCode"
           component={FieldWithColor}
           type="text"
           css={style.formField}

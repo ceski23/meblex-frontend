@@ -63,8 +63,8 @@ const ColorsList = () => {
 
         <div css={style.list}>
           {colors.sort((a, b) => ((a.name < b.name) ? -1 : 1)).map(color => (
-            <div css={style.color} key={color.id}>
-              <div css={[style.icon, { backgroundColor: color.hex_code }]} />
+            <div css={style.color} key={color.colorId}>
+              <div css={[style.icon, { backgroundColor: color.hexCode }]} />
               <h4>{color.name}</h4>
               <span css={style.remove} role="button" tabIndex={0}>
                 <Icons.Close2 />

@@ -11,7 +11,6 @@ import { ReactComponent as Logo } from '../../assets/meblex_logo.svg';
 import { Furniture } from '../../assets';
 import * as API from '../../api';
 import RegistrationForm from './RegistrationForm';
-import Loading from '../shared/Loading';
 import { setUserData as setUserDataAction } from '../../redux/auth';
 
 const Registration = () => {
@@ -23,18 +22,17 @@ const Registration = () => {
 
   const handleRegister = async (values) => {
     setIsLoading(true);
-
     try {
       await API.register(values);
       const userData = await API.getUserData();
       setUserData(userData);
     } catch (err) {
-      setIsLoading(false);
-
       throw new SubmissionError({
         _error: err.title,
         ...err.errors,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -44,14 +42,14 @@ const Registration = () => {
       width: 100%;
       height: 100%;
       min-height: 100vh;
-      background: ${theme.colors.primary};
+      background: ${theme.colors.background};
       position: relative;
       padding: 0;
     `,
 
     logo: css`
       margin: 30px 0;
-      fill: #fff;
+      fill: ${theme.colors.primary};
       height: 70px;
     `,
 
@@ -65,20 +63,20 @@ const Registration = () => {
       flex-wrap: wrap;
       justify-content: center;
       overflow: hidden;
+      margin-top: 20px;
     `,
 
     icon: css`
-      margin: 40px;
+      margin: 20px 30px;
       display: inline-block;
-      width: 40px;
-      height: 40px;
-      fill: #fff;
+      width: 30px;
+      height: 30px;
+      fill: ${theme.colors.primary};
     `,
   };
 
   return (
     <React.Fragment>
-      <Loading isLoading={isLoading} text="Rejestrowanie..." />
       {user && <Redirect to="/" />}
 
       <section css={style.welcome}>
@@ -90,7 +88,7 @@ const Registration = () => {
         </div>
 
         <Logo css={style.logo} />
-        <RegistrationForm onSubmit={handleRegister} />
+        <RegistrationForm onSubmit={handleRegister} isLoading={isLoading} />
       </section>
     </React.Fragment>
   );

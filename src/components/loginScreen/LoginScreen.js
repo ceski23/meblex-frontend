@@ -11,7 +11,6 @@ import { ReactComponent as Logo } from '../../assets/meblex_logo.svg';
 import { Furniture } from '../../assets';
 import * as API from '../../api';
 import LoginForm from './LoginForm';
-import Loading from '../shared/Loading';
 import { setUserData as setUserDataAction } from '../../redux/auth';
 
 
@@ -30,35 +29,36 @@ const LoginScreen = ({ location }) => {
       width: 100%;
       height: 100%;
       min-height: 100vh;
-      background: ${theme.colors.primary};
+      background: ${theme.colors.background};
       position: relative;
       padding: 0;
     `,
 
     logo: css`
-      margin-bottom: 20px;
-      fill: #fff;
+      margin: 30px 0;
+      fill: ${theme.colors.primary};
       height: 70px;
     `,
 
     icons: css`
       opacity: .5;
       position: absolute;
-      height: 100%;
+      height: 100vh;
       top: 0;
       left: 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       overflow: hidden;
+      padding-top: 20px;
     `,
 
     icon: css`
       margin: 40px;
       display: inline-block;
-      width: 40px;
-      height: 40px;
-      fill: #fff;
+      width: 30px;
+      height: 30px;
+      fill: ${theme.colors.primary};
     `,
   };
 
@@ -68,16 +68,15 @@ const LoginScreen = ({ location }) => {
       const { accessToken, refreshToken, ...userData } = await API.login(values);
       setUserData(userData);
     } catch (err) {
-      setIsLoading(false);
       throw new SubmissionError({ _error: err.title });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <React.Fragment>
       {user && <Redirect to={from} />}
-
-      <Loading isLoading={isLoading} text="Logowanie..." />
 
       <section css={style.welcome}>
         <div css={style.icons}>
@@ -88,7 +87,7 @@ const LoginScreen = ({ location }) => {
         </div>
 
         <Logo css={style.logo} />
-        <LoginForm onSubmit={handleLogin} />
+        <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
       </section>
     </React.Fragment>
   );

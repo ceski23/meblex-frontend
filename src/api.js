@@ -11,6 +11,7 @@ export const client = axios.create({
   baseURL: 'https://api.wip.meblex.tk/api/',
   headers: {
     'Content-Type': 'application/json',
+    'Accept-Language': 'pl-PL',
     Authorization: `Bearer ${accessToken}`,
   },
 });
@@ -25,7 +26,7 @@ const authIntResponse = response => response;
 const authIntError = async (error) => {
   const errorResponse = error.response;
 
-  if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/logowanie')) {
+  if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/login')) {
     client.interceptors.response.eject(authInterceptor);
     try {
       await relogin();
@@ -68,7 +69,8 @@ function errorHandler(error, callback) {
 
 const defaultErrorCallback = (err, code) => ({
   title: {
-    500: 'Błąd serwera!',
+    // 500: 'Błąd serwera!',
+    404: 'Nieznane zapytanie!',
     default: 'Wystąpił błąd, spróbuj jeszcze raz!',
   }[code] || err.response.data.detail || err.response.data.title,
   errors: err.response.data.errors || [],
@@ -120,6 +122,123 @@ export const updateUserEmail = data => (
 
 export const getUserData = data => (
   client.get('User', data).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+
+export const getColors = () => (
+  client.get('Furniture/colors').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const addColor = data => (
+  client.post('Furniture/color', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const getMaterials = () => (
+  client.get('Furniture/materials').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const addMaterial = (values) => {
+  const { photo, ...data } = values;
+  const formData = new FormData();
+  formData.set('json', JSON.stringify(data));
+  formData.append('photo', photo.files[0]);
+
+  return client({
+    method: 'post',
+    url: 'Furniture/material',
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ));
+};
+
+export const getPatterns = () => (
+  client.get('Furniture/patterns').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const addPattern = (values) => {
+  const { photo, ...data } = values;
+  const formData = new FormData();
+  formData.set('json', JSON.stringify(data));
+  formData.append('photo', photo.files[0]);
+
+  return client({
+    method: 'post',
+    url: 'Patterns/add',
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ));
+};
+
+export const getFurniture = config => (
+  client.get('Furniture/furniture', {
+    params: {
+      $orderby: config.sortBy,
+      $top: config.limit,
+      $filter: config.filter,
+    },
+  }).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const getPieceOfFurniture = id => (
+  client.get(`Furniture/pieceOfFurniture/${id}`).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const getRooms = () => (
+  client.get('Furniture/rooms').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const getCategories = () => (
+  client.get('Furniture/categories').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const addFurniture = (data, photos) => {
+  // TODO: Fix adding furniture
+  const formData = new FormData();
+  formData.set('json', JSON.stringify(data));
+  photos.forEach((photo) => {
+    formData.append('photos', photo);
+  });
+
+  return client({
+    method: 'post',
+    url: 'Furniture/add',
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ));
+};
+
+export const addParts = data => (
+  client.post('Furniture/parts', data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ))
 );

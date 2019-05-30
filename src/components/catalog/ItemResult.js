@@ -2,10 +2,12 @@
 
 import { jsx, css } from '@emotion/core';
 import { Link } from 'react-router-dom';
-import { useTheme } from '../../helpers';
+import Img from 'react-image';
+import { useTheme, getCategoryIcon } from '../../helpers';
 
 const ItemResult = ({ data, ...props }) => {
   const theme = useTheme();
+  const FallbackIcon = getCategoryIcon(data.category.categoryId);
 
   const style = {
     result: css`
@@ -14,6 +16,7 @@ const ItemResult = ({ data, ...props }) => {
       align-items: center;
       padding: 20px 20px;
       text-decoration: none;
+      width: 100%;
     `,
 
     image: css`
@@ -24,10 +27,17 @@ const ItemResult = ({ data, ...props }) => {
       justify-content: center;
       align-items: center;
 
-      & > img {
+      & > * {
         max-width: 70px;
         max-height: 70px;
       }
+    `,
+
+    fallbackIcon: css`
+      width: 100%;
+      height: 100%;
+      margin: 0 15px;
+      fill: ${theme.colors.text};
     `,
 
     textBox: css`
@@ -41,7 +51,7 @@ const ItemResult = ({ data, ...props }) => {
 
     price: css`
       margin: 0 0 0 20px;
-      font-size: 1.5em;
+      font-size: 1.2em;
     `,
 
     currency: css`
@@ -54,7 +64,11 @@ const ItemResult = ({ data, ...props }) => {
   return (
     <Link to={`katalog/produkty/${data.id}`} css={style.result} {...props}>
       <div css={style.image}>
-        <img src={data.photos[0]} alt={data.name} />
+        <Img
+          src={`https://api.wip.meblex.tk/images/${data.photos[0]}`}
+          loader={<FallbackIcon css={style.fallbackIcon} />}
+          unloader={<FallbackIcon css={style.fallbackIcon} />}
+        />
       </div>
       <div css={style.textBox}>
         <h4 css={style.text}>{data.name}</h4>

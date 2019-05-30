@@ -54,7 +54,7 @@ const UserInfo = ({ location }) => {
       <Icons.User css={style.icon} />
       <div css={style.userInfo}>
         <h5 css={style.username}>{user.name}</h5>
-        <p css={style.role}>Pracownik</p>
+        <p css={style.role}>{user.role}</p>
       </div>
     </Link>
   ) : (

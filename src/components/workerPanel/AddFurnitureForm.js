@@ -1,15 +1,18 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
-import { Field, reduxForm, FieldArray } from 'redux-form';
-import { createNumberMask, createTextMask } from 'redux-form-input-masks';
+import { Field, reduxForm, FieldArray, SubmissionError } from 'redux-form';
+import { createNumberMask } from 'redux-form-input-masks';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, number, size } from '../../validationRules';
 import PartsSubform from './PartsSubform';
 import SelectField from './fields/SelectField';
 import TextareaField from '../shared/TextareaField';
+import FieldWithPreview from './fields/FieldWithPreview';
+import * as API from '../../api';
 
 const priceMask = createNumberMask({
   suffix: ' zł',
@@ -17,13 +20,9 @@ const priceMask = createNumberMask({
   allowEmpty: true,
 });
 
-const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
-  const colors = useSelector(state => state.data.colors);
-  const patterns = useSelector(state => state.data.patterns);
-  const materials = useSelector(state => state.data.materials);
-
-  const categories = useSelector(state => state.data.categories);
-  const rooms = useSelector(state => state.data.rooms);
+const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const data = useSelector(state => state.data);
 
   const style = {
     form: css`
@@ -36,8 +35,8 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
     `,
 
     formError: css`
-      margin-top: -10px;
-      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
       font-weight: bold;
       text-align: center;
       color: red;
@@ -72,8 +71,25 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
     `,
   };
 
+  const submitForm = async (values) => {
+    const { photos, parts, ...data } = values;
+    setIsLoading(true);
+    try {
+      const res = await API.addFurniture(data, Array.from(photos.files));
+      await API.addParts(parts.map(p => ({ ...p, pieceOfFurnitureId: res.id })));
+      reset();
+    } catch (error) {
+      throw new SubmissionError({
+        _error: error.title,
+        ...error.errors,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <form css={style.form} onSubmit={handleSubmit}>
+    <form css={style.form} onSubmit={handleSubmit(submitForm)}>
       {error && <p css={style.formError}>{error}</p>}
 
       <div css={style.fieldWrapper}>
@@ -88,6 +104,17 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
       </div>
 
       <div css={style.fieldWrapper}>
+        <h4 css={style.fieldLabel}>Zdjęcia:</h4>
+        <Field
+          name="photos"
+          component={FieldWithPreview}
+          css={style.formField}
+          validate={[required]}
+          multiple
+        />
+      </div>
+
+      <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Kolor:</h4>
         <Field
           name="color"
@@ -97,8 +124,8 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
           parse={value => Number(value)}
         >
           <option disabled />
-          {colors.map(color => (
-            <option key={color.id} value={color.id}>
+          {data.colors.map(color => (
+            <option key={color.colorId} value={color.colorId}>
               {color.name}
             </option>
           ))}
@@ -115,8 +142,8 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
           parse={value => Number(value)}
         >
           <option disabled />
-          {patterns.map(p => (
-            <option key={p.id} value={p.id}>
+          {data.patterns.map(p => (
+            <option key={p.patternId} value={p.patternId}>
               {p.name}
             </option>
           ))}
@@ -133,8 +160,8 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
           parse={value => Number(value)}
         >
           <option disabled />
-          {materials.map(m => (
-            <option key={m.id} value={m.id}>
+          {data.materials.map(m => (
+            <option key={m.materialId} value={m.materialId}>
               {m.name}
             </option>
           ))}
@@ -189,14 +216,14 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Pomieszczenie:</h4>
         <Field
-          name="room"
+          name="roomId"
           component={SelectField}
           css={style.formField}
           validate={[required]}
         >
           <option disabled />
-          {rooms.map(room => (
-            <option key={room.id} value={room.id}>
+          {data.rooms.map(room => (
+            <option key={room.roomId} value={room.roomId}>
               {room.name}
             </option>
           ))}
@@ -206,15 +233,15 @@ const AddFurnitureForm = ({ handleSubmit, error, isLoading }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Kategoria:</h4>
         <Field
-          name="category"
+          name="categoryId"
           component={SelectField}
           css={style.formField}
           validate={[required]}
           parse={value => Number(value)}
         >
           <option disabled />
-          {categories.map(category => (
-            <option key={category.id} value={category.id}>
+          {data.categories.map(category => (
+            <option key={category.categoryId} value={category.categoryId}>
               {category.name}
             </option>
           ))}
