@@ -2,13 +2,18 @@
 
 import React from 'react';
 import { jsx, css } from '@emotion/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
+import * as API from '../../api';
+import { fetchColors } from '../../redux/data';
+
 
 const ColorsList = () => {
   const colors = useSelector(state => state.data.colors);
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const style = {
     panel: css`
@@ -56,6 +61,16 @@ const ColorsList = () => {
     `,
   };
 
+  const removeColor = async (id) => {
+    try {
+      await API.removeColor(id);
+      toast('✔️ Usunięto kolor!');
+      dispatch(fetchColors());
+    } catch (error) {
+      toast('🔥 Wystąpił błąd przy usuwaniu!');
+    }
+  };
+
   return (
     <React.Fragment>
       <div css={style.panel}>
@@ -66,7 +81,7 @@ const ColorsList = () => {
             <div css={style.color} key={color.colorId}>
               <div css={[style.icon, { backgroundColor: color.hexCode }]} />
               <h4>{color.name}</h4>
-              <span css={style.remove} role="button" tabIndex={0}>
+              <span css={style.remove} role="button" tabIndex={0} onClick={() => removeColor(color.colorId)}>
                 <Icons.Close2 />
               </span>
             </div>

@@ -2,13 +2,17 @@
 
 import React from 'react';
 import { jsx, css } from '@emotion/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
+import * as API from '../../api';
+import { fetchPatterns } from '../../redux/data';
 
 const PatternsList = () => {
   const patterns = useSelector(state => state.data.patterns);
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const style = {
     panel: css`
@@ -57,6 +61,16 @@ const PatternsList = () => {
     `,
   };
 
+  const removePattern = async (id) => {
+    try {
+      await API.removePattern(id);
+      toast('✔️ Usunięto wzór!');
+      dispatch(fetchPatterns());
+    } catch (error) {
+      toast('🔥 Wystąpił błąd przy usuwaniu!');
+    }
+  };
+
   return (
     <React.Fragment>
       <div css={style.panel}>
@@ -67,7 +81,7 @@ const PatternsList = () => {
             <div css={style.pattern} key={pattern.patternId}>
               <div css={[style.icon, { backgroundImage: `url(https://api.wip.meblex.tk/images/${pattern.photo})` }]} />
               <h4>{pattern.name}</h4>
-              <span css={style.remove} role="button" tabIndex={0}>
+              <span css={style.remove} role="button" tabIndex={0} onClick={() => removePattern(pattern.patternId)}>
                 <Icons.Close2 />
               </span>
             </div>

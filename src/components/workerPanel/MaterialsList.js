@@ -2,13 +2,17 @@
 
 import React from 'react';
 import { jsx, css } from '@emotion/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
+import * as API from '../../api';
+import { fetchMaterials } from '../../redux/data';
 
 const MaterialsList = () => {
   const materials = useSelector(state => state.data.materials);
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const style = {
     panel: css`
@@ -57,6 +61,16 @@ const MaterialsList = () => {
     `,
   };
 
+  const removeMaterial = async (id) => {
+    try {
+      await API.removeMaterial(id);
+      toast('✔️ Usunięto materiał!');
+      dispatch(fetchMaterials());
+    } catch (error) {
+      toast('🔥 Wystąpił błąd przy usuwaniu!');
+    }
+  };
+
   return (
     <React.Fragment>
       <div css={style.panel}>
@@ -67,7 +81,7 @@ const MaterialsList = () => {
             <div css={style.material} key={material.materialId}>
               <div css={[style.icon, { backgroundImage: `url(https://api.wip.meblex.tk/images/${material.photo})` }]} />
               <h4>{material.name}</h4>
-              <span css={style.remove} role="button" tabIndex={0}>
+              <span css={style.remove} role="button" tabIndex={0} onClick={() => removeMaterial(material.materialId)}>
                 <Icons.Close2 />
               </span>
             </div>

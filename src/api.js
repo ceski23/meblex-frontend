@@ -242,3 +242,21 @@ export const addParts = data => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ))
 );
+
+export const removeColor = id => (
+  client.delete(`Furniture/color/${id}`).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const removePattern = id => (
+  client.delete(`Furniture/pattern/${id}`).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const removeMaterial = id => (
+  client.delete(`Furniture/material/${id}`).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
