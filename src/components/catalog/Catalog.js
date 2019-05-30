@@ -19,23 +19,23 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 
 
 const Catalog = ({ location: { search } }) => {
-  const filters = useSelector(state => state.filters);
+  const filtersElem = useRef();
+  const theme = useTheme();
 
+  const filters = useSelector(state => state.filters);
   const rawCategories = useSelector(state => state.data.categories);
   const rawRooms = useSelector(state => state.data.rooms);
+
   const rooms = rawRooms.map(room => ({ ...room, icon: getRoomIcon(room.roomId) }));
   const categories = rawCategories.map(category => ({ ...category, icon: getCategoryIcon(category.categoryId) }));
 
   const [furniture, setFurniture] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const filtersElem = useRef();
-
-  const theme = useTheme();
   const [showFilters, setShowFilters] = useState(false);
+  const [anyFilters, setAnyFilters] = useState(false);
 
-  const roomFilter = new URLSearchParams(search).get('pokoj');
-  const categoryFilter = new URLSearchParams(search).get('kategoria');
+  const selectedRoom = new URLSearchParams(search).get('pokoj');
+  const selectedCategory = new URLSearchParams(search).get('kategoria');
 
   const style = {
     title: css`
@@ -91,26 +91,32 @@ const Catalog = ({ location: { search } }) => {
 
   useEffect(() => {
     const fetchFurniture = async () => {
-      const colorFilter = filters.colors.length > 0 ? filters.colors : [...(filters.searchBox.color ? [filters.searchBox.color] : [])];
-      const patternFilter = filters.patterns.length > 0 ? filters.patterns : [...(filters.searchBox.pattern ? [filters.searchBox.pattern] : [])];
-      const materialFilter = filters.materials.length > 0 ? filters.materials : [...(filters.searchBox.material ? [filters.searchBox.material] : [])];
-      const catFilter = categoryFilter || filters.searchBox.category;
-      const rooFilter = roomFilter || filters.searchBox.room;
+      const filterBy = (type, selected, fromSearchBox, includeParts = false) => {
+        const data = ((selected.length > 0) ? selected : [fromSearchBox]).filter(Boolean);
+        return data.length === 0 ? undefined : data.map(d => (
+          `(${type}/${type}Id eq ${d[`${type}Id`]})${includeParts ? ` or (parts/${type}/${type}Id eq ${d[`${type}Id`]})` : ''}`
+        )).join(' or ');
+      };
 
       const filter = [
-        ...(catFilter ? [`category/categoryId eq ${catFilter.categoryId}`] : []),
-        ...(rooFilter ? [`room/roomId eq ${roomFilter.roomId}`] : []),
-        ...(colorFilter.length ? [`color/colorId in (${colorFilter.map(c => c.colorId).join(',')})`] : []),
-        ...(patternFilter.length ? [`pattern/patternId in (${patternFilter.map(p => p.patternId).join(',')})`] : []),
-        ...(materialFilter.length ? [`material/materialId in (${materialFilter.map(m => m.materialId).join(',')})`] : []),
-      ];
+        filterBy('color', filters.colors, filters.searchBox.color, true),
+        filterBy('pattern', filters.patterns, filters.searchBox.pattern, true),
+        filterBy('material', filters.materials, filters.searchBox.material, true),
+        filterBy('category', selectedCategory ? [{ categoryId: selectedCategory }] : [], filters.searchBox.category),
+        filterBy('room', selectedRoom ? [{ roomId: selectedRoom }] : [], filters.searchBox.room),
+      ].filter(Boolean);
 
-      if (filter.length === 0) return;
+      if (filter.length === 0) {
+        setAnyFilters(false);
+        return;
+      }
+      setAnyFilters(true);
+
 
       setIsLoading(true);
       try {
         const result = await API.getFurniture({
-          filter: `(${filter.join(' and ')})`,
+          filter: `${filter.map(f => `(${f})`).join(' and ')}`,
         });
         setFurniture(result);
       } catch (error) {
@@ -121,7 +127,7 @@ const Catalog = ({ location: { search } }) => {
     };
 
     fetchFurniture();
-  }, [categoryFilter, filters, filters.colors, filters.materials, filters.patterns, filters.searchBox.color, filters.searchBox.material, filters.searchBox.pattern, roomFilter]);
+  }, [filters, selectedCategory, selectedRoom]);
 
   return (
     <React.Fragment>
@@ -151,7 +157,7 @@ const Catalog = ({ location: { search } }) => {
         </div>
       )}
 
-      {!isLoading && furniture.length === 0 && (categoryFilter || roomFilter) && (
+      {!isLoading && furniture.length === 0 && anyFilters && (
         <NoItem />
       )}
 

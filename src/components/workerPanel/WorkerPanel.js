@@ -13,13 +13,13 @@ import PatternsForm from './PatternsForm';
 import PatternsList from './PatternsList';
 import AddFurnitureForm from './AddFurnitureForm';
 
-const FurniturePanel = () => {
+const WorkerPanel = () => {
   const theme = useTheme();
   const [index, setIndex] = useState(0);
   const tabsElem = useRef();
 
   const tabs = [
-    'Meble', 'Kolory', 'Materiały', 'Wzory',
+    'Meble', 'Kolory', 'Materiały', 'Wzory', 'Zapytania',
   ];
 
   const sliderMargin = 15;
@@ -43,12 +43,11 @@ const FurniturePanel = () => {
     tabs: css`
       display: flex;
       flex-direction: row;
-      width: 100%;
+      width: 100%;    
+      overflow: scroll;
     `,
 
     tab: css`
-      flex: 1;
-      padding: 20px 0;
       background: none;
       border: none;
       ${ripple('rgba(0, 0, 0, .2)')};
@@ -57,6 +56,11 @@ const FurniturePanel = () => {
       font-weight: bold;
       color: ${theme.colors.textDark};
       font-size: 1em;
+      padding: 20px 20px;
+      display: inline-flex;
+    `,
+
+    tabWrapper: css`
     `,
 
     slider: css`
@@ -72,7 +76,7 @@ const FurniturePanel = () => {
 
   const handleTabClick = ({ target }) => {
     const children = Array.from(tabsElem.current.children);
-    setIndex(children.indexOf(target));
+    setIndex(children.indexOf(target.parentNode));
   };
 
   const handleMouseUp = ({ target }) => {
@@ -83,16 +87,18 @@ const FurniturePanel = () => {
     <React.Fragment>
       <div css={style.tabs} ref={tabsElem}>
         {tabs.map((tab, i) => (
-          <button css={style.tab} key={i} type="button" onClick={handleTabClick} onMouseUp={handleMouseUp}>
-            {tab}
-          </button>
+          <div css={style.tabWrapper} key={i}>
+            <button css={style.tab} type="button" onClick={handleTabClick} onMouseUp={handleMouseUp}>
+              {tab}
+            </button>
+          </div>
         ))}
       </div>
 
-      <span css={[style.slider, {
+      {/* <span css={[style.slider, {
         transform: `translateX(calc(${index * 100}% + ${(index) * (2 * sliderMargin)}px + ${sliderMargin}px))`,
       }]}
-      />
+      /> */}
 
       <SwipeableViews index={index} onChangeIndex={i => setIndex(i)}>
 
@@ -132,4 +138,4 @@ const FurniturePanel = () => {
   );
 };
 
-export default FurniturePanel;
+export default WorkerPanel;

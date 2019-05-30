@@ -236,3 +236,9 @@ export const addFurniture = (data, photos) => {
     errorHandler(err, code => defaultErrorCallback(err, code))
   ));
 };
+
+export const addParts = data => (
+  client.post('Furniture/parts', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);

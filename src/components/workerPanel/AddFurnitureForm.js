@@ -72,11 +72,11 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
   };
 
   const submitForm = async (values) => {
-    const { photos, ...data } = values;
+    const { photos, parts, ...data } = values;
     setIsLoading(true);
     try {
-      const furnitureData = await API.addFurniture(data, Array.from(photos.files));
-      console.log(furnitureData);
+      const res = await API.addFurniture(data, Array.from(photos.files));
+      await API.addParts(parts.map(p => ({ ...p, pieceOfFurnitureId: res.id })));
       reset();
     } catch (error) {
       throw new SubmissionError({

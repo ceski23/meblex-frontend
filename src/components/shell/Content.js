@@ -12,7 +12,7 @@ import Catalog from '../catalog/Catalog';
 import Product from '../productScreen/Product';
 import UserProfile from '../userProfile/UserProfile';
 import ProtectedRoute from './ProtectedRoute';
-import FurniturePanel from '../furniturePanel/FurniturePanel';
+import WorkerPanel from '../workerPanel/WorkerPanel';
 import Home from '../homeScreen/Home';
 
 // import * as API from '../api'
@@ -44,7 +44,7 @@ const Content = () => {
           <Route path="/katalog/produkty/:product" component={Product} />
           <Route path="/katalog" component={Catalog} />
           <ProtectedRoute path="/profil" roles={[Roles.USER]} component={UserProfile} />
-          <ProtectedRoute path="/panel" component={FurniturePanel} roles={[Roles.EMPLOYEE]} />
+          <ProtectedRoute path="/panel" component={WorkerPanel} roles={[Roles.EMPLOYEE]} />
           <Route path="/" exact component={Home} />
           <Route component={NotFound} />
         </Switch>
