@@ -12,6 +12,7 @@ import Catalog from '../catalog/Catalog';
 import Product from '../productScreen/Product';
 import UserProfile from '../userProfile/UserProfile';
 import ProtectedRoute from './ProtectedRoute';
+import ProposalPage from '../customSizeForm/ProposalPage';
 import WorkerPanel from '../workerPanel/WorkerPanel';
 import Home from '../homeScreen/Home';
 
@@ -44,6 +45,7 @@ const Content = () => {
           <Route path="/katalog/produkty/:product" component={Product} />
           <Route path="/katalog" component={Catalog} />
           <ProtectedRoute path="/profil" roles={[Roles.USER]} component={UserProfile} />
+          <ProtectedRoute path="/niestandardowy" component={ProposalPage} roles={[Roles.USER]} />
           <ProtectedRoute path="/panel" component={WorkerPanel} roles={[Roles.EMPLOYEE]} />
           <Route path="/" exact component={Home} />
           <Route component={NotFound} />

@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { css, jsx } from '@emotion/core';
+import { Link } from 'react-router-dom';
 import Button from '../shared/Button';
 import Breadcrumbs from '../shared/Breadcrumbs';
 import PartsBox from './PartsBox';
@@ -267,18 +268,19 @@ const Product = ({ match: { params } }) => {
             <h3>{product.name}</h3>
             <p css={style.id}>Numer produktu: {product.id}</p>
 
-            <div css={style.images} ref={refe}>
-              {product.photos.map((photo, i) => (
-                <img src={`https://api.wip.meblex.tk/images/${photo}`} alt={i} key={i} css={style.image} />
-              ))}
-            </div>
-
-            <ProductInfo product={product} />
-
             <div css={style.customSizeBox}>
               <h4>Nie pasuje Ci rozmiar tego mebla?</h4>
               <p>Wyślij zapytanie, a nasi konsultanci sprawdzą czy możesz go dostać w innym rozmiarze</p>
-              <Button variant="secondary" css={style.customSizeButton}>Wyślij zapytanie</Button>
+              <Button
+                component={Link}
+                to={{
+                  pathname: '/niestandardowy',
+                  state: { item: product },
+                }}
+                variant="secondary"
+                css={style.customSizeButton}
+              >Wyślij zapytanie
+              </Button>
             </div>
 
             {product.parts.length > 0 && (
