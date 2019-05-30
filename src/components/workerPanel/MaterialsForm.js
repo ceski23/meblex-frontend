@@ -71,7 +71,7 @@ const MaterialsForm = ({ handleSubmit, error, reset }) => {
       const slug = slugify(values.name, { lower: true });
       await API.addMaterial({ ...values, slug });
       reset();
-      toast(`Dodano materiał ${values.name}!`);
+      toast(`✔️ Dodano materiał ${values.name}!`);
       dispatch(fetchMaterials());
     } catch (error) {
       throw new SubmissionError({

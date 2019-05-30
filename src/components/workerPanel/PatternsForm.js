@@ -71,7 +71,7 @@ const PatternsForm = ({ handleSubmit, error, reset }) => {
       const slug = slugify(values.name, { lower: true });
       await API.addPattern({ ...values, slug });
       reset();
-      toast(`Dodano wzór ${values.name}!`);
+      toast(`✔️ Dodano wzór ${values.name}!`);
       dispatch(fetchPatterns());
     } catch (error) {
       throw new SubmissionError({

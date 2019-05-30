@@ -43,7 +43,7 @@ const UserProfile = () => {
     try {
       const userData = await API.updateUserData(values);
       setUserData(userData);
-      toast('Zaktualizowano dane!');
+      toast('✔️ Zaktualizowano dane!');
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,
@@ -59,7 +59,7 @@ const UserProfile = () => {
     try {
       const { repeatPassword, ...data } = values;
       await API.updateUserPassword(data);
-      toast('Zaktualizowano hasło!');
+      toast('✔️ Zaktualizowano hasło!');
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,
@@ -74,7 +74,7 @@ const UserProfile = () => {
     setEmailUpdateLoading(true);
     try {
       await API.updateUserEmail(values);
-      toast('Zaktualizowano adres email!');
+      toast('✔️ Zaktualizowano adres email!');
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,

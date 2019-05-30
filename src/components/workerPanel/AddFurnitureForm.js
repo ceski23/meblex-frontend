@@ -79,7 +79,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
       const res = await API.addFurniture(data, Array.from(photos.files));
       await API.addParts(parts.map(p => ({ ...p, pieceOfFurnitureId: res.id })));
       reset();
-      toast(`Dodano ${res.name}!`);
+      toast(`✔️ Dodano ${res.name}!`);
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,

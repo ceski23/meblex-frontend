@@ -82,7 +82,7 @@ const ColorsForm = ({ error, reset, handleSubmit }) => {
     try {
       const slug = slugify(values.name, { lower: true });
       await API.addColor({ ...values, slug });
-      toast(`Dodano kolor ${values.name}!`);
+      toast(`✔️ Dodano kolor ${values.name}!`);
       reset();
       dispatch(fetchColors());
     } catch (error) {
