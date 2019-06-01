@@ -8,6 +8,7 @@ import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
 import * as API from '../../api';
 import { fetchPatterns } from '../../redux/data';
+import config from '../../config';
 
 const PatternsList = () => {
   const patterns = useSelector(state => state.data.patterns);
@@ -79,7 +80,7 @@ const PatternsList = () => {
         <div css={style.list}>
           {patterns.sort((a, b) => ((a.name < b.name) ? -1 : 1)).map(pattern => (
             <div css={style.pattern} key={pattern.patternId}>
-              <div css={[style.icon, { backgroundImage: `url(https://api.wip.meblex.tk/images/${pattern.photo})` }]} />
+              <div css={[style.icon, { backgroundImage: `url(${config.IMAGES_SERVER}${pattern.photo})` }]} />
               <h4>{pattern.name}</h4>
               <span css={style.remove} role="button" tabIndex={0} onClick={() => removePattern(pattern.patternId)}>
                 <Icons.Close2 />

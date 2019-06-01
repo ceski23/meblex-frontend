@@ -17,6 +17,7 @@ import CustomSizeRequestPage from '../customSizeForm/CustomSizeRequestPage';
 import WorkerPanel from '../workerPanel/WorkerPanel';
 import Home from '../homeScreen/Home';
 import 'react-toastify/dist/ReactToastify.css';
+import Fitter from '../fitter/Fitter';
 
 // import * as API from '../api'
 
@@ -34,6 +35,7 @@ const Content = () => {
       flex-direction: column;
       transition: transform .3s ease-in-out; 
       padding-bottom: 70px;
+      overflow: hidden;
     `,
 
     toast: css`
@@ -68,6 +70,7 @@ const Content = () => {
           <ProtectedRoute path="/profil" roles={[Roles.USER, Roles.EMPLOYEE]} component={UserProfile} />
           <ProtectedRoute path="/niestandardowy" component={CustomSizeRequestPage} roles={[Roles.USER, Roles.EMPLOYEE]} />
           <ProtectedRoute path="/panel" component={WorkerPanel} roles={[Roles.EMPLOYEE]} />
+          <ProtectedRoute path="/fitter" component={Fitter} roles={[Roles.USER, Roles.EMPLOYEE]} />
           <Route path="/" exact component={Home} />
           <Route component={NotFound} />
         </Switch>

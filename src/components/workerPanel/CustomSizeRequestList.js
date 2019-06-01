@@ -1,6 +1,8 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
+import React from 'react';
+import RequestItem from './RequestItem';
 
 
 const CustomSizeRequestList = () => {
@@ -52,7 +54,10 @@ const CustomSizeRequestList = () => {
   };
 
   return (
-    <p>dupa</p>
+    <React.Fragment>
+      <RequestItem />
+      <RequestItem />
+    </React.Fragment>
   );
 };
 

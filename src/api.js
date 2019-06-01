@@ -1,11 +1,12 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 
-import axios from 'axios';
+import axios, { CancelToken } from 'axios';
 import { store } from './store';
 import { setAccessToken, setRefreshToken } from './redux/auth';
 
 let { accessToken, refreshToken } = store.getState().auth;
+let searchCancelToken = CancelToken.source();
 
 export const client = axios.create({
   baseURL: 'https://api.wip.meblex.tk/api/',
@@ -73,7 +74,7 @@ const defaultErrorCallback = (err, code) => ({
     404: 'Nieznane zapytanie!',
     default: 'Wystąpił błąd, spróbuj jeszcze raz!',
   }[code] || err.response.data.detail || err.response.data.title,
-  errors: err.response.data.errors || [],
+  errors: (err.response && err.response.data.errors) || [],
 });
 
 export function checkStatus() {
@@ -145,23 +146,11 @@ export const getMaterials = () => (
   ))
 );
 
-export const addMaterial = (values) => {
-  const { photo, ...data } = values;
-  const formData = new FormData();
-  formData.set('json', JSON.stringify(data));
-  formData.append('photo', photo.files[0]);
-
-  return client({
-    method: 'post',
-    url: 'Furniture/material',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  }).catch(err => (
+export const addMaterial = values => (
+  client.post('Furniture/material', values).then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
-  ));
-};
+  ))
+);
 
 export const getPatterns = () => (
   client.get('Furniture/patterns').then(res => res.data).catch(err => (
@@ -169,35 +158,27 @@ export const getPatterns = () => (
   ))
 );
 
-export const addPattern = (values) => {
-  const { photo, ...data } = values;
-  const formData = new FormData();
-  formData.set('json', JSON.stringify(data));
-  formData.append('photo', photo.files[0]);
-
-  return client({
-    method: 'post',
-    url: 'Patterns/add',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  }).catch(err => (
+export const addPattern = values => (
+  client.post('Furniture/pattern', values).then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
-  ));
-};
+  ))
+);
 
-export const getFurniture = config => (
-  client.get('Furniture/furniture', {
+export const getFurniture = (config) => {
+  searchCancelToken.cancel();
+  searchCancelToken = CancelToken.source();
+
+  return client.get('Furniture/furniture', {
     params: {
       $orderby: config.sortBy,
       $top: config.limit,
       $filter: config.filter,
     },
+    cancelToken: searchCancelToken.token,
   }).then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
-  ))
-);
+  ));
+};
 
 export const getPieceOfFurniture = id => (
   client.get(`Furniture/pieceOfFurniture/${id}`).then(res => res.data).catch(err => (
@@ -217,25 +198,11 @@ export const getCategories = () => (
   ))
 );
 
-export const addFurniture = (data, photos) => {
-  // TODO: Fix adding furniture
-  const formData = new FormData();
-  formData.set('json', JSON.stringify(data));
-  photos.forEach((photo) => {
-    formData.append('photos', photo);
-  });
-
-  return client({
-    method: 'post',
-    url: 'Furniture/add',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  }).catch(err => (
+export const addFurniture = values => (
+  client.post('Furniture/add', values).then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
-  ));
-};
+  ))
+);
 
 export const addParts = data => (
   client.post('Furniture/parts', data).catch(err => (

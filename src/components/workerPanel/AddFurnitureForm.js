@@ -73,11 +73,11 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
   };
 
   const submitForm = async (values) => {
-    const { photos, parts, ...data } = values;
+    const { parts, ...data } = values;
     setIsLoading(true);
     try {
-      const res = await API.addFurniture(data, Array.from(photos.files));
-      await API.addParts(parts.map(p => ({ ...p, pieceOfFurnitureId: res.id })));
+      const res = await API.addFurniture(data);
+      if (parts) await API.addParts(parts.map(p => ({ ...p, pieceOfFurnitureId: res.id })));
       reset();
       toast(`✔️ Dodano ${res.name}!`);
     } catch (error) {
@@ -119,7 +119,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Kolor:</h4>
         <Field
-          name="color"
+          name="colorId"
           component={SelectField}
           css={style.formField}
           validate={[required]}
@@ -137,7 +137,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Wzór:</h4>
         <Field
-          name="pattern"
+          name="patternId"
           component={SelectField}
           css={style.formField}
           validate={[required]}
@@ -155,7 +155,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Materiał:</h4>
         <Field
-          name="material"
+          name="materialId"
           component={SelectField}
           css={style.formField}
           validate={[required]}

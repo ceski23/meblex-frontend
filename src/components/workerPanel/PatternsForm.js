@@ -69,10 +69,14 @@ const PatternsForm = ({ handleSubmit, error, reset }) => {
     setIsLoading(true);
     try {
       const slug = slugify(values.name, { lower: true });
-      await API.addPattern({ ...values, slug });
-      reset();
-      toast(`✔️ Dodano wzór ${values.name}!`);
-      dispatch(fetchPatterns());
+      const reader = new FileReader();
+      reader.readAsDataURL(values.photo.files[0]);
+      reader.onload = async () => {
+        await API.addPattern({ ...values, slug, photo: reader.result });
+        reset();
+        toast(`✔️ Dodano wzór ${values.name}!`);
+        dispatch(fetchPatterns());
+      };
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,

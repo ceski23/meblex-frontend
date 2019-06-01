@@ -8,6 +8,7 @@ import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
 import * as API from '../../api';
 import { fetchMaterials } from '../../redux/data';
+import config from '../../config';
 
 const MaterialsList = () => {
   const materials = useSelector(state => state.data.materials);
@@ -79,7 +80,7 @@ const MaterialsList = () => {
         <div css={style.list}>
           {materials.sort((a, b) => ((a.name < b.name) ? -1 : 1)).map(material => (
             <div css={style.material} key={material.materialId}>
-              <div css={[style.icon, { backgroundImage: `url(https://api.wip.meblex.tk/images/${material.photo})` }]} />
+              <div css={[style.icon, { backgroundImage: `url(${config.IMAGES_SERVER}${material.photo})` }]} />
               <h4>{material.name}</h4>
               <span css={style.remove} role="button" tabIndex={0} onClick={() => removeMaterial(material.materialId)}>
                 <Icons.Close2 />

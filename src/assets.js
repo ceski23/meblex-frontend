@@ -65,6 +65,7 @@ import { ReactComponent as Settings } from './assets/settings.svg';
 import { ReactComponent as Home } from './assets/home.svg';
 import { ReactComponent as Filter } from './assets/filter.svg';
 import { ReactComponent as Close2 } from './assets/close_2.svg';
+import { ReactComponent as AddPuzzle } from './assets/add_puzzle.svg';
 
 // Images
 import { ReactComponent as HikingTraveller } from './assets/hiking_traveller.svg';
@@ -86,6 +87,7 @@ export const Icons = {
   Home,
   Filter,
   Close2,
+  AddPuzzle,
 };
 
 export const Furniture = {

@@ -2,7 +2,7 @@
 
 import { jsx, css } from '@emotion/core';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
@@ -87,65 +87,80 @@ const Catalog = ({ location: { search } }) => {
         stroke: ${theme.colors.primary};
       }
     `,
+
+    searchSection: css`
+      display: flex;
+      flex-direction: row;
+    `,
+
+    filterBtn: css`
+      padding: 0;
+      height: 60px;
+      margin: 0 0 0 10px;
+
+      svg {
+        margin: 0 10px;
+        width: 25px;
+        height: 25px;
+      }
+    `,
   };
 
-  useEffect(() => {
-    const fetchFurniture = async () => {
-      const filterBy = (type, selected, fromSearchBox, includeParts = false) => {
-        const data = ((selected.length > 0) ? selected : [fromSearchBox]).filter(Boolean);
-        return data.length === 0 ? undefined : data.map(d => (
-          `(${type}/${type}Id eq ${d[`${type}Id`]})${includeParts ? ` or (parts/${type}/${type}Id eq ${d[`${type}Id`]})` : ''}`
-        )).join(' or ');
-      };
-
-      const filter = [
-        filterBy('color', filters.colors, filters.searchBox.color, true),
-        filterBy('pattern', filters.patterns, filters.searchBox.pattern, true),
-        filterBy('material', filters.materials, filters.searchBox.material, true),
-        filterBy('category', selectedCategory ? [{ categoryId: selectedCategory }] : [], filters.searchBox.category),
-        filterBy('room', selectedRoom ? [{ roomId: selectedRoom }] : [], filters.searchBox.room),
-      ].filter(Boolean);
-
-      if (filter.length === 0) {
-        setAnyFilters(false);
-        return;
-      }
-      setAnyFilters(true);
-
-
-      setIsLoading(true);
-      try {
-        const result = await API.getFurniture({
-          filter: `${filter.map(f => `(${f})`).join(' and ')}`,
-        });
-        setFurniture(result);
-      } catch (error) {
-        //
-      } finally {
-        setIsLoading(false);
-      }
+  const fetchFurniture = useCallback(async () => {
+    const filterBy = (type, selected, fromSearchBox, includeParts = false) => {
+      const data = ((selected.length > 0) ? selected : [fromSearchBox]).filter(Boolean);
+      return data.length === 0 ? undefined : data.map(d => (
+        `(${type}/${type}Id eq ${d[`${type}Id`]})${includeParts ? ` or (parts/any(p: p/${type}/${type}Id eq ${d[`${type}Id`]}))` : ''}`
+      )).join(' or ');
     };
 
-    fetchFurniture();
+    const filter = [
+      filterBy('color', filters.colors, filters.searchBox.color, true),
+      filterBy('pattern', filters.patterns, filters.searchBox.pattern, true),
+      filterBy('material', filters.materials, filters.searchBox.material, true),
+      filterBy('category', selectedCategory ? [{ categoryId: selectedCategory }] : [], filters.searchBox.category),
+      filterBy('room', selectedRoom ? [{ roomId: selectedRoom }] : [], filters.searchBox.room),
+    ].filter(Boolean);
+
+    if (filter.length === 0) {
+      setAnyFilters(false);
+      return;
+    }
+    setAnyFilters(true);
+
+    setIsLoading(true);
+    try {
+      const result = await API.getFurniture({
+        filter: `${filter.map(f => `(${f})`).join(' and ')}`,
+      });
+      setFurniture(result);
+    } catch (error) {
+      //
+    } finally {
+      setIsLoading(false);
+    }
   }, [filters, selectedCategory, selectedRoom]);
+
+  useEffect(() => {
+    fetchFurniture();
+  }, [fetchFurniture]);
 
   return (
     <React.Fragment>
-      <section>
+      <section css={style.searchSection}>
         <SearchBox />
-      </section>
 
-      <div css={{ marginBottom: 20, margin: '-30px auto 10px' }}>
         <Button
+          css={style.filterBtn}
           variant="secondary"
           icon={Icons.Filter}
           onClick={() => {
             setShowFilters(true);
             disableBodyScroll(filtersElem.current);
           }}
-        >Filtry
-        </Button>
-      </div>
+        />
+      </section>
+
 
       {isLoading && (
         <LoadingSpinner css={style.loading} isLoading={isLoading} />

@@ -2,6 +2,7 @@
 
 import { css, jsx } from '@emotion/core';
 import { useEffect, useState } from 'react';
+import config from '../../config';
 
 const ResourcesBox = ({ title, product, type }) => {
   const [data, setData] = useState([]);
@@ -9,7 +10,6 @@ const ResourcesBox = ({ title, product, type }) => {
   const style = {
     box: css`
       padding: 20px 30px;
-      margin-bottom: 20px;
     `,
 
     title: css`
@@ -19,6 +19,7 @@ const ResourcesBox = ({ title, product, type }) => {
     resource: css`
       display: flex;
       flex-direction: row;
+      margin-bottom: 20px;
     `,
 
     img: css`
@@ -59,8 +60,8 @@ const ResourcesBox = ({ title, product, type }) => {
       <h3 css={style.title}>{title}</h3>
       {data.map((d, k) => {
         const background = {
-          material: `url(https://api.wip.meblex.tk/images/${d.resource.photo})`,
-          pattern: `url(https://api.wip.meblex.tk/images/${d.resource.photo})`,
+          material: `url(${config.IMAGES_SERVER}${d.resource.photo})`,
+          pattern: `url(${config.IMAGES_SERVER}${d.resource.photo})`,
           color: d.resource.hexCode,
         }[type];
 

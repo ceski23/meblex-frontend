@@ -66,9 +66,9 @@ const PartsBox = ({ parts }) => {
       <p>Części, z których składa się ten mebel:</p>
       <div css={style.parts}>
         {parts.map(part => (
-          <div css={style.part} key={part.id}>
+          <div css={style.part} key={part.partId}>
             <p>{part.name}</p>
-            <Button css={style.addBtn} variant="secondary" onClick={() => addPart(part.id)}>+</Button>
+            <Button css={style.addBtn} variant="secondary" onClick={() => addPart(part.partId)}>+</Button>
           </div>
         ))}
       </div>

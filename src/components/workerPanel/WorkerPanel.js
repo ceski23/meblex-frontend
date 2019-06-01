@@ -12,10 +12,11 @@ import MaterialsList from './MaterialsList';
 import PatternsForm from './PatternsForm';
 import PatternsList from './PatternsList';
 import AddFurnitureForm from './AddFurnitureForm';
+import CustomSizeRequestList from './CustomSizeRequestList';
 
 const WorkerPanel = () => {
   const theme = useTheme();
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(4);
   const tabsElem = useRef();
 
   const tabs = [
@@ -45,6 +46,21 @@ const WorkerPanel = () => {
       flex-direction: row;
       width: 100%;    
       overflow: scroll;
+      position: relative;
+
+      /* &::after {
+        position: absolute;
+        bottom: 0;
+        content: '';
+        background: ${theme.colors.primary};
+        height: 2px;
+        border-radius: 10px;
+        width: calc(${(100 / tabs.length)}% - ${2 * sliderMargin}px);
+        transition: .3s;
+        margin-bottom: 10px;
+
+        transform: translateX(calc(${index * 100}% + ${(index) * (2 * sliderMargin)}px + ${sliderMargin}px))
+      } */
     `,
 
     tab: css`
@@ -61,15 +77,6 @@ const WorkerPanel = () => {
     `,
 
     tabWrapper: css`
-    `,
-
-    slider: css`
-      background: ${theme.colors.primary};
-      height: 2px;
-      border-radius: 10px;
-      width: calc(${(100 / tabs.length)}% - ${2 * sliderMargin}px);
-      transition: .3s;
-      margin-bottom: 10px;
     `,
   };
 
@@ -94,11 +101,6 @@ const WorkerPanel = () => {
           </div>
         ))}
       </div>
-
-      {/* <span css={[style.slider, {
-        transform: `translateX(calc(${index * 100}% + ${(index) * (2 * sliderMargin)}px + ${sliderMargin}px))`,
-      }]}
-      /> */}
 
       <SwipeableViews index={index} onChangeIndex={i => setIndex(i)}>
 
@@ -131,6 +133,13 @@ const WorkerPanel = () => {
             <PatternsForm />
           </div>
           <PatternsList />
+        </div>
+
+        <div>
+          <div css={style.panel}>
+            <h3 css={style.title}>Lista zapytań</h3>
+            <CustomSizeRequestList />
+          </div>
         </div>
 
       </SwipeableViews>

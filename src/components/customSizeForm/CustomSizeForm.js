@@ -1,14 +1,18 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, size } from '../../validationRules';
 import ItemResult from '../catalog/ItemResult';
 
 
-const CustomSizeForm = ({ handleSubmit, error, isLoading, item }) => {
+const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
+  const [formLoading, setFormLoading] = useState(false);
+
   const style = {
     furniture: css`
       padding: 0 0 20px;
@@ -59,8 +63,26 @@ const CustomSizeForm = ({ handleSubmit, error, isLoading, item }) => {
     `,
   };
 
+  const submitForm = async (values) => {
+    setFormLoading(true);
+    try {
+      // await API.addColor({ ...values, slug });
+      toast('✔️ Zapytanie zostało wysłane! Odpowiedź dostaniesz na maila.', {
+        autoClose: 5000,
+      });
+      reset();
+    } catch (error) {
+      throw new SubmissionError({
+        _error: error.title,
+        ...error.errors,
+      });
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
   return (
-    <form css={style.form} onSubmit={handleSubmit}>
+    <form css={style.form} onSubmit={handleSubmit(submitForm)}>
       {error && <p css={style.formError}>{error}</p>}
 
       <div>
@@ -80,7 +102,7 @@ const CustomSizeForm = ({ handleSubmit, error, isLoading, item }) => {
       </div>
 
       <div css={style.submitButton}>
-        <Button type="submit" isLoading={isLoading}>Wyślij zapytanie</Button>
+        <Button type="submit" isLoading={formLoading}>Wyślij zapytanie</Button>
       </div>
     </form>
   );

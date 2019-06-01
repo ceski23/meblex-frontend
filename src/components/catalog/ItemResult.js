@@ -4,6 +4,7 @@ import { jsx, css } from '@emotion/core';
 import { Link } from 'react-router-dom';
 import Img from 'react-image';
 import { useTheme, getCategoryIcon } from '../../helpers';
+import config from '../../config';
 
 const ItemResult = ({ data, ...props }) => {
   const theme = useTheme();
@@ -65,7 +66,7 @@ const ItemResult = ({ data, ...props }) => {
     <Link to={`katalog/produkty/${data.id}`} css={style.result} {...props}>
       <div css={style.image}>
         <Img
-          src={`https://api.wip.meblex.tk/images/${data.photos[0]}`}
+          src={`${config.IMAGES_SERVER}${data.photos[0]}`}
           loader={<FallbackIcon css={style.fallbackIcon} />}
           unloader={<FallbackIcon css={style.fallbackIcon} />}
         />

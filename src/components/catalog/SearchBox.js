@@ -9,7 +9,7 @@ import { useTheme } from '../../helpers';
 import { Icons } from '../../assets';
 import { setSearchboxFilter } from '../../redux/filters';
 
-const SearchBox = ({ applySearch }) => {
+const SearchBox = () => {
   const [filter, setFilter] = useState('krzesło czarne');
   const theme = useTheme();
   const data = useSelector(state => state.data);
@@ -93,10 +93,10 @@ const SearchBox = ({ applySearch }) => {
     const [pattern, keywords3] = analyseQuery(patternFuse, keywords2);
     const [material, keywords4] = analyseQuery(materialFuse, keywords3);
 
-    console.log('Kolor:', color);
-    console.log('Wzór:', pattern);
-    console.log('Materiał:', material);
-    console.log('Kategoria:', category);
+    // console.log('Kolor:', color);
+    // console.log('Wzór:', pattern);
+    // console.log('Materiał:', material);
+    // console.log('Kategoria:', category);
 
     dispatch(setSearchboxFilter({ color, pattern, material, category }));
   };
