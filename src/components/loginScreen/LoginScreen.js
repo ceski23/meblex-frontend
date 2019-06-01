@@ -3,7 +3,7 @@
 import { jsx, css } from '@emotion/core';
 import React, { useState } from 'react';
 import { SubmissionError } from 'redux-form';
-import { useActions, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { useTheme } from '../../helpers';
 
@@ -11,14 +11,12 @@ import { ReactComponent as Logo } from '../../assets/meblex_logo.svg';
 import { Furniture } from '../../assets';
 import * as API from '../../api';
 import LoginForm from './LoginForm';
-import { setUserData as setUserDataAction } from '../../redux/auth';
 
 
 const LoginScreen = ({ location }) => {
   const [isLoading, setIsLoading] = useState(false);
   const theme = useTheme();
 
-  const setUserData = useActions(data => setUserDataAction(data));
   const user = useSelector(state => state.auth.user);
 
   const { from } = location.state || { from: { pathname: '/' } };
@@ -65,8 +63,7 @@ const LoginScreen = ({ location }) => {
   const handleLogin = async (values) => {
     setIsLoading(true);
     try {
-      const { accessToken, refreshToken, ...userData } = await API.login(values);
-      setUserData(userData);
+      await API.login(values);
     } catch (err) {
       throw new SubmissionError({ _error: err.title });
     } finally {
