@@ -33,6 +33,7 @@ const Catalog = ({ location: { search } }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [anyFilters, setAnyFilters] = useState(false);
+  const [filtersCount, setFiltersCount] = useState(0);
 
   const selectedRoom = new URLSearchParams(search).get('pokoj');
   const selectedCategory = new URLSearchParams(search).get('kategoria');
@@ -97,12 +98,29 @@ const Catalog = ({ location: { search } }) => {
       padding: 0;
       height: 60px;
       margin: 0 0 0 10px;
+      border: none;
 
       svg {
+        fill: ${theme.colors.primary};
         margin: 0 10px;
         width: 25px;
         height: 25px;
       }
+    `,
+
+    count: css`
+      position: absolute;
+      bottom: 5px;
+      right: 0;
+      background: ${theme.colors.primary};
+      width: 22px;
+      height: 22px;
+      border-radius: 20px;
+      font-size: .7em;
+      color: #fff;
+      text-align: center;
+      line-height: 1.8em;
+      font-weight: bold;
     `,
   };
 
@@ -145,6 +163,11 @@ const Catalog = ({ location: { search } }) => {
     fetchFurniture();
   }, [fetchFurniture]);
 
+  useEffect(() => {
+    const a = Object.keys(filters).filter(k => k !== 'searchBox').map(k => filters[k].length).reduce((a, b) => a + b);
+    setFiltersCount(a);
+  }, [filters]);
+
   return (
     <React.Fragment>
       <section css={style.searchSection}>
@@ -153,12 +176,14 @@ const Catalog = ({ location: { search } }) => {
         <Button
           css={style.filterBtn}
           variant="secondary"
-          icon={Icons.Filter}
           onClick={() => {
             setShowFilters(true);
             disableBodyScroll(filtersElem.current);
           }}
-        />
+        >
+          <Icons.Filter css={style.icon} />
+          {filtersCount > 0 && <span css={style.count}>{filtersCount}</span>}
+        </Button>
       </section>
 
 
