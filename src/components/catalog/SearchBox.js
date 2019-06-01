@@ -10,7 +10,7 @@ import { Icons } from '../../assets';
 import { setSearchboxFilter } from '../../redux/filters';
 
 const SearchBox = () => {
-  const [filter, setFilter] = useState('krzesło czarne');
+  const [filter, setFilter] = useState('');
   const theme = useTheme();
   const data = useSelector(state => state.data);
   const dispatch = useDispatch();
