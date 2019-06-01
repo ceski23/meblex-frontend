@@ -2,12 +2,18 @@
 
 import { jsx, css } from '@emotion/core';
 import Img from 'react-image';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { useTheme, getCategoryIcon } from '../../helpers';
 import Button from '../shared/Button';
+import config from '../../config';
+import * as API from '../../api';
 
-const RequestItem = ({ data, ...props }) => {
+const RequestItem = ({ request, requestAccepted, ...props }) => {
   const theme = useTheme();
-  const FallbackIcon = getCategoryIcon(3);
+  const FallbackIcon = getCategoryIcon(request.pieceOfFurniture.category.categoryId);
+  const [price, setPrice] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const style = {
     item: css`
@@ -16,7 +22,7 @@ const RequestItem = ({ data, ...props }) => {
       padding: 10px 0px;
       text-decoration: none;
       width: 100%;
-      margin: 30px 0;
+      margin: 0 0 30px 0;
       flex-direction: column;
       background: #fff;
       box-shadow: 0px 1px 15px rgba(4, 35, 101, 0.22);
@@ -102,21 +108,42 @@ const RequestItem = ({ data, ...props }) => {
     `,
   };
 
+  const handlePriceChange = ({ target }) => {
+    setPrice(target.value);
+  };
+
+  const approveRequest = async () => {
+    setIsLoading(true);
+    try {
+      await API.acceptCustomSizeRequest({
+        customSizeFormId: 1,
+        price,
+      });
+
+      toast('✔️ Zapytanie zostało zaakceptowane!');
+      requestAccepted();
+    } catch (error) {
+      //
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div css={style.item} {...props}>
       <div css={style.info}>
         <div css={style.image}>
           <Img
-            src=""
+            src={`${config.IMAGES_SERVER}${request.pieceOfFurniture.photos[0]}`}
             loader={<FallbackIcon css={style.fallbackIcon} />}
             unloader={<FallbackIcon css={style.fallbackIcon} />}
           />
         </div>
         <div css={style.textBox}>
-          <h4 css={style.text}>Jakaś nazwa</h4>
+          <h4 css={style.text}>{request.pieceOfFurniture.name}</h4>
           <div css={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}>
             <p css={{ margin: '10px 10px 0 0' }}>Rozmiar:</p>
-            <h3 css={style.size}>123<span>x</span>321<span>x</span>987</h3>
+            <h3 css={style.size}>{request.pieceOfFurniture.size.split('x').join(' x ')}</h3>
           </div>
         </div>
       </div>
@@ -125,8 +152,19 @@ const RequestItem = ({ data, ...props }) => {
         <div css={style.fieldWrapper}>
           <h4 css={style.fieldLabel}>Przewidywana cena:</h4>
           <div css={style.field}>
-            <input type="number" />
-            <Button css={style.acceptButton}>Zatwierdź</Button>
+            <input
+              type="number"
+              name="price"
+              value={price}
+              onChange={handlePriceChange}
+            />
+
+            <Button
+              css={style.acceptButton}
+              isLoading={isLoading}
+              onClick={approveRequest}
+            >Zatwierdź
+            </Button>
           </div>
         </div>
       </div>

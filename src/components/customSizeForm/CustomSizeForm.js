@@ -8,6 +8,7 @@ import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, size } from '../../validationRules';
 import ItemResult from '../catalog/ItemResult';
+import * as API from '../../api';
 
 
 const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
@@ -66,8 +67,11 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
   const submitForm = async (values) => {
     setFormLoading(true);
     try {
-      // await API.addColor({ ...values, slug });
-      toast('✔️ Zapytanie zostało wysłane! Odpowiedź dostaniesz na maila.', {
+      await API.addCustomSizeRequest({
+        pieceOfFurnitureId: item.id, ...values,
+      });
+
+      toast('✔️ Zapytanie zostało wysłane! Jego status możesz śledzić w profilu', {
         autoClose: 5000,
       });
       reset();

@@ -226,3 +226,21 @@ export const removeMaterial = id => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ))
 );
+
+export const addCustomSizeRequest = data => (
+  client.post('CustomSize/client/add', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const getCustomSizeRequests = () => (
+  client.get('CustomSize/all').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const acceptCustomSizeRequest = data => (
+  client.post('CustomSize/accept', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);

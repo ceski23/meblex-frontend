@@ -16,7 +16,7 @@ import CustomSizeRequestList from './CustomSizeRequestList';
 
 const WorkerPanel = () => {
   const theme = useTheme();
-  const [index, setIndex] = useState(4);
+  const [index, setIndex] = useState(0);
   const tabsElem = useRef();
 
   const tabs = [
