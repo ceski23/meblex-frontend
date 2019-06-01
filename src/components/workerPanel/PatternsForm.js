@@ -5,6 +5,7 @@ import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import slugify from 'slugify';
+import { toast } from 'react-toastify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
@@ -68,9 +69,14 @@ const PatternsForm = ({ handleSubmit, error, reset }) => {
     setIsLoading(true);
     try {
       const slug = slugify(values.name, { lower: true });
-      await API.addPattern({ ...values, slug });
-      reset();
-      dispatch(fetchPatterns());
+      const reader = new FileReader();
+      reader.readAsDataURL(values.photo.files[0]);
+      reader.onload = async () => {
+        await API.addPattern({ ...values, slug, photo: reader.result });
+        reset();
+        toast(`✔️ Dodano wzór ${values.name}!`);
+        dispatch(fetchPatterns());
+      };
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,

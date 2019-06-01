@@ -81,6 +81,8 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
 
     addButton: css`
       margin: 0 auto;
+      display: flex;
+      flex-direction: column;
     `,
 
     remove: css`
@@ -124,7 +126,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
           <div css={style.fieldWrapper}>
             <h4 css={style.fieldLabel}>Kolor części:</h4>
             <Field
-              name={`${part}.color`}
+              name={`${part}.colorId`}
               component={SelectField}
               css={style.formField}
               validate={[required]}
@@ -142,7 +144,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
           <div css={style.fieldWrapper}>
             <h4 css={style.fieldLabel}>Wzór części:</h4>
             <Field
-              name={`${part}.pattern`}
+              name={`${part}.patternId`}
               component={SelectField}
               css={style.formField}
               validate={[required]}
@@ -160,7 +162,7 @@ const PartsSubform = ({ fields, meta: { error, submitFailed } }) => {
           <div css={style.fieldWrapper}>
             <h4 css={style.fieldLabel}>Materiał części:</h4>
             <Field
-              name={`${part}.material`}
+              name={`${part}.materialId`}
               component={SelectField}
               css={style.formField}
               validate={[required]}

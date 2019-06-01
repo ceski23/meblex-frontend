@@ -62,13 +62,13 @@ const PartsBox = ({ parts }) => {
 
   return (
     <div css={style.box}>
-      <h3 css={style.title}>Części</h3>
-      <p>Części, z których składa się ten mebel:</p>
+      <h3 css={style.title}>Zrób to sam!</h3>
+      <p>Te części mebla możesz kupić oddzielnie:</p>
       <div css={style.parts}>
         {parts.map(part => (
-          <div css={style.part} key={part.id}>
+          <div css={style.part} key={part.partId}>
             <p>{part.name}</p>
-            <Button css={style.addBtn} variant="secondary" onClick={() => addPart(part.id)}>+</Button>
+            <Button css={style.addBtn} variant="secondary" onClick={() => addPart(part.partId)}>+</Button>
           </div>
         ))}
       </div>

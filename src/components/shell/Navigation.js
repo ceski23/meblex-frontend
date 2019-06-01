@@ -18,7 +18,6 @@ const Navigation = () => {
     { text: 'Pulpit', icon: Icons.Home, url: '/' },
     { text: 'Katalog', icon: Icons.ShoppingBag, url: '/katalog' },
     { text: 'FITTER™', icon: Icons.JigSaw, url: '/fitter' },
-    { text: 'DIY', icon: Icons.Tools, url: '/diy' },
     { text: 'Panel', icon: Icons.Settings, url: '/panel', roles: [Roles.EMPLOYEE] },
   ];
 

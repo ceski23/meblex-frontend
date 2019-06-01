@@ -8,7 +8,9 @@ const Logout = () => {
   const logout = useCallback(() => dispatch(logoutAction()), [dispatch]);
   const user = useSelector(state => state.auth.user);
 
-  useEffect(() => user && logout(), [logout, user]);
+  useEffect(() => {
+    if (user) logout();
+  }, [logout, user]);
 
   return (user ? null : <Redirect to="/logowanie" />);
 };

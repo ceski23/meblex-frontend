@@ -2,30 +2,19 @@
 
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import { createTextMask } from 'redux-form-input-masks';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import slugify from 'slugify';
+import { toast } from 'react-toastify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32 } from '../../validationRules';
-import FieldWithColor from './fields/FieldWithColor';
-import { fetchColors } from '../../redux/data';
+import FieldWithPreview from './fields/FieldWithPreview';
+import { fetchMaterials } from '../../redux/data';
 import * as API from '../../api';
 
-const colorMask = createTextMask({
-  pattern: '#hhhhhh',
-  maskDefinitions: {
-    h: {
-      regExp: /[A-Fa-f0-9]/,
-      transform: char => char.toLowerCase(),
-    },
-  },
-  guide: false,
-  stripMask: false,
-});
 
-const ColorsForm = ({ error, reset, handleSubmit }) => {
+const MaterialsForm = ({ handleSubmit, error, reset }) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -80,9 +69,14 @@ const ColorsForm = ({ error, reset, handleSubmit }) => {
     setIsLoading(true);
     try {
       const slug = slugify(values.name, { lower: true });
-      await API.addColor({ ...values, slug });
-      reset();
-      dispatch(fetchColors());
+      const reader = new FileReader();
+      reader.readAsDataURL(values.photo.files[0]);
+      reader.onload = async () => {
+        await API.addMaterial({ ...values, slug, photo: reader.result });
+        reset();
+        toast(`✔️ Dodano materiał ${values.name}!`);
+        dispatch(fetchMaterials());
+      };
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,
@@ -98,7 +92,7 @@ const ColorsForm = ({ error, reset, handleSubmit }) => {
       {error && <p css={style.formError}>{error}</p>}
 
       <div css={style.fieldWrapper}>
-        <h4 css={style.fieldLabel}>Nazwa koloru:</h4>
+        <h4 css={style.fieldLabel}>Nazwa materiału:</h4>
         <Field
           name="name"
           component={FieldX}
@@ -109,24 +103,22 @@ const ColorsForm = ({ error, reset, handleSubmit }) => {
       </div>
 
       <div css={style.fieldWrapper}>
-        <h4 css={style.fieldLabel}>Kod koloru:</h4>
+        <h4 css={style.fieldLabel}>Zdjęcie materiału:</h4>
         <Field
-          name="hexCode"
-          component={FieldWithColor}
-          type="text"
+          name="photo"
+          component={FieldWithPreview}
           css={style.formField}
-          validate={[required, maxLength32]}
-          {...colorMask}
+          validate={[required]}
         />
       </div>
 
       <div css={style.submitButton}>
-        <Button type="submit" isLoading={isLoading}>Dodaj kolor</Button>
+        <Button type="submit" isLoading={isLoading}>Dodaj materiał</Button>
       </div>
     </form>
   );
 };
 
 export default reduxForm({
-  form: 'colorsForm',
-})(ColorsForm);
+  form: 'materialsForm',
+})(MaterialsForm);

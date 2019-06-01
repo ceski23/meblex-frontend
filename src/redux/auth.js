@@ -13,6 +13,11 @@ export const Roles = {
   EMPLOYEE: 'Worker',
 };
 
+export const roleName = role => ({
+  [Roles.USER]: 'Klient',
+  [Roles.EMPLOYEE]: 'Pracownik',
+}[role]);
+
 export const setAccessToken = token => ({ type: SET_ACCESS_TOKEN, payload: token });
 export const setRefreshToken = token => ({ type: SET_REFRESH_TOKEN, payload: token });
 export const setUserData = data => ({ type: SET_USER_DATA, payload: data });

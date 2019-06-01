@@ -5,6 +5,7 @@ import { Field, reduxForm, FieldArray, SubmissionError } from 'redux-form';
 import { createNumberMask } from 'redux-form-input-masks';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
 import { required, maxLength32, number, size } from '../../validationRules';
@@ -72,12 +73,13 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
   };
 
   const submitForm = async (values) => {
-    const { photos, ...data } = values;
+    const { parts, ...data } = values;
     setIsLoading(true);
     try {
-      const furnitureData = await API.addFurniture(data, Array.from(photos.files));
-      console.log(furnitureData);
+      const res = await API.addFurniture(data);
+      if (parts) await API.addParts(parts.map(p => ({ ...p, pieceOfFurnitureId: res.id })));
       reset();
+      toast(`✔️ Dodano ${res.name}!`);
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,
@@ -117,7 +119,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Kolor:</h4>
         <Field
-          name="color"
+          name="colorId"
           component={SelectField}
           css={style.formField}
           validate={[required]}
@@ -135,7 +137,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Wzór:</h4>
         <Field
-          name="pattern"
+          name="patternId"
           component={SelectField}
           css={style.formField}
           validate={[required]}
@@ -153,7 +155,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
       <div css={style.fieldWrapper}>
         <h4 css={style.fieldLabel}>Materiał:</h4>
         <Field
-          name="material"
+          name="materialId"
           component={SelectField}
           css={style.formField}
           validate={[required]}
@@ -197,7 +199,7 @@ const AddFurnitureForm = ({ handleSubmit, error, reset }) => {
         <Field
           name="size"
           component={FieldX}
-          type="tel"
+          type="text"
           css={style.formField}
           validate={[required, maxLength32, size]}
         />

@@ -13,6 +13,7 @@ import UserInfo from './UserInfo';
 
 const Toolbar = () => {
   const cart = useSelector(state => state.cart);
+  const user = useSelector(state => state.auth.user);
   const theme = useTheme();
   const [cartSize, setCartSize] = useState(0);
 
@@ -76,9 +77,11 @@ const Toolbar = () => {
         </div>
       </Link>
 
-      <Link to="/ustawienia" css={style.iconLink}>
-        <Icons.Settings css={style.icon} />
-      </Link>
+      {user && (
+        <Link to="/wyloguj" css={style.iconLink}>
+          <Icons.Logout css={style.icon} />
+        </Link>
+      )}
 
 
     </div>

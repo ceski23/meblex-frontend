@@ -68,15 +68,20 @@ const FieldWithPreview = ({
   };
 
   const handleChange = handler => ({ target: { files } }) => {
-    handler(files.length ? { files } : {});
     setName(files.length ? files[0].name : '');
 
     if (files.length) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-      };
-      reader.readAsDataURL(files[0]);
+      const processedFiles = [];
+      Object.keys(files).forEach((i) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreview(reader.result);
+          processedFiles.push(reader.result);
+
+          if (processedFiles.length === files.length) handler(processedFiles);
+        };
+        reader.readAsDataURL(files[i]);
+      });
     } else {
       setPreview();
     }

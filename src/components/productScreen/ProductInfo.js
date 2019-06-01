@@ -2,17 +2,21 @@
 
 import { useState } from 'react';
 import { css, jsx } from '@emotion/core';
-import { useActions } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import { useTheme } from '../../helpers';
 import Button from '../shared/Button';
 import { addItemsToCart } from '../../redux/cart';
+import { addItemToFitter } from '../../redux/fitter';
 import ResourcesBox from './ResourcesBox';
+import { Icons } from '../../assets';
 
 const ProductInfo = ({ product }) => {
   const theme = useTheme();
-  const addToCart = useActions(item => addItemsToCart(item));
+  const dispatch = useDispatch();
   const [amount, setAmount] = useState(1);
+  const fitterItems = useSelector(state => state.fitter.items);
+  const user = useSelector(state => state.auth.user);
 
   const style = {
     info: css`
@@ -27,7 +31,7 @@ const ProductInfo = ({ product }) => {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      background: ${theme.colors.primary_01};
+      /* background: ${theme.colors.primary_01}; */
 
       & > h3 {
         margin: 0;
@@ -69,8 +73,20 @@ const ProductInfo = ({ product }) => {
     addToCart: css`
       height: 100%;
       margin: 0;
+      padding: 15px 25px;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+    `,
+
+    addToFitter: css`
+      height: 100%;
+      padding: 10px 15px;
+
+      svg {
+        width: 30px;
+        height: 30px;
+        fill: ${theme.colors.primary};
+      }
     `,
 
     descBox: css`
@@ -111,8 +127,12 @@ const ProductInfo = ({ product }) => {
 
   const addPoF = () => {
     if (parseInt(amount, 10)) {
-      addToCart({ amount: parseInt(amount, 10) });
+      dispatch(addItemsToCart({ amount: parseInt(amount, 10) }));
     }
+  };
+
+  const handleFitterClick = () => {
+    dispatch(addItemToFitter(product.id));
   };
 
   return (
@@ -127,7 +147,13 @@ const ProductInfo = ({ product }) => {
 
       <div css={style.buyBox}>
         <input type="number" value={amount} onChange={handleAmountChange} />
-        <Button css={style.addToCart} onClick={addPoF}>Dodaj do koszyka</Button>
+        <Button css={style.addToCart} onClick={addPoF}>Do koszyka</Button>
+
+        {user && !fitterItems.some(i => i === product.id) && (
+          <Button variant="secondary" css={style.addToFitter} onClick={handleFitterClick}>
+            <Icons.AddPuzzle />
+          </Button>
+        )}
       </div>
 
       <div css={style.descBox}>

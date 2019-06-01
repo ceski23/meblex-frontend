@@ -31,6 +31,7 @@ const Home = () => {
 
     btnCatalog: css`
       margin: 30px auto 10px;
+      width: 100%;
     `,
   };
 

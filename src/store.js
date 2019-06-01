@@ -8,6 +8,7 @@ import loginReducer from './redux/auth';
 import cartReducer from './redux/cart';
 import dataReducer from './redux/data';
 import filtersReducer from './redux/filters';
+import fitterReducer from './redux/fitter';
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   data: dataReducer,
   cart: cartReducer,
   filters: filtersReducer,
+  fitter: fitterReducer,
 });
 
 export const store = createStore(rootReducer, composeWithDevTools(

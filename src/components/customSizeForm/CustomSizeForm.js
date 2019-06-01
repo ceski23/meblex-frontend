@@ -3,21 +3,21 @@
 import { jsx, css } from '@emotion/core';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import slugify from 'slugify';
+import { toast } from 'react-toastify';
 import FieldX from '../shared/FieldX';
 import Button from '../shared/Button';
-import { required, maxLength32 } from '../../validationRules';
-import FieldWithPreview from './fields/FieldWithPreview';
-import { fetchMaterials } from '../../redux/data';
+import { required, maxLength32, size } from '../../validationRules';
+import ItemResult from '../catalog/ItemResult';
 import * as API from '../../api';
 
 
-const MaterialsForm = ({ handleSubmit, error, reset }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
+const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
+  const [formLoading, setFormLoading] = useState(false);
 
   const style = {
+    furniture: css`
+      padding: 0 0 20px;
+    `,
     form: css`
       display: flex;
       flex-direction: column;
@@ -28,8 +28,8 @@ const MaterialsForm = ({ handleSubmit, error, reset }) => {
     `,
 
     formError: css`
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin-top: -10px;
+      margin-bottom: 20px;
       font-weight: bold;
       text-align: center;
       color: red;
@@ -65,19 +65,23 @@ const MaterialsForm = ({ handleSubmit, error, reset }) => {
   };
 
   const submitForm = async (values) => {
-    setIsLoading(true);
+    setFormLoading(true);
     try {
-      const slug = slugify(values.name, { lower: true });
-      await API.addMaterial({ ...values, slug });
+      await API.addCustomSizeRequest({
+        pieceOfFurnitureId: item.id, ...values,
+      });
+
+      toast('✔️ Zapytanie zostało wysłane! Jego status możesz śledzić w profilu', {
+        autoClose: 5000,
+      });
       reset();
-      dispatch(fetchMaterials());
     } catch (error) {
       throw new SubmissionError({
         _error: error.title,
         ...error.errors,
       });
     } finally {
-      setIsLoading(false);
+      setFormLoading(false);
     }
   };
 
@@ -85,34 +89,29 @@ const MaterialsForm = ({ handleSubmit, error, reset }) => {
     <form css={style.form} onSubmit={handleSubmit(submitForm)}>
       {error && <p css={style.formError}>{error}</p>}
 
-      <div css={style.fieldWrapper}>
-        <h4 css={style.fieldLabel}>Nazwa materiału:</h4>
-        <Field
-          name="name"
-          component={FieldX}
-          type="text"
-          css={style.formField}
-          validate={[required, maxLength32]}
-        />
+      <div>
+        <h4 css={style.fieldLabel}>Wybrany mebel:</h4>
+        <ItemResult css={style.furniture} data={item} />
       </div>
 
       <div css={style.fieldWrapper}>
-        <h4 css={style.fieldLabel}>Zdjęcie materiału:</h4>
+        <h4 css={style.fieldLabel}>Proponowany rozmiar:</h4>
         <Field
-          name="photo"
-          component={FieldWithPreview}
+          name="size"
+          component={FieldX}
+          type="text"
           css={style.formField}
-          validate={[required]}
+          validate={[required, maxLength32, size]}
         />
       </div>
 
       <div css={style.submitButton}>
-        <Button type="submit" isLoading={isLoading}>Dodaj materiał</Button>
+        <Button type="submit" isLoading={formLoading}>Wyślij zapytanie</Button>
       </div>
     </form>
   );
 };
 
 export default reduxForm({
-  form: 'materialsForm',
-})(MaterialsForm);
+  form: 'customSize',
+})(CustomSizeForm);

@@ -12,7 +12,7 @@ import Content from './Content';
 import * as API from '../../api';
 import Registration from '../registration/Registration';
 import Loading from '../shared/Loading';
-import { setUserData as setUserDataAction } from '../../redux/auth';
+import { setUserData } from '../../redux/auth';
 import Logout from './Logout';
 import { fetchRooms, fetchCategories, fetchColors, fetchMaterials, fetchPatterns } from '../../redux/data';
 
@@ -21,7 +21,7 @@ const App = withRouter(() => {
   const accessToken = useSelector(state => state.auth.accessToken);
   const dispatch = useDispatch();
 
-  const setUserData = useCallback(data => dispatch(setUserDataAction(data)), [dispatch]);
+  // const setUserData = useCallback(data => dispatch(setUserDataAction(data)), [dispatch]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,7 +30,7 @@ const App = withRouter(() => {
       const loginStatusChecking = async () => {
         try {
           const userData = await API.getUserData();
-          setUserData(userData);
+          dispatch(setUserData(userData));
         } catch (error) {
           //
         }
@@ -45,7 +45,7 @@ const App = withRouter(() => {
     dispatch(fetchColors());
     dispatch(fetchMaterials());
     dispatch(fetchPatterns());
-  }, [accessToken, dispatch, setUserData]);
+  }, [accessToken, dispatch]);
 
   return (
     <ThemeProvider theme={theme}>

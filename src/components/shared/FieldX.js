@@ -3,7 +3,7 @@
 import { jsx, css } from '@emotion/core';
 
 const FieldX = ({
-  input, meta: { touched, error }, ...rest
+  input, meta: { touched, error }, wrapperCss, ...rest
 }) => {
   const style = {
     field: css`
@@ -24,7 +24,7 @@ const FieldX = ({
   };
 
   return (
-    <div css={style.field}>
+    <div css={[style.field, wrapperCss]}>
       {touched && error && <span css={style.error}>{error}</span>}
       <input {...input} {...rest} />
     </div>

@@ -25,6 +25,7 @@
     "react-scripts": "3.0.0",
     "react-scroll-to-component": "^1.0.2",
     "react-swipeable-views": "^0.13.3",
+    "react-toastify": "^5.2.0",
     "redux": "^4.0.1",
     "redux-form": "^8.1.0",
     "redux-form-input-masks": "^2.0.1",
