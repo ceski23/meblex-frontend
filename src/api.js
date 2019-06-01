@@ -36,7 +36,6 @@ const authIntError = async (error) => {
       return client(errorResponse.config);
     } catch (e) {
       authInterceptor = client.interceptors.response.use(authIntResponse, authIntError);
-      window.location = `${process.env.PUBLIC_URL}/wyloguj`;
     }
   } else return Promise.reject(error);
 
