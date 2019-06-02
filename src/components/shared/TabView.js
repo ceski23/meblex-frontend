@@ -31,6 +31,7 @@ const TabView = ({ views }) => {
       font-size: 1em;
       padding: 20px 20px;
       display: inline-flex;
+      white-space: nowrap;
     `,
 
     tabWrapper: css`

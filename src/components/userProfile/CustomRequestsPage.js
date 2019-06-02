@@ -15,6 +15,8 @@ const CustomRequestsPage = () => {
   const style = {
     userProfile: css`
       padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
     `,
 
     subTitle: css`
@@ -26,6 +28,7 @@ const CustomRequestsPage = () => {
       width: 50px;
       height: 50px;
       margin: 30px 0;
+      align-self: center;
 
       circle {
         stroke: ${theme.colors.primary};
