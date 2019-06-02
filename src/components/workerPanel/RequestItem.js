@@ -120,7 +120,7 @@ const RequestItem = ({ request, requestAccepted, ...props }) => {
     setIsLoading(true);
     try {
       await API.acceptCustomSizeRequest({
-        customSizeFormId: 1,
+        customSizeFormId: request.customSizeFormId,
         price,
       });
 
