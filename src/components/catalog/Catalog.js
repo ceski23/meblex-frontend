@@ -16,6 +16,7 @@ import NoItem from '../shared/NoItem';
 import Button from '../shared/Button';
 import * as API from '../../api';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import FurnitureList from './FurnitureList';
 
 
 const Catalog = ({ location: { search } }) => {
@@ -29,11 +30,10 @@ const Catalog = ({ location: { search } }) => {
   const rooms = rawRooms.map(room => ({ ...room, icon: getRoomIcon(room.roomId) }));
   const categories = rawCategories.map(category => ({ ...category, icon: getCategoryIcon(category.categoryId) }));
 
-  const [furniture, setFurniture] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [anyFilters, setAnyFilters] = useState(false);
   const [filtersCount, setFiltersCount] = useState(0);
+  const [finalFilters, setFinalFilters] = useState([]);
 
   const selectedRoom = new URLSearchParams(search).get('pokoj');
   const selectedCategory = new URLSearchParams(search).get('kategoria');
@@ -83,16 +83,6 @@ const Catalog = ({ location: { search } }) => {
       fill: ${theme.colors.text};
     `,
 
-    loading: css`
-      width: 50px;
-      height: 50px;
-      margin: 40px auto;
-
-      circle {
-        stroke: ${theme.colors.primary};
-      }
-    `,
-
     searchSection: css`
       display: flex;
       flex-direction: row;
@@ -128,7 +118,7 @@ const Catalog = ({ location: { search } }) => {
     `,
   };
 
-  const fetchFurniture = useCallback(async () => {
+  const computeFilters = useCallback(async () => {
     const filterBy = (type, selected, fromSearchBox, includeParts = false) => {
       const data = ((selected.length > 0) ? selected : [fromSearchBox]).filter(Boolean);
       return data.length === 0 ? undefined : data.map(d => (
@@ -154,23 +144,12 @@ const Catalog = ({ location: { search } }) => {
       return;
     }
     setAnyFilters(true);
-
-    setIsLoading(true);
-    try {
-      const result = await API.getFurniture({
-        filter: `${filter.map(f => `(${f})`).join(' and ')}`,
-      });
-      setFurniture(result);
-    } catch (error) {
-      //
-    } finally {
-      setIsLoading(false);
-    }
+    setFinalFilters(filter);
   }, [filters, selectedCategory, selectedRoom]);
 
   useEffect(() => {
-    fetchFurniture();
-  }, [fetchFurniture]);
+    computeFilters();
+  }, [computeFilters]);
 
   useEffect(() => {
     const a = Object.keys(filters).filter(k => k !== 'searchBox').map(k => filters[k].length).reduce((a, b) => a + b);
@@ -195,20 +174,7 @@ const Catalog = ({ location: { search } }) => {
         </Button>
       </section>
 
-
-      {isLoading && (
-        <LoadingSpinner css={style.loading} isLoading={isLoading} />
-      )}
-
-      {!isLoading && furniture.length > 0 && (
-        <div>
-          {furniture.map((item, i) => <ItemResult data={item} key={i} />)}
-        </div>
-      )}
-
-      {!isLoading && furniture.length === 0 && anyFilters && (
-        <NoItem />
-      )}
+      <FurnitureList filter={finalFilters} anyFilters={anyFilters} perPage={5} />
 
       <h3 css={style.title}>Pokoje</h3>
       <section css={style.grid}>

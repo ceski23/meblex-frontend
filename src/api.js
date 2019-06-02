@@ -171,6 +171,7 @@ export const getFurniture = (config) => {
     params: {
       $orderby: config.sortBy,
       $top: config.limit,
+      $skip: config.skip,
       $filter: config.filter,
       $search: config.search,
       $select: config.select,
