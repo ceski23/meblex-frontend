@@ -24,7 +24,8 @@ const Fitter = () => {
       width: 100vw;
       height: auto;
       min-height: 100vh;
-      background-size: cover;
+      background-size: contain;
+      background-repeat: no-repeat;
       background-image: url(${Blueprint});
       padding-bottom: 50px;
     `,

@@ -103,7 +103,7 @@ const FurnitureList = ({ perPage, filter, anyFilters }) => {
         </div>
       )}
 
-      {furniture.length > 0 && (
+      {furniture.length >= perPage && (
         <div css={style.pagination}>
           <button type="button" onClick={prevPage}><span>‹</span></button>
           <span css={style.pageNumber}>{page + 1}</span>
