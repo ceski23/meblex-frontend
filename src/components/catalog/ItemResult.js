@@ -15,7 +15,7 @@ const ItemResult = ({ data, ...props }) => {
       display: flex;
       flex-direction: row;
       align-items: center;
-      padding: 20px 20px;
+      padding: 10px 20px;
       text-decoration: none;
       width: 100%;
     `,

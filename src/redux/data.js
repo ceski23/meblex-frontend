@@ -10,7 +10,6 @@ export const SET_MATERIALS = 'SET_MATERIALS';
 export const SET_ROOMS = 'SET_ROOMS';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 
-export const setListing = data => ({ type: SET_LISTING, payload: data });
 
 export const setColors = colors => ({ type: SET_COLORS, payload: colors });
 
@@ -52,6 +51,14 @@ export const fetchCategories = () => (dispatch) => {
   });
 };
 
+export const setListing = listing => ({ type: SET_LISTING, payload: listing });
+
+export const fetchListing = () => (dispatch) => {
+  API.getFurniture({ select: 'name,Id' }).then((res) => {
+    dispatch(setListing(res));
+  });
+};
+
 
 const initState = {
   materials: [],
@@ -59,12 +66,13 @@ const initState = {
   patterns: [],
   rooms: [],
   categories: [],
+  listing: [],
 };
 
 const dataReducer = (state = initState, action) => {
   switch (action.type) {
     case SET_LISTING:
-      return { ...state, furniture: action.payload };
+      return { ...state, listing: [...action.payload] };
 
     case SET_COLORS:
       return { ...state, colors: [...action.payload] };

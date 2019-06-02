@@ -172,6 +172,8 @@ export const getFurniture = (config) => {
       $orderby: config.sortBy,
       $top: config.limit,
       $filter: config.filter,
+      $search: config.search,
+      $select: config.select,
     },
     cancelToken: searchCancelToken.token,
   }).then(res => res.data).catch(err => (

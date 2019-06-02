@@ -73,6 +73,10 @@ const Catalog = ({ location: { search } }) => {
       }
     `,
 
+    selected: css`
+      background: ${theme.colors.primary_01};
+    `,
+
     itemIcon: css`
       margin-top: 10px;
       height: 40px;
@@ -132,12 +136,17 @@ const Catalog = ({ location: { search } }) => {
       )).join(' or ');
     };
 
+    const filterByName = () => (
+      filters.searchBox.name ? filters.searchBox.name.map(f => `(Id eq ${f.Id})`).join(' or ') : undefined
+    );
+
     const filter = [
       filterBy('color', filters.colors, filters.searchBox.color, true),
       filterBy('pattern', filters.patterns, filters.searchBox.pattern, true),
       filterBy('material', filters.materials, filters.searchBox.material, true),
       filterBy('category', selectedCategory ? [{ categoryId: selectedCategory }] : [], filters.searchBox.category),
       filterBy('room', selectedRoom ? [{ roomId: selectedRoom }] : [], filters.searchBox.room),
+      filterByName(),
     ].filter(Boolean);
 
     if (filter.length === 0) {
@@ -204,7 +213,11 @@ const Catalog = ({ location: { search } }) => {
       <h3 css={style.title}>Pokoje</h3>
       <section css={style.grid}>
         {rooms.map(Room => (
-          <Link to={{ pathname: '/katalog', search: `pokoj=${Room.roomId}` }} css={style.gridItem} key={Room.roomId}>
+          <Link
+            to={{ pathname: '/katalog', search: `pokoj=${Room.roomId}` }}
+            css={[style.gridItem, (parseInt(selectedRoom, 10) === Room.roomId) ? style.selected : null]}
+            key={Room.roomId}
+          >
             <Room.icon css={style.itemIcon} />
             <h4>{Room.name}</h4>
           </Link>
@@ -214,7 +227,11 @@ const Catalog = ({ location: { search } }) => {
       <h3 css={style.title}>Kategorie</h3>
       <section css={style.grid}>
         {categories.map(Cat => (
-          <Link to={{ pathname: '/katalog', search: `kategoria=${Cat.categoryId}` }} css={style.gridItem} key={Cat.categoryId}>
+          <Link
+            to={{ pathname: '/katalog', search: `kategoria=${Cat.categoryId}` }}
+            css={[style.gridItem, (parseInt(selectedCategory, 10) === Cat.categoryId) ? style.selected : null]}
+            key={Cat.categoryId}
+          >
             <Cat.icon css={style.itemIcon} />
             <h4>{Cat.name}</h4>
           </Link>
