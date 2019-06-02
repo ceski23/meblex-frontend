@@ -69,7 +69,7 @@ const RequestItem = ({ request, requestAccepted, ...props }) => {
 
     field: css`
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       width: 100%;
 
       input {
@@ -104,7 +104,11 @@ const RequestItem = ({ request, requestAccepted, ...props }) => {
     `,
 
     acceptButton: css`
-      margin: 20px 0 0 0;
+      padding: 0px 10px;
+      margin: 0;
+      height: 42px;
+      font-size: 1em;
+      margin-left: 10px;
     `,
   };
 
@@ -153,6 +157,7 @@ const RequestItem = ({ request, requestAccepted, ...props }) => {
           <h4 css={style.fieldLabel}>Przewidywana cena:</h4>
           <div css={style.field}>
             <input
+              css={{ width: 0, flex: 1 }}
               type="number"
               name="price"
               value={price}
