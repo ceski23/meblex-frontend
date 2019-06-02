@@ -233,6 +233,12 @@ export const addCustomSizeRequest = data => (
   ))
 );
 
+export const getClientCustomSizeRequests = () => (
+  client.get('CustomSize/client/all').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
 export const getCustomSizeRequests = () => (
   client.get('CustomSize/all').then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
