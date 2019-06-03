@@ -70,7 +70,7 @@ const Content = () => {
           <ProtectedRoute path="/profil" roles={[Roles.USER, Roles.EMPLOYEE]} component={UserProfile} />
           <ProtectedRoute path="/niestandardowy" component={CustomSizeRequestPage} roles={[Roles.USER, Roles.EMPLOYEE]} />
           <ProtectedRoute path="/panel" component={WorkerPanel} roles={[Roles.EMPLOYEE]} />
-          <ProtectedRoute path="/fitter" component={Fitter} roles={[Roles.USER, Roles.EMPLOYEE]} />
+          <Route path="/fitter" component={Fitter} />
           <Route path="/" exact component={Home} />
           <Route component={NotFound} />
         </Switch>
