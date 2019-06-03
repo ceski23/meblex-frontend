@@ -63,7 +63,14 @@ const ItemResult = ({ data, ...props }) => {
   };
 
   return (
-    <Link to={`katalog/produkty/${data.id}`} css={style.result} {...props}>
+    <Link
+      to={{
+        pathname: `katalog/produkty/${data.id}`,
+        state: { product: data },
+      }}
+      css={style.result}
+      {...props}
+    >
       <div css={style.image}>
         <Img
           src={`${config.IMAGES_SERVER}${data.photos[0]}`}

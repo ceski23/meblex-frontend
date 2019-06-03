@@ -70,7 +70,7 @@ const SearchBox = () => {
     let item;
     for (let i = 0; i < keywords.length; i += 1) {
       const result = fuse.search(keywords[i]);
-      if (result.length && result[0].matches.length && result[0].score < 0.5) {
+      if (result.length && result[0].score < 0.5) {
         item = result[0].item;
         keywords.splice(i, 1);
         break;
