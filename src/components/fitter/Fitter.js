@@ -128,7 +128,7 @@ const Fitter = () => {
       </div>
 
       <h3 css={style.title}>Czy się zmieszczą?</h3>
-      <RoomSizeForm initialValues={roomSize} />
+      <RoomSizeForm initialValues={roomSize} furniture={furniture} />
 
       <h3 css={style.title}>Sprawdzane meble</h3>
       <div css={style.list}>
