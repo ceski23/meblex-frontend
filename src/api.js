@@ -261,3 +261,9 @@ export const acceptCustomSizeRequest = data => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ))
 );
+
+export const getClientOrders = () => (
+  client.get('ShoppingCart/client/list').then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
