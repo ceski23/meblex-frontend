@@ -12,7 +12,7 @@ const DraggablePoF = ({ product, factor }) => {
   const element = useRef();
   const Icon = getCategoryIcon(product.category.categoryId);
 
-  const margin = 20;
+  const margin = 10;
   const style = {
     draggablePoF: css`
       display: inline-block;
