@@ -174,7 +174,7 @@ const Catalog = ({ location: { search } }) => {
         </Button>
       </section>
 
-      <FurnitureList filter={finalFilters} anyFilters={anyFilters} perPage={5} />
+      <FurnitureList filter={finalFilters} anyFilters={anyFilters} perPage={10} />
 
       <h3 css={style.title}>Pokoje</h3>
       <section css={style.grid}>
