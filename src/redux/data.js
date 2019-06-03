@@ -54,7 +54,7 @@ export const fetchCategories = () => (dispatch) => {
 export const setListing = listing => ({ type: SET_LISTING, payload: listing });
 
 export const fetchListing = () => (dispatch) => {
-  API.getFurniture({ select: 'name,Id' }).then((res) => {
+  API.getListing().then((res) => {
     dispatch(setListing(res));
   });
 };

@@ -182,6 +182,14 @@ export const getFurniture = (config) => {
   ));
 };
 
+export const getListing = () => (
+  client.get('Furniture/furniture', { params: {
+    $select: 'name,Id',
+  } }).then(res => res.data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
 export const getPieceOfFurniture = id => (
   client.get(`Furniture/pieceOfFurniture/${id}`).then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
