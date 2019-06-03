@@ -24,7 +24,8 @@ const Fitter = () => {
       width: 100vw;
       height: auto;
       min-height: 100vh;
-      background-size: cover;
+      background-size: contain;
+      background-repeat: no-repeat;
       background-image: url(${Blueprint});
       padding-bottom: 50px;
     `,
@@ -127,7 +128,7 @@ const Fitter = () => {
       </div>
 
       <h3 css={style.title}>Czy się zmieszczą?</h3>
-      <RoomSizeForm initialValues={roomSize} />
+      <RoomSizeForm initialValues={roomSize} furniture={furniture} />
 
       <h3 css={style.title}>Sprawdzane meble</h3>
       <div css={style.list}>

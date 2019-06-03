@@ -171,7 +171,10 @@ export const getFurniture = (config) => {
     params: {
       $orderby: config.sortBy,
       $top: config.limit,
+      $skip: config.skip,
       $filter: config.filter,
+      $search: config.search,
+      $select: config.select,
     },
     cancelToken: searchCancelToken.token,
   }).then(res => res.data).catch(err => (
@@ -229,6 +232,12 @@ export const removeMaterial = id => (
 
 export const addCustomSizeRequest = data => (
   client.post('CustomSize/client/add', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
+
+export const getClientCustomSizeRequests = () => (
+  client.get('CustomSize/client/all').then(res => res.data).catch(err => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ))
 );
