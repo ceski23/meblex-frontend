@@ -133,7 +133,7 @@ const PartOrderLine = ({ product, size, count, price, ...props }) => {
           <h4 css={style.text}>{product.name}</h4>
 
           <div css={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}>
-            <p css={style.cos}>Należy do mebla:</p>
+            <p css={style.cos}>Mebel:</p>
             <h3 css={style.size}>{pof && pof.name}</h3>
           </div>
 
