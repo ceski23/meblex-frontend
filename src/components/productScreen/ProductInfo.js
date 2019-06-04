@@ -149,7 +149,7 @@ const ProductInfo = ({ product }) => {
         <input type="number" value={amount} onChange={handleAmountChange} />
         <Button css={style.addToCart} onClick={addPoF}>Do koszyka</Button>
 
-        {user && !fitterItems.some(i => i === product.id) && (
+        {user && (
           <Button variant="secondary" css={style.addToFitter} onClick={handleFitterClick}>
             <Icons.AddPuzzle />
           </Button>

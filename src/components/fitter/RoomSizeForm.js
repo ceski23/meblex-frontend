@@ -17,6 +17,7 @@ const RoomSizeForm = ({ handleSubmit, furniture }) => {
   const theme = useTheme();
   const roomBox = useRef();
   const roomSize = useSelector(state => state.fitter.roomSize);
+  const items = useSelector(state => state.fitter.items);
   const [factor, setFactor] = useState(0);
 
   const style = {
@@ -161,7 +162,9 @@ const RoomSizeForm = ({ handleSubmit, furniture }) => {
         ) : (
           Object.keys(roomSize).length > 0 && (
           <div css={style.room} ref={roomBox}>
-            {furniture.map((f, i) => <DraggablePoF factor={factor} product={f} key={i} />)}
+            {furniture.length > 0 && items.map((f, i) => (
+              <DraggablePoF factor={factor} product={furniture.filter(x => x.id === f)[0]} key={i} />
+            ))}
           </div>
           )
         )}
