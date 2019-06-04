@@ -127,7 +127,10 @@ const ProductInfo = ({ product }) => {
 
   const addPoF = () => {
     if (parseInt(amount, 10)) {
-      dispatch(addItemsToCart({ amount: parseInt(amount, 10) }));
+      dispatch(addItemsToCart({
+        amount: parseInt(amount, 10),
+        item: product,
+      }));
     }
   };
 

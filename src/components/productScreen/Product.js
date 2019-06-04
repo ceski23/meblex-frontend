@@ -176,7 +176,7 @@ const Product = ({ match: { params }, location: { state } }) => {
             </div>
 
             {product.parts.length > 0 && (
-              <PartsBox parts={product.parts} />
+              <PartsBox product={product} />
             )}
           </div>
         </React.Fragment>
