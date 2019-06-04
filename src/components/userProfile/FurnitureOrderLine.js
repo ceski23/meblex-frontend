@@ -1,7 +1,9 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
+import Img from 'react-image';
 import { useTheme, getCategoryIcon } from '../../helpers';
+import config from '../../config';
 
 const FurnitureOrderLine = ({ product, size, count, price, ...props }) => {
   const theme = useTheme();
@@ -33,6 +35,11 @@ const FurnitureOrderLine = ({ product, size, count, price, ...props }) => {
       display: flex;
       justify-content: center;
       align-items: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     `,
 
     fallbackIcon: css`
@@ -105,7 +112,11 @@ const FurnitureOrderLine = ({ product, size, count, price, ...props }) => {
     <div css={style.item} {...props}>
       <div css={style.info}>
         <div css={style.image}>
-          <FallbackIcon css={style.fallbackIcon} />
+          <Img
+            src={`${config.IMAGES_SERVER}${product.photos[0]}`}
+            loader={<FallbackIcon css={style.fallbackIcon} />}
+            unloader={<FallbackIcon css={style.fallbackIcon} />}
+          />
         </div>
         <div css={style.textBox}>
           <h4 css={style.text}>{product.name}</h4>
