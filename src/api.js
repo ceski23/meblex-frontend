@@ -267,3 +267,9 @@ export const getClientOrders = () => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ))
 );
+
+export const addOrder = data => (
+  client.post('ShoppingCart/make', data).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
