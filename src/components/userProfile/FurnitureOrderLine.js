@@ -1,9 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
-import Img from 'react-image';
 import { useTheme, getCategoryIcon } from '../../helpers';
-import config from '../../config';
 
 const FurnitureOrderLine = ({ product, size, count, price, ...props }) => {
   const theme = useTheme();
@@ -107,11 +105,7 @@ const FurnitureOrderLine = ({ product, size, count, price, ...props }) => {
     <div css={style.item} {...props}>
       <div css={style.info}>
         <div css={style.image}>
-          <Img
-            src={`${config.IMAGES_SERVER}${product.photos[0]}`}
-            loader={<FallbackIcon css={style.fallbackIcon} />}
-            unloader={<FallbackIcon css={style.fallbackIcon} />}
-          />
+          <FallbackIcon css={style.fallbackIcon} />
         </div>
         <div css={style.textBox}>
           <h4 css={style.text}>{product.name}</h4>
