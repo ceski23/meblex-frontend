@@ -9,10 +9,12 @@ import Button from '../shared/Button';
 import { required, maxLength32, size } from '../../validationRules';
 import ItemResult from '../catalog/ItemResult';
 import * as API from '../../api';
+import { useTheme } from '../../helpers';
 
 
 const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
   const [formLoading, setFormLoading] = useState(false);
+  const theme = useTheme();
 
   const style = {
     furniture: css`
@@ -40,7 +42,7 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
       flex-direction: row;
       align-items: flex-start;
       margin: 10px 0;
-      flex-direction: column;
+      flex-direction: column-reverse;
     `,
 
     fieldLabel: css`
@@ -57,10 +59,27 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
       width: 100%;
     `,
 
+    x: css`
+      color: ${theme.colors.primary};
+      font-size: 1.2em;
+      line-height: 3em;
+      margin: 0 10px;
+    `,
+
     submitButton: css`
       margin: 30px 0;
       display: flex;
       flex-direction: column;
+    `,
+
+    sizeHint: css`
+      margin-bottom: 20px;
+      font-size: 0.7em;
+    `,
+
+    sizes: css`
+      display: flex;
+      flex-direction: row;
     `,
   };
 
@@ -68,7 +87,8 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
     setFormLoading(true);
     try {
       await API.addCustomSizeRequest({
-        pieceOfFurnitureId: item.id, ...values,
+        pieceOfFurnitureId: item.id,
+        size: `${values.width}x${values.length}x${values.height}`,
       });
 
       toast('✔️ Zapytanie zostało wysłane! Jego status możesz śledzić w profilu', {
@@ -94,14 +114,41 @@ const CustomSizeForm = ({ handleSubmit, error, item, reset }) => {
         <ItemResult css={style.furniture} data={item} />
       </div>
 
-      <div css={style.fieldWrapper}>
+      <div>
         <h4 css={style.fieldLabel}>Proponowany rozmiar:</h4>
+        <span css={style.sizeHint}>(długość ✕ szerokość ✕ wysokość)</span>
+      </div>
+
+      <div css={style.sizes}>
         <Field
-          name="size"
+          name="width"
           component={FieldX}
-          type="text"
+          type="number"
           css={style.formField}
-          validate={[required, maxLength32, size]}
+          wrapperCss={style.fieldWrapper}
+          validate={[required, maxLength32]}
+        />
+
+        <span css={style.x}>✕</span>
+
+        <Field
+          name="length"
+          component={FieldX}
+          type="number"
+          css={style.formField}
+          wrapperCss={style.fieldWrapper}
+          validate={[required, maxLength32]}
+        />
+
+        <span css={style.x}>✕</span>
+
+        <Field
+          name="height"
+          component={FieldX}
+          type="number"
+          css={style.formField}
+          wrapperCss={style.fieldWrapper}
+          validate={[required, maxLength32]}
         />
       </div>
 
