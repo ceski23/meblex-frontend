@@ -12,6 +12,7 @@ import * as API from '../../api';
 import { Icons } from '../../assets';
 import { removeItemFromFitter } from '../../redux/fitter';
 import Button from '../shared/Button';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 
 const Fitter = ({ location }) => {
@@ -21,9 +22,13 @@ const Fitter = ({ location }) => {
   const roomSize = useSelector(state => state.fitter.roomSize);
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const style = {
     container: css`
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       width: 100vw;
       height: auto;
       min-height: 100vh;
@@ -31,6 +36,16 @@ const Fitter = ({ location }) => {
       background-repeat: no-repeat;
       background-image: url(${Blueprint});
       padding-bottom: 50px;
+    `,
+
+    loading: css`
+      width: 50px;
+      height: 50px;
+      margin: 30px 0;
+
+      circle {
+        stroke: ${theme.colors.primary};
+      }
     `,
 
     header: css`
@@ -107,12 +122,15 @@ const Fitter = ({ location }) => {
 
   useEffect(() => {
     const fetchFurniture = async () => {
+      setIsLoading(true);
       try {
         const filter = fitterItems.map(item => `(id eq ${item})`).join(' or ') || undefined;
         const products = await API.getFurniture({ filter });
         setFurniture(products);
       } catch (error) {
         //
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -147,11 +165,13 @@ const Fitter = ({ location }) => {
             {furniture.map(f => <FitterItem key={f.id} product={f} handleRemove={handleRemoveItem} />)}
           </div>
 
-          {furniture.length === 0 && (
+          {!isLoading && furniture.length === 0 && (
           <div css={style.noitems}>
             <p>Aby dodać mebel do FITTERa nacisnij przycisk <Icons.AddPuzzle css={style.hintbtn} /> przy przeglądaniu mebla.</p>
           </div>
           )}
+
+          {isLoading && <LoadingSpinner css={style.loading} isLoading={isLoading} />}
         </React.Fragment>
       ) : (
         <div css={style.noitems}>

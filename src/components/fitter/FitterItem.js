@@ -18,7 +18,6 @@ const FitterItem = ({ product, handleRemove }) => {
       flex-direction: row;
       align-items: center;
       padding: 15px 0;
-      text-decoration: none;
 
       h4 {
         margin: 0;
@@ -57,11 +56,12 @@ const FitterItem = ({ product, handleRemove }) => {
 
     info: css`
       flex: 1;
+      text-decoration: none;
     `,
   };
 
   return (
-    <Link to={`/katalog/produkty/${product.id}`} css={style.product}>
+    <div css={style.product}>
       <Img
         css={style.icon}
         src={`${config.IMAGES_SERVER}${product.photos[0]}`}
@@ -69,15 +69,15 @@ const FitterItem = ({ product, handleRemove }) => {
         unloader={<FallbackIcon css={style.fallbackIcon} />}
       />
 
-      <div css={style.info}>
+      <Link to={`/katalog/produkty/${product.id}`} css={style.info}>
         <h4>{product.name}</h4>
         <p>{product.size.split('x').join(' x ')}</p>
-      </div>
+      </Link>
 
       <span css={style.remove} role="button" tabIndex={0} onClick={() => handleRemove(product.id)}>
         <Icons.Close2 />
       </span>
-    </Link>
+    </div>
   );
 };
 
