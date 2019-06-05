@@ -2,27 +2,24 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { css, jsx } from '@emotion/core';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTheme } from '../../helpers';
 import * as API from '../../api';
 import CartList from '../cart/CartList';
 import Button from '../shared/Button';
-import { clearCart } from '../../redux/cart';
 import { ReactComponent as Spinner } from '../../assets/spinner.svg';
 
 const Order = ({ location }) => {
   const cartData = useSelector(state => state.cart);
   const user = useSelector(state => state.auth.user);
   const theme = useTheme();
-  const dispatch = useDispatch();
 
   const [deliveryMethod, setDeliveryMethod] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
 
-  const [isPaymentLoading, setPaymentLoading] = useState(false);
-  const [isPaymentCompleted, setPaymentCompleted] = useState(false);
+  const [paymentData, setPaymentData] = useState();
 
   const form = useRef();
 
@@ -187,52 +184,46 @@ const Order = ({ location }) => {
   );
 
   const startPayment = () => {
-    setPaymentLoading(true);
+    const formData = new FormData(form.current);
 
-    setTimeout(async () => {
-      try {
-        const formData = new FormData(form.current);
+    const parts = cartData.items.filter(i => i.item.partId).map(i => ({
+      count: i.amount,
+      price: i.item.price,
+      size: '',
+      partId: i.item.partId,
+    }));
 
-        const parts = cartData.items.filter(i => i.item.partId).map(i => ({
-          count: i.amount,
-          price: i.item.price,
-          size: '',
-          partId: i.item.partId,
-        }));
+    const furniture = cartData.items.filter(i => !i.item.partId).map(i => ({
+      count: i.amount,
+      price: i.item.price,
+      size: i.item.size,
+      pieceOfFurnitureId: i.item.id,
+    }));
 
-        const furniture = cartData.items.filter(i => !i.item.partId).map(i => ({
-          count: i.amount,
-          price: i.item.price,
-          size: i.item.size,
-          pieceOfFurnitureId: i.item.id,
-        }));
+    const data = {
+      delivery: 'courier',
+      reservation: location.state.reservation,
+      address: formData.get('address'),
+      state: formData.get('state'),
+      city: formData.get('city'),
+      postCode: formData.get('postCode').replace('-', ''),
+      orderLines: [...furniture, ...parts],
+    };
 
-        const res = await API.addOrder({
-          delivery: 'courier',
-          reservation: location.state.reservation,
-          address: formData.get('address'),
-          state: formData.get('state'),
-          city: formData.get('city'),
-          postCode: formData.get('postCode').replace('-', ''),
-          orderLines: [...furniture, ...parts],
-        });
-
-        setPaymentLoading(false);
-        toast('✔️ Zamówienie wysłane!');
-        dispatch(clearCart());
-        setPaymentCompleted(true);
-      } catch (error) {
-        //
-      } finally {
-        setPaymentLoading(false);
-      }
-    }, 3000);
+    setPaymentData(data);
   };
 
 
   return (
     <>
-      {isPaymentCompleted && <Redirect to="/koszyk" />}
+      {paymentData && (
+      <Redirect to={{
+        pathname: '/zamowienie/platnosc',
+        state: { data: paymentData },
+      }}
+      />
+      )}
+
       <div css={style.hello}>
         {cartData.items.length === 0 && (
         <>
@@ -256,13 +247,6 @@ const Order = ({ location }) => {
           <>
             <Button variant="normal" css={style.button} onClick={startPayment}>Przejdź do płatności!</Button>
           </>
-          )}
-
-          {isPaymentLoading && (
-            <div css={style.loading}>
-              <Spinner css={style.spinner} />
-              <h3 css={style.text}>Przetwarzanie...</h3>
-            </div>
           )}
         </div>
       </>
