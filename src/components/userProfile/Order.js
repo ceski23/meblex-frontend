@@ -1,6 +1,8 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/core';
+import { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { useTheme } from '../../helpers';
 import FurnitureOrderLine from './FurnitureOrderLine';
 import PartOrderLine from './PartOrderLine';
@@ -8,6 +10,7 @@ import Button from '../shared/Button';
 
 const Order = ({ order }) => {
   const theme = useTheme();
+  const [data, setData] = useState();
 
   const style = {
     panel: css`
@@ -66,7 +69,7 @@ const Order = ({ order }) => {
   };
 
   const buyReservation = () => {
-
+    setData({ ...order, reservation: false });
   };
 
   return (
@@ -113,6 +116,14 @@ const Order = ({ order }) => {
 
       {order.reservation && (
         <Button css={style.buyBtn} variant="secondary" type="button" onClick={buyReservation}>Zrealizuj rezerwację</Button>
+      )}
+
+      {data && (
+      <Redirect to={{
+        pathname: '/zamowienie/platnosc',
+        state: { data, realizeReservation: true },
+      }}
+      />
       )}
     </div>
   );

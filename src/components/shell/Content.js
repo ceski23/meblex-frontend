@@ -20,6 +20,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Fitter from '../fitter/Fitter';
 import Cart from '../cart/Cart';
 import Order from '../order/Order';
+import FakePayment from '../order/FakePayment';
 
 // import * as API from '../api'
 
@@ -71,6 +72,7 @@ const Content = () => {
           <Route path="/katalog" component={Catalog} />
           <ProtectedRoute path="/koszyk" roles={[Roles.USER, Roles.EMPLOYEE]} component={Cart} />
           <ProtectedRoute path="/zamowienie/dostawa" roles={[Roles.USER, Roles.EMPLOYEE]} component={Order} />
+          <ProtectedRoute path="/zamowienie/platnosc" roles={[Roles.USER, Roles.EMPLOYEE]} component={FakePayment} />
           <ProtectedRoute path="/profil" roles={[Roles.USER, Roles.EMPLOYEE]} component={UserProfile} />
           <ProtectedRoute path="/niestandardowy" component={CustomSizeRequestPage} roles={[Roles.USER, Roles.EMPLOYEE]} />
           <ProtectedRoute path="/panel" component={WorkerPanel} roles={[Roles.EMPLOYEE]} />

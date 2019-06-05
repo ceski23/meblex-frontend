@@ -69,8 +69,8 @@ const OrdersPage = () => {
       <LoadingSpinner css={style.loading} isLoading={isLoading} />
       )}
 
-      {!isLoading && orders.map(order => (
-        <Order order={order} />
+      {!isLoading && orders.map((order, i) => (
+        <Order key={i} order={order} />
       ))}
     </div>
   );

@@ -273,3 +273,9 @@ export const addOrder = data => (
     errorHandler(err, code => defaultErrorCallback(err, code))
   ))
 );
+
+export const realizeReservation = id => (
+  client.put(`ShoppingCart/client/realize-reservation/${id}`).catch(err => (
+    errorHandler(err, code => defaultErrorCallback(err, code))
+  ))
+);
