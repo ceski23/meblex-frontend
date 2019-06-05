@@ -8,7 +8,7 @@ import config from '../../config';
 const FurnitureOrderLine = ({ product, size, count, price, ...props }) => {
   const theme = useTheme();
 
-  const FallbackIcon = getCategoryIcon(product.category.categoryId);
+  // const FallbackIcon = getCategoryIcon(product.category.categoryId);
 
   const style = {
     item: css`
@@ -114,8 +114,8 @@ const FurnitureOrderLine = ({ product, size, count, price, ...props }) => {
         <div css={style.image}>
           <Img
             src={`${config.IMAGES_SERVER}${product.photos[0]}`}
-            loader={<FallbackIcon css={style.fallbackIcon} />}
-            unloader={<FallbackIcon css={style.fallbackIcon} />}
+            // loader={<FallbackIcon css={style.fallbackIcon} />}
+            // unloader={<FallbackIcon css={style.fallbackIcon} />}
           />
         </div>
         <div css={style.textBox}>

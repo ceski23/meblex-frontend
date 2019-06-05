@@ -3,13 +3,14 @@
 import { jsx, css } from '@emotion/core';
 import Img from 'react-image';
 import { useState, useEffect } from 'react';
-import { useTheme } from '../../helpers';
+import { useTheme, getCategoryIcon } from '../../helpers';
 import config from '../../config';
 import * as API from '../../api';
 
 const PartOrderLine = ({ product, size, count, price, ...props }) => {
   const theme = useTheme();
   const [pof, setPof] = useState();
+  const FallbackIcon = getCategoryIcon(product.category.categoryId);
 
   const style = {
     item: css`
@@ -127,6 +128,8 @@ const PartOrderLine = ({ product, size, count, price, ...props }) => {
         <div css={style.image}>
           <Img
             src={pof && `${config.IMAGES_SERVER}${pof.photos[0]}`}
+            loader={<FallbackIcon css={style.fallbackIcon} />}
+            unloader={<FallbackIcon css={style.fallbackIcon} />}
           />
         </div>
         <div css={style.textBox}>
