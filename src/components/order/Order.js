@@ -2,24 +2,27 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { css, jsx } from '@emotion/core';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTheme } from '../../helpers';
 import * as API from '../../api';
 import CartList from '../cart/CartList';
 import Button from '../shared/Button';
+import { clearCart } from '../../redux/cart';
 import { ReactComponent as Spinner } from '../../assets/spinner.svg';
 
 const Order = ({ location }) => {
   const cartData = useSelector(state => state.cart);
   const user = useSelector(state => state.auth.user);
   const theme = useTheme();
+  const dispatch = useDispatch();
+
   const [deliveryMethod, setDeliveryMethod] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
 
   const [isPaymentLoading, setPaymentLoading] = useState(false);
-  const [isPaymentCompleted, setPaymentCompleted] = useState(true);
+  const [isPaymentCompleted, setPaymentCompleted] = useState(false);
 
   const form = useRef();
 
@@ -214,20 +217,22 @@ const Order = ({ location }) => {
           orderLines: [...furniture, ...parts],
         });
 
+        setPaymentLoading(false);
         toast('✔️ Zamówienie wysłane!');
+        dispatch(clearCart());
+        setPaymentCompleted(true);
       } catch (error) {
         //
       } finally {
         setPaymentLoading(false);
       }
-      setPaymentLoading(false);
-      setPaymentCompleted(true);
     }, 3000);
   };
 
 
   return (
     <>
+      {isPaymentCompleted && <Redirect to="/koszyk" />}
       <div css={style.hello}>
         {cartData.items.length === 0 && (
         <>
