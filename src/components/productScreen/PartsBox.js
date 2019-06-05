@@ -59,7 +59,7 @@ const PartsBox = ({ product }) => {
   const addPart = (part) => {
     dispatch(addItemsToCart({
       amount: 1,
-      item: { ...part, id: part.partId, pieceOfFurnitureId: product.id },
+      item: { ...part, pieceOfFurnitureId: product.id },
     }));
   };
 
