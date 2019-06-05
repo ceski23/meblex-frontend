@@ -42,6 +42,11 @@ const CustomSizeRequest = ({ request, ...props }) => {
       justify-content: center;
       align-items: center;
       align-self: flex-start;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     `,
 
     fallbackIcon: css`

@@ -41,7 +41,10 @@ const UserProfile = () => {
   const updateUserProfile = async (values) => {
     setUserUpdateLoading(true);
     try {
-      const userData = await API.updateUserData(values);
+      const userData = await API.updateUserData({
+        ...values,
+        nip: (values.nip === '' ? null : values.nip),
+      });
       setUserData(userData);
       toast('✔️ Zaktualizowano dane!');
     } catch (error) {
