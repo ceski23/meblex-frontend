@@ -3,6 +3,7 @@
 import { css, jsx } from '@emotion/core';
 import Img from 'react-image';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import config from '../../config';
 import { useTheme, getCategoryIcon } from '../../helpers';
 import { Icons } from '../../assets';
@@ -17,6 +18,7 @@ const FitterItem = ({ product, handleRemove }) => {
       flex-direction: row;
       align-items: center;
       padding: 15px 0;
+      text-decoration: none;
 
       h4 {
         margin: 0;
@@ -59,7 +61,7 @@ const FitterItem = ({ product, handleRemove }) => {
   };
 
   return (
-    <div css={style.product}>
+    <Link to={`/katalog/produkty/${product.id}`} css={style.product}>
       <Img
         css={style.icon}
         src={`${config.IMAGES_SERVER}${product.photos[0]}`}
@@ -75,7 +77,7 @@ const FitterItem = ({ product, handleRemove }) => {
       <span css={style.remove} role="button" tabIndex={0} onClick={() => handleRemove(product.id)}>
         <Icons.Close2 />
       </span>
-    </div>
+    </Link>
   );
 };
 
