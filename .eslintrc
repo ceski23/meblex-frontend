@@ -3,6 +3,7 @@
   "plugins": ["@typescript-eslint"],
   "extends":  [
     "airbnb",
+    "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
   ],
   "rules": {
