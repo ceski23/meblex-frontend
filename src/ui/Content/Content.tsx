@@ -1,16 +1,14 @@
 import React, { FC, ReactElement } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { styled } from 'theme';
+import { PageNotFound } from 'ui/PageNotFound';
 
 // import ProtectedRoute from './ProtectedRoute';
 
 const Container = styled.div`
-  min-height: calc(100vh - 70px);
+  height: 100%;
   display: flex;
   flex-direction: column;
-  transition: transform .3s ease-in-out; 
-  padding-bottom: 70px;
-  overflow: hidden;
 `;
 
 export const Content: FC = (): ReactElement => (
@@ -30,7 +28,7 @@ export const Content: FC = (): ReactElement => (
         {/* <ProtectedRoute path="/panel" component={WorkerPanel} roles={[Roles.EMPLOYEE]} /> */}
         {/* <Route path="/fitter" component={Fitter} /> */}
         {/* <Route path="/" exact component={Home} /> */}
-        {/* <Route component={NotFound} /> */}
+        <Route component={PageNotFound} />
       </Switch>
     </Container>
   </>

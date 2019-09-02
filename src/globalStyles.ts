@@ -31,4 +31,8 @@ export const GlobalStyle = createGlobalStyle<{theme: Theme}>`
   strong {
     color: ${({ theme }) => theme.colors.primary};    
   }
+
+  #root {
+    height: 100vh;
+  }
 `;
