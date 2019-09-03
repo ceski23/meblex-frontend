@@ -27,7 +27,7 @@ const Welcome = styled.div`
   justify-content: center;
   align-items: center;
   text-align: justify;
-  /* padding-bottom: 50px; */
+  padding-bottom: 50px;
 `;
 
 const Icons = styled.div`
@@ -67,6 +67,11 @@ const FormTitle = styled.h4`
   font-size: 1.2em;
 `;
 
+const Wrapper = styled.div`
+  height: 100%;
+  overflow-y: auto;
+`;
+
 export const RegisterScreen: FC<RouteComponentProps> = ({ location }): ReactElement => {
   const { status, data } = useSelector(({ auth }: AppState) => auth);
   const { from } = location.state || { from: { pathname: '/' } };
@@ -88,7 +93,7 @@ export const RegisterScreen: FC<RouteComponentProps> = ({ location }): ReactElem
   };
 
   return (
-    <>
+    <Wrapper>
       {data.accessToken && <Redirect to={from} />}
       <Welcome>
         <Icons />
@@ -98,6 +103,6 @@ export const RegisterScreen: FC<RouteComponentProps> = ({ location }): ReactElem
           <RegisterForm onSubmit={handleRegister} isLoading={status.isLoading} />
         </FormContainer>
       </Welcome>
-    </>
+    </Wrapper>
   );
 };
