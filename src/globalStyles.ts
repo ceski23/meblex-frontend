@@ -13,11 +13,6 @@ export const GlobalStyle = createGlobalStyle<{theme: Theme}>`
     color: ${({ theme }) => theme.colors.text};
   }
 
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
-
   * {
     margin: 0;
     padding: 0;
@@ -26,6 +21,7 @@ export const GlobalStyle = createGlobalStyle<{theme: Theme}>`
 
   h1, h2, h3, h4 {
     color: ${({ theme }) => theme.colors.textDark};
+    font-family: 'Merriweather Sans', 'Noto Sans', sans-serif;
   }
 
   strong {
