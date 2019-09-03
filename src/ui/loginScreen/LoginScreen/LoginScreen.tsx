@@ -11,10 +11,10 @@ import { LoginFormValues } from 'ui/loginScreen/LoginForm/LoginForm';
 import FurnitureBackground from 'assets/background.svg';
 import { useReduxDispatch } from 'hooks';
 import { login } from 'store/auth/actions';
-import { toast } from 'react-toastify';
 import { LOGIN_SUCCESSFUL } from 'constants/Api';
 import { WELCOME_1, LOG_IN, WELCOME_2 } from 'constants/LoginScreen';
 import { HOME } from 'constants/routing';
+import { toast } from 'utils/toaster';
 
 const Welcome = styled.div`
   display: flex;
@@ -74,8 +74,8 @@ export const LoginScreen: FC<RouteComponentProps> = ({ location }): ReactElement
 
   const handleLogin = (values: LoginFormValues): void => {
     dispatch(login(values))
-      .then(() => toast.success(LOGIN_SUCCESSFUL))
-      .catch(error => toast.error(error));
+      .then(() => toast(LOGIN_SUCCESSFUL, 'success'))
+      .catch(error => toast(error, 'error'));
   };
 
   return (

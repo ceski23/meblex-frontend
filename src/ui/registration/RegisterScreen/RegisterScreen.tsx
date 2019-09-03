@@ -9,10 +9,10 @@ import { Paper } from 'ui/shared/Paper';
 import FurnitureBackground from 'assets/background.svg';
 import { useReduxDispatch } from 'hooks';
 import { register } from 'store/auth/actions';
-import { toast } from 'react-toastify';
 import { REGISTRATION_SUCCESSFUL } from 'constants/Api';
 import { FormikActions } from 'formik';
 import { HOME } from 'constants/routing';
+import { toast } from 'utils/toaster';
 import { RegisterForm } from '../RegisterForm';
 import { RegisterFormValues } from '../RegisterForm/RegisterForm';
 
@@ -72,14 +72,16 @@ export const RegisterScreen: FC<RouteComponentProps> = ({ location }): ReactElem
   const { from } = location.state || { from: { pathname: '/' } };
   const dispatch = useReduxDispatch();
 
-  const handleRegister = (values: RegisterFormValues, actions: FormikActions<RegisterFormValues>): void => {
+  const handleRegister = (
+    values: RegisterFormValues, actions: FormikActions<RegisterFormValues>,
+  ): void => {
     dispatch(register(values))
-      .then(() => toast.success(REGISTRATION_SUCCESSFUL))
+      .then(() => toast(REGISTRATION_SUCCESSFUL, 'success'))
       .catch(error => {
         if (error.detail) {
-          toast.error(error.detail);
+          toast(error.detail, 'error');
         } else {
-          toast.error(error.title);
+          toast(error.title, 'error');
           actions.setErrors(error.errors);
         }
       });
