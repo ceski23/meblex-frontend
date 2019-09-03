@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components/macro';
 import { Theme } from 'theme';
 
 export const GlobalStyle = createGlobalStyle<{theme: Theme}>`

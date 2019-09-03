@@ -1,4 +1,4 @@
-import baseStyled, { ThemedStyledInterface } from 'styled-components';
+import baseStyled, { ThemedStyledInterface } from 'styled-components/macro';
 import { down, RuleFnType, up } from 'styled-breakpoints';
 
 export const theme = {
