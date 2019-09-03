@@ -7,11 +7,11 @@ import { logoutUser } from 'store/auth/actions';
 
 export const Logout: FC = (): ReactElement | null => {
   const dispatch = useReduxDispatch();
-  const { data } = useSelector(({ user }: AppState) => user);
+  const { data } = useSelector(({ auth }: AppState) => auth);
 
   useEffect(() => {
-    if (data.user) dispatch(logoutUser());
-  }, [data.user, dispatch]);
+    if (data.accessToken) dispatch(logoutUser());
+  }, [data.accessToken, dispatch]);
 
-  return (data.user ? null : <Redirect to="/logowanie" />);
+  return (data.accessToken ? null : <Redirect to="/logowanie" />);
 };

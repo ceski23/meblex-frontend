@@ -7,7 +7,7 @@ import {
  SET_TOKENS, SET_ACCESS_TOKEN, PREFIX, GET_LOGIN_STATUS, LOGOUT,
 } from './consts';
 import * as api from './api';
-import { Tokens, LoginCredentials } from './types';
+import { Tokens, LoginCredentials, RegistrationData } from './types';
 
 export const setTokens = (tokens: Tokens): Action => (
   createAction(SET_TOKENS, tokens)
@@ -38,6 +38,22 @@ export const login = (credentials: LoginCredentials): ThunkResult<Promise<void |
     try {
       const { accessToken, refreshToken, ...user } = await api.login(credentials);
       dispatch(setUserData(user));
+      dispatch(setTokens({ accessToken, refreshToken }));
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setError(error));
+      dispatch(setLoading(false));
+      throw error;
+    }
+  }
+);
+
+export const register = (data: RegistrationData): ThunkResult<Promise<void | Tokens>> => (
+  async (dispatch: Dispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const { accessToken, refreshToken } = await api.register(data);
+      dispatch(setTokens({ accessToken, refreshToken }));
       dispatch(setLoading(false));
     } catch (error) {
       dispatch(setError(error));
@@ -55,7 +71,7 @@ export const checkLoginStatus = (): ThunkResult<Promise<void>> => (
       dispatch(setLoginStatus(true));
       dispatch(setLoading(false));
     } catch (error) {
-      dispatch(setError('ERROR'));
+      dispatch(setError(error));
       dispatch(setLoading(false));
       throw error;
     }

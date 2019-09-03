@@ -18,7 +18,7 @@ const reducer = (state = initState, action: Action): State => {
 
     case SET_TOKENS:
       return {
-        ...state, refreshToken: action.payload, accessToken: action.payload,
+        ...state, ...action.payload,
       };
 
     case LOGOUT:

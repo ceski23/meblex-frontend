@@ -2,19 +2,19 @@ import React, { ReactElement, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 
-import { styled, forTabletPortraitUp } from 'theme';
+import { styled, forTabletPortraitUp, forTabletLandscapeUp } from 'theme';
 import { ReactComponent as MeblexLogo } from 'assets/meblex_logo.svg';
 import { AppState } from 'store/types';
 import { Paper } from 'ui/shared/Paper';
-import { LoginForm } from 'ui/loginScreen/LoginForm';
-import { LoginFormValues } from 'ui/loginScreen/LoginForm/LoginForm';
 import FurnitureBackground from 'assets/background.svg';
 import { useReduxDispatch } from 'hooks';
-import { login } from 'store/auth/actions';
+import { register } from 'store/auth/actions';
 import { toast } from 'react-toastify';
-import { LOGIN_SUCCESSFUL } from 'constants/Api';
-import { WELCOME_1, LOG_IN, WELCOME_2 } from 'constants/LoginScreen';
+import { REGISTRATION_SUCCESSFUL } from 'constants/Api';
+import { FormikActions } from 'formik';
 import { HOME } from 'constants/routing';
+import { RegisterForm } from '../RegisterForm';
+import { RegisterFormValues } from '../RegisterForm/RegisterForm';
 
 const Welcome = styled.div`
   display: flex;
@@ -56,8 +56,8 @@ const FormContainer = styled(Paper)`
   width: 90%;
   z-index: 1;
   
-  ${forTabletPortraitUp()} {
-    width: 600px;
+  ${forTabletLandscapeUp()} {
+    width: 700px;
   }
 `;
 
@@ -67,15 +67,22 @@ const FormTitle = styled.h4`
   font-size: 1.2em;
 `;
 
-export const LoginScreen: FC<RouteComponentProps> = ({ location }): ReactElement => {
+export const RegisterScreen: FC<RouteComponentProps> = ({ location }): ReactElement => {
   const { status, data } = useSelector(({ auth }: AppState) => auth);
   const { from } = location.state || { from: { pathname: '/' } };
   const dispatch = useReduxDispatch();
 
-  const handleLogin = (values: LoginFormValues): void => {
-    dispatch(login(values))
-      .then(() => toast.success(LOGIN_SUCCESSFUL))
-      .catch(error => toast.error(error));
+  const handleRegister = (values: RegisterFormValues, actions: FormikActions<RegisterFormValues>): void => {
+    dispatch(register(values))
+      .then(() => toast.success(REGISTRATION_SUCCESSFUL))
+      .catch(error => {
+        if (error.detail) {
+          toast.error(error.detail);
+        } else {
+          toast.error(error.title);
+          actions.setErrors(error.errors);
+        }
+      });
   };
 
   return (
@@ -85,8 +92,8 @@ export const LoginScreen: FC<RouteComponentProps> = ({ location }): ReactElement
         <Icons />
         <Link to={HOME}><Logo /></Link>
         <FormContainer>
-          <FormTitle>{WELCOME_1} <strong>{LOG_IN}</strong> {WELCOME_2}</FormTitle>
-          <LoginForm onSubmit={handleLogin} isLoading={status.isLoading} />
+          <FormTitle>Formularz rejestracji</FormTitle>
+          <RegisterForm onSubmit={handleRegister} isLoading={status.isLoading} />
         </FormContainer>
       </Welcome>
     </>

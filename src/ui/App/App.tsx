@@ -10,7 +10,8 @@ import { AppState } from 'store/types';
 import { Content } from 'ui/Content';
 import { Logout } from 'ui/Logout';
 import { LoginScreen } from 'ui/loginScreen';
-import { LOGIN, LOGOUT } from 'constants/routing';
+import { LOGIN, LOGOUT, REGISTER } from 'constants/routing';
+import { RegisterScreen } from 'ui/registration/RegisterScreen';
 
 export const App: FC = (): ReactElement => {
   const dispatch = useReduxDispatch();
@@ -23,7 +24,7 @@ export const App: FC = (): ReactElement => {
   return (
     <Switch>
       <Route path={LOGIN} component={LoginScreen} />
-      {/* <Route path="/rejestracja" component={Registration} /> */}
+      <Route path={REGISTER} component={RegisterScreen} />
       <Route path={LOGOUT} component={Logout} />
 
       <Route render={() => (

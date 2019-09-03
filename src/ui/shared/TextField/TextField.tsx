@@ -1,5 +1,6 @@
 import React, { FC, ReactElement } from 'react';
-import { Field as FormikField } from 'formik';
+import { Field as FormikField, FieldProps } from 'formik';
+import MaskedInput, { MaskedInputProps } from 'react-text-mask';
 
 import { styled } from 'theme';
 
@@ -18,7 +19,7 @@ const Label = styled.h4`
   line-height: 42px;
 `;
 
-const Field = styled(FormikField)`
+const Field = styled(MaskedInput)`
   box-shadow: 0 2px 4px ${({ theme }) => theme.colors.shadow};
   border: 1px solid rgb(229, 232, 237);
   padding: 10px 15px;
@@ -37,20 +38,22 @@ const Error = styled.span`
 `;
 
 interface Props {
-  name: string;
-  type: string;
   label?: string;
-  autoComplete?: string;
   error?: string;
   touched?: boolean;
 }
 
-export const TextField: FC<Props> = ({
-  label, error, touched, ...props
+export const TextField: FC<MaskedInputProps & Props> = ({ // InputHTMLAttributes<HTMLInputElement>
+  name, label, error, touched, mask = false, ...props
 }): ReactElement => (
   <Container>
     {label && <Label>{label}</Label>}
-    <Field {...props} />
+    <FormikField
+      name={name}
+      render={({ field }: FieldProps) => (
+        <Field mask={mask} {...field} {...props} />
+      )}
+    />
     {touched && error && <Error>{error}</Error>}
   </Container>
 );

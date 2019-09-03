@@ -7,3 +7,4 @@ export const INVALID_EMAIL = 'Nieprawidłowy adres email';
 export const INVALID_POST_CODE = 'Nieprawidłowy kod pocztowy';
 export const INVALID_NIP = 'Nieprawidłowy NIP';
 export const PASSWORD_MISMATCH = 'Hasła nie są identyczne';
+export const MAX_CHARACTERS = 'Musi zawierać maksymalnie ${max} znaków';

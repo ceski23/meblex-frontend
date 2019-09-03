@@ -12,4 +12,15 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface RegistrationData {
+  email: string;
+  password: string;
+  name: string;
+  address: string;
+  city: string;
+  postcode: string;
+  nip: string;
+  state: string;
+}
+
 export type AuthState = ReturnType<typeof authReducer>
