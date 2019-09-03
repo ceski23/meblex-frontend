@@ -13,6 +13,10 @@ export const GlobalStyle = createGlobalStyle<{theme: Theme}>`
     color: ${({ theme }) => theme.colors.text};
   }
 
+  a {
+    color: ${({ theme }) => theme.colors.text};
+  }
+
   * {
     margin: 0;
     padding: 0;

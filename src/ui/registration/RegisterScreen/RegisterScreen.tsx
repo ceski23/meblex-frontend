@@ -27,7 +27,7 @@ const Welcome = styled.div`
   justify-content: center;
   align-items: center;
   text-align: justify;
-  padding-bottom: 50px;
+  /* padding-bottom: 50px; */
 `;
 
 const Icons = styled.div`

@@ -2,6 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { styled } from 'theme';
 import { PageNotFound } from 'ui/PageNotFound';
+import { Toolbar } from 'ui/toolbar/Toolbar';
 
 // import ProtectedRoute from './ProtectedRoute';
 
@@ -9,11 +10,12 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding-top: 70px;
 `;
 
 export const Content: FC = (): ReactElement => (
   <>
-    {/* <Toolbar /> */}
+    <Toolbar />
     {/* <Navigation /> */}
 
     <Container>
