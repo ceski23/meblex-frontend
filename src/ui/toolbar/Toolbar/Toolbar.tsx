@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { styled, forTabletLandscapeUp } from 'theme';
-import { useScroll } from 'hooks';
+import { useScroll, useMediaQuery } from 'hooks';
 import { AppState } from 'store/types';
 import { LOGOUT, HOME } from 'constants/routing';
 import { ReactComponent as LogoutIcon } from 'assets/logout.svg';
 import { ReactComponent as MeblexLogo } from 'assets/meblex_logo.svg';
 import { UserInfo } from '../UserInfo';
+import { Menu } from '../Menu';
 
 const IconLink = styled(Link)`
   height: 50px;
   margin: 5px;
   padding: 10px;
   position: relative;
-  order: 2;
 `;
 
 const Icon = styled(LogoutIcon)`
@@ -25,10 +25,6 @@ const Icon = styled(LogoutIcon)`
 
 const Filler = styled.span`
   flex: 1;
-  order: 1;
-  ${forTabletLandscapeUp()} {
-    order: 0;
-  }
 `;
 
 const Wrapper: FC<{
@@ -64,12 +60,14 @@ const Logo = styled(MeblexLogo)`
 export const Toolbar: FC = (): ReactElement => {
   const scroll = useScroll();
   const { data } = useSelector(({ user }: AppState) => user);
+  const renderMenu = useMediaQuery(forTabletLandscapeUp());
 
   return (
     <Container scroll={scroll}>
       <Link to={HOME}><Logo /></Link>
-      <Filler />
+      {renderMenu && <Menu />}
       <UserInfo user={data.user} />
+      {!renderMenu && <Filler />}
       {data.user && (
         <IconLink to={LOGOUT}><Icon /></IconLink>
       )}
