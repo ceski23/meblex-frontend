@@ -18,7 +18,7 @@ export interface RegistrationData {
   name: string;
   address: string;
   city: string;
-  postcode: string;
+  postCode: string;
   nip: string;
   state: string;
 }

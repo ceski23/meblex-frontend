@@ -31,3 +31,16 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+export interface ApiDetailedError {
+  status: number;
+  title: string;
+  traceId: string;
+  errors: any;
+}
+
+export interface ApiSimpleError {
+  status: number;
+  title: string;
+  traceId: string;
+  detail: string;
+}

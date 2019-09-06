@@ -13,6 +13,7 @@ const Container = styled.div`
   justify-content: center;
   width: 80%;
   align-self: center;
+  margin: 0 auto;
 `;
 
 const Image = styled.img`

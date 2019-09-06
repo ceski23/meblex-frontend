@@ -1,14 +1,26 @@
 import { userReducer } from './reducer';
 
-export interface User {
+export type User = UserData & {
   email: string;
+  role: string;
+}
+
+export interface UserData {
   name: string;
   address: string;
   state: string;
   city: string;
   postCode: string;
   nip: string;
-  role: string;
+}
+
+export interface EmailUpdateParams {
+  newEmail: string;
+}
+
+export interface PasswordUpdateParams {
+  oldPassword: string;
+  newPassword: string;
 }
 
 export interface State {

@@ -14,7 +14,7 @@ export interface RegisterFormValues {
   name: string;
   address: string;
   city: string;
-  postcode: string;
+  postCode: string;
   nip: string;
   state: string;
 }
@@ -31,7 +31,7 @@ const defaultValues: RegisterFormValues = {
   name: '',
   address: '',
   city: '',
-  postcode: '',
+  postCode: '',
   nip: '',
   state: '',
 };
@@ -61,7 +61,7 @@ const validationSchema = yup.object({
     .string()
     .max(32, MAX_CHARACTERS)
     .required(REQUIRED),
-  postcode: yup
+  postCode: yup
     .string()
     .matches(/^\d{2}-\d{3}$/, INVALID_POST_CODE)
     .required(REQUIRED),
@@ -176,12 +176,12 @@ export const RegisterForm: FC<Props> = ({
             />
             <TextField
               label="Kod pocztowy:"
-              name="postcode"
+              name="postCode"
               type="tel"
               autoComplete="postal-code"
               mask={[/\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-              touched={touched.postcode}
-              error={errors.postcode}
+              touched={touched.postCode}
+              error={errors.postCode}
             />
           </Column>
         </Container>

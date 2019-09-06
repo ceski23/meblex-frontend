@@ -3,6 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 import { styled } from 'theme';
 import { PageNotFound } from 'ui/PageNotFound';
 import { Toolbar } from 'ui/toolbar/Toolbar';
+import { Profile } from 'ui/profile/Profile';
+import { PROFILE } from 'constants/routing';
 
 // import ProtectedRoute from './ProtectedRoute';
 
@@ -30,6 +32,7 @@ export const Content: FC = (): ReactElement => (
         {/* <ProtectedRoute path="/panel" component={WorkerPanel} roles={[Roles.EMPLOYEE]} /> */}
         {/* <Route path="/fitter" component={Fitter} /> */}
         {/* <Route path="/" exact component={Home} /> */}
+        <Route path={PROFILE} component={Profile} />
         <Route component={PageNotFound} />
       </Switch>
     </Container>

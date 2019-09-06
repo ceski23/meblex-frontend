@@ -35,7 +35,7 @@ const Wrapper: FC<{
 );
 
 const Container = styled(Wrapper)`
-  background: white;
+  background: ${({ theme }) => theme.colors.background};
   height: 70px;
   display: flex;
   align-items: center;

@@ -11,7 +11,7 @@ export const login = (credentials: LoginCredentials): Promise<Tokens & User> => 
 );
 
 export const register = (regData: RegistrationData): Promise<Tokens> => (
-  api.post('Auth/register', { ...regData, postcode: regData.postcode.replace(/\D/g, '') })
+  api.post('Auth/register', { ...regData, postcode: regData.postCode.replace(/\D/g, '') })
     .then(({ data }) => data)
     .catch(error => Promise.reject(error.response.data))
 );

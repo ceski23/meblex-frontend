@@ -26,7 +26,7 @@ ReactDOM.render(
               <GlobalStyle />
               <App />
               <Toaster
-                autoClose={false}
+                autoClose={4000}
                 hideProgressBar
                 position="bottom-center"
                 transition={Slide}
