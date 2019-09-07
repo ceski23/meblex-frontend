@@ -1,5 +1,4 @@
 import React, { FC, ReactElement } from 'react';
-import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
 
 import { ReactComponent as UserIcon } from 'assets/user.svg';
 import { styled } from 'theme';
@@ -7,6 +6,7 @@ import { LOGIN, PROFILE } from 'constants/routing';
 import { User } from 'store/user/types';
 import { LOG_IN } from 'constants/Toolbar';
 import { roleName } from 'store/auth/consts';
+import { Link, RouteComponentProps } from '@reach/router';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -44,23 +44,14 @@ interface Props {
   user?: User;
 }
 
-const RawUserInfo: FC<RouteComponentProps<{}> & Props> = ({
+export const UserInfo: FC<RouteComponentProps<{}> & Props> = ({
   user, location,
-}): ReactElement => {
-  const to = user ? PROFILE : {
-    pathname: LOGIN,
-    state: { from: location },
-  };
-
-  return (
-    <StyledLink to={to}>
-      <Icon />
-      <div>
-        <Name>{user ? user.name : LOG_IN}</Name>
-        {user && <Role>{roleName(user.role)}</Role>}
-      </div>
-    </StyledLink>
-  );
-};
-
-export const UserInfo = withRouter(RawUserInfo);
+}): ReactElement => (
+  <StyledLink to={user ? PROFILE : LOGIN} state={user ? { from: location } : undefined}>
+    <Icon />
+    <div>
+      <Name>{user ? user.name : LOG_IN}</Name>
+      {user && <Role>{roleName(user.role)}</Role>}
+    </div>
+  </StyledLink>
+);

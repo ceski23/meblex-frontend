@@ -1,9 +1,9 @@
 import React, { FC, ReactElement } from 'react';
 import HikingTraveller from 'assets/images/hiking_traveller.svg';
-import { history } from 'utils/history';
 import { styled, forTabletPortraitUp } from 'theme';
 import { Button } from 'ui/shared/Button';
 import { PAGE_NOT_FOUND, WHAT_TO_DO, GO_BACK } from 'constants/PageNotFound';
+import { RouteComponentProps } from '@reach/router';
 
 const Container = styled.div`
   display: flex;
@@ -37,8 +37,8 @@ const StyledButton = styled(Button)`
   margin-top: 50px;
 `;
 
-export const PageNotFound: FC = (): ReactElement => {
-  const handleClick = (): void => history.goBack();
+export const PageNotFound: FC<RouteComponentProps> = (): ReactElement => {
+  const handleClick = (): void => window.history.back();
 
   return (
     <Container>

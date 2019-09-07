@@ -1,12 +1,12 @@
 import React, { FC, ReactElement } from 'react';
 import { styled } from 'theme';
-import { NavLink } from 'react-router-dom';
+import { Link } from '@reach/router';
 
 const Text = styled.h4`
   transition: all .3s;
 `;
 
-const Container = styled(NavLink)`
+const Container = styled(Link)`
   height: 100%;
   display: flex;
   flex-direction: column;

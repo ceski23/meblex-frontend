@@ -1,6 +1,5 @@
-import React, { ReactElement, FC } from 'react';
+import React, { ReactElement, FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 
 import { styled, forTabletPortraitUp } from 'theme';
 import { ReactComponent as MeblexLogo } from 'assets/meblex_logo.svg';
@@ -15,6 +14,9 @@ import { LOGIN_SUCCESSFUL } from 'constants/Api';
 import { WELCOME_1, LOG_IN, WELCOME_2 } from 'constants/LoginScreen';
 import { HOME } from 'constants/routing';
 import { toast } from 'utils/toaster';
+import {
+ RouteComponentProps, Link, navigate,
+} from '@reach/router';
 
 const Welcome = styled.div`
   display: flex;
@@ -69,7 +71,7 @@ const FormTitle = styled.h4`
 
 export const LoginScreen: FC<RouteComponentProps> = ({ location }): ReactElement => {
   const { status, data } = useSelector(({ auth }: AppState) => auth);
-  const { from } = location.state || { from: { pathname: '/' } };
+  const from = (location && location.state.from) || '/';
   const dispatch = useReduxDispatch();
 
   const handleLogin = (values: LoginFormValues): void => {
@@ -78,17 +80,18 @@ export const LoginScreen: FC<RouteComponentProps> = ({ location }): ReactElement
       .catch(error => toast(error, 'error'));
   };
 
+  useEffect(() => {
+    if (data.accessToken) navigate(from);
+  }, [data.accessToken, from]);
+
   return (
-    <>
-      {data.accessToken && <Redirect to={from} />}
-      <Welcome>
-        <Icons />
-        <Link to={HOME}><Logo /></Link>
-        <FormContainer>
-          <FormTitle>{WELCOME_1} <strong>{LOG_IN}</strong> {WELCOME_2}</FormTitle>
-          <LoginForm onSubmit={handleLogin} isLoading={status.isLoading} />
-        </FormContainer>
-      </Welcome>
-    </>
+    <Welcome>
+      <Icons />
+      <Link to={HOME}><Logo /></Link>
+      <FormContainer>
+        <FormTitle>{WELCOME_1} <strong>{LOG_IN}</strong> {WELCOME_2}</FormTitle>
+        <LoginForm onSubmit={handleLogin} isLoading={status.isLoading} />
+      </FormContainer>
+    </Welcome>
   );
 };
