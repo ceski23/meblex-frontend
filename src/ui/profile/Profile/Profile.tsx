@@ -8,6 +8,7 @@ import {
 import { YOUR_ORDERS, YOUR_DATA, YOUR_REQUESTS } from 'constants/Profile';
 import { RouteComponentProps, Router } from '@reach/router';
 import { UserData } from '../UserData';
+import { OrdersPage } from '../OrdersPage';
 
 const StyledNavBox = styled(NavBox)`
   margin: 20px 20px 0px;
@@ -27,7 +28,7 @@ export const Profile: FC<RouteComponentProps> = (): ReactElement => (
     ]}
     />
     <Router primary={false}>
-      <PageNotFound path={PROFILE_ORDERS} />
+      <OrdersPage path={PROFILE_ORDERS} />
       <PageNotFound path={PROFILE_REQUESTS} />
       <UserData default />
     </Router>

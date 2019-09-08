@@ -2,6 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import Spinner from 'react-spinner-material';
 
 import { styled, theme as appTheme } from 'theme';
+import { LOADING } from 'constants/App';
 
 const Container = styled.div`
   background: ${({ theme }) => theme.colors.white};
@@ -18,12 +19,13 @@ const Container = styled.div`
 const Text = styled.h3`
   margin-left: 30px;
   font-size: 1.5em;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.textDark};
+  margin-bottom: 0;
 `;
 
 interface Props {
   isLoading: boolean;
-  text: string;
+  text?: string;
 }
 
 export const Loading: FC<Props> = ({
@@ -38,7 +40,7 @@ export const Loading: FC<Props> = ({
           spinnerWidth={4}
           visible
         />
-        <Text>{text}</Text>
+        <Text>{text || LOADING}</Text>
       </Container>
     ) : children}
   </>

@@ -28,6 +28,11 @@ export const GlobalStyle = createGlobalStyle<{theme: Theme}>`
     font-family: 'Merriweather Sans', 'Noto Sans', sans-serif;
   }
 
+  h3 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+
   strong {
     color: ${({ theme }) => theme.colors.primary};    
   }

@@ -17,13 +17,13 @@ const StyledPaper = styled(Paper)`
 `;
 
 interface Props {
-  title: string;
+  title?: string;
   className?: string;
 }
 
 export const Panel: FC<Props> = ({ children, className, title }): ReactElement => (
   <Container className={className}>
-    <Title>{title}</Title>
+    {title && <Title>{title}</Title>}
     <StyledPaper>
       {children}
     </StyledPaper>
