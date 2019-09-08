@@ -5,8 +5,8 @@ import * as yup from 'yup';
 import { INVALID_EMAIL, INVALID_PASSWORD, REQUIRED } from 'constants/validation';
 import { Button } from 'ui/shared/Button';
 import { styled, forTabletPortraitUp } from 'theme';
+import { history } from 'utils/history';
 import { REGISTER } from 'constants/routing';
-import { navigate } from '@reach/router';
 
 export interface LoginFormValues {
   email: string;
@@ -63,7 +63,7 @@ const LoginActions = styled.div`
 export const LoginForm: FC<Props> = ({
   onSubmit, initialValues, isLoading,
 }): ReactElement => {
-  const handleRedirect = (): void => navigate(REGISTER);
+  const handleRedirect = (): void => history.push(REGISTER);
 
   return (
     <Formik

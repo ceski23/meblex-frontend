@@ -3,7 +3,6 @@ import { styled } from 'theme';
 import { Loading } from 'ui/shared/Loading';
 import { useSelector } from 'react-redux';
 import { AppState } from 'store/types';
-import { RouteComponentProps } from '@reach/router';
 import { useReduxDispatch } from 'hooks';
 import { getOrders } from 'store/orders/actions';
 import { Order } from '../Order/Order';
@@ -14,7 +13,7 @@ const Container = styled.div`
   margin-bottom: 40px;
 `;
 
-export const OrdersPage: FC<RouteComponentProps> = (): ReactElement => {
+export const OrdersPage: FC = (): ReactElement => {
   const { data, status } = useSelector(({ orders }: AppState) => orders);
   const dispatch = useReduxDispatch();
 

@@ -1,4 +1,5 @@
 import React, { FC, ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { styled, forTabletLandscapeUp } from 'theme';
@@ -7,7 +8,6 @@ import { AppState } from 'store/types';
 import { LOGOUT, HOME } from 'constants/routing';
 import { ReactComponent as LogoutIcon } from 'assets/logout.svg';
 import { ReactComponent as MeblexLogo } from 'assets/meblex_logo.svg';
-import { Link } from '@reach/router';
 import { UserInfo } from '../UserInfo';
 import { Menu } from '../Menu';
 

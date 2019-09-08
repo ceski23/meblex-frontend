@@ -10,7 +10,6 @@ import { toast } from 'utils/toaster';
 import { USER_DATA_UPDATE_SUCCESSFUL, EMAIL_UPDATE_SUCCESSFUL, PASSWORD_UPDATE_SUCCESSFUL } from 'constants/Api';
 import { FormikActions } from 'formik';
 import { defaultErrorHandler } from 'utils/apiErrorHandlers';
-import { RouteComponentProps } from '@reach/router';
 import { UserDataForm } from '../UserDataForm';
 import { ChangeEmailForm } from '../ChangeEmailForm';
 import { ChangePasswordForm } from '../ChangePasswordForm';
@@ -33,7 +32,7 @@ const Container = styled.div`
   margin-bottom: 40px;
 `;
 
-export const UserData: FC<RouteComponentProps> = (): ReactElement => {
+export const UserData: FC = (): ReactElement => {
   const { data } = useSelector(({ user }: AppState) => user);
   const dispatch = useReduxDispatch();
 

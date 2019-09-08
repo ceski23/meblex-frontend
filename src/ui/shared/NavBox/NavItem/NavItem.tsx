@@ -1,8 +1,10 @@
 import React, { FC, ReactElement } from 'react';
 import { styled } from 'theme';
-import { Link, Match } from '@reach/router';
+import { NavLink } from 'react-router-dom';
 
-const StyledNavLink = styled(Link)`
+const StyledNavLink = styled(NavLink).attrs({
+  activeClassName: 'active',
+})`
   color: ${({ theme }) => theme.colors.text};
   font-family: 'Merriweather Sans', 'Noto Sans', sans-serif;
   font-weight: bold;
@@ -12,11 +14,11 @@ const StyledNavLink = styled(Link)`
   margin: 20px;
   border-bottom: 3px solid transparent;
   padding-bottom: 15px;
-`;
 
-const StyledActiveNavLink = styled(StyledNavLink)`
-  color: ${({ theme }) => theme.colors.textDark};
-  border-color: ${({ theme }) => theme.colors.primary};
+  &.active {
+    color: ${({ theme }) => theme.colors.textDark};
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 export interface NavLocItem {
@@ -29,11 +31,5 @@ interface Props {
 }
 
 export const NavItem: FC<Props> = ({ data: { label, to } }): ReactElement => (
-  <Match path={to}>
-    {({ match }) => (
-      match
-      ? <StyledActiveNavLink to={to}>{label}</StyledActiveNavLink>
-      : <StyledNavLink to={to}>{label}</StyledNavLink>
-    )}
-  </Match>
+  <StyledNavLink exact to={to}>{label}</StyledNavLink>
 );

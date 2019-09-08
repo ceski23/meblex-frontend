@@ -1,14 +1,10 @@
 import React, { FC, ReactElement } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { styled } from 'theme';
 import { PageNotFound } from 'ui/PageNotFound';
 import { Toolbar } from 'ui/toolbar/Toolbar';
 import { Profile } from 'ui/profile/Profile';
-import { RouteComponentProps, Router } from '@reach/router';
-import { useSelector } from 'react-redux';
-import { AppState } from 'store/types';
-import { Loading } from 'ui/shared/Loading';
-import { LOADING } from 'constants/App';
-import { PROFILE_ALL } from 'constants/routing';
+import { PROFILE } from 'constants/routing';
 
 // import ProtectedRoute from './ProtectedRoute';
 
@@ -17,18 +13,15 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 70px;
-  min-height: 100vh;
 `;
 
-export const Content: FC<RouteComponentProps> = (): ReactElement => {
-  const { status } = useSelector(({ auth }: AppState) => auth);
+export const Content: FC = (): ReactElement => (
+  <>
+    <Toolbar />
+    {/* <Navigation /> */}
 
-  return (
-    <Loading isLoading={status.isLoading} text={LOADING}>
-      <Toolbar />
-      {/* <Navigation /> */}
-
-      <Container>
+    <Container>
+      <Switch>
         {/* <Route path="/katalog/produkty/:product" component={Product} /> */}
         {/* <Route path="/katalog" component={Catalog} /> */}
         {/* <ProtectedRoute path="/koszyk" roles={[Roles.USER, Roles.EMPLOYEE]} component={Cart} /> */}
@@ -39,11 +32,9 @@ export const Content: FC<RouteComponentProps> = (): ReactElement => {
         {/* <ProtectedRoute path="/panel" component={WorkerPanel} roles={[Roles.EMPLOYEE]} /> */}
         {/* <Route path="/fitter" component={Fitter} /> */}
         {/* <Route path="/" exact component={Home} /> */}
-        <Router primary={false}>
-          <Profile path={PROFILE_ALL} />
-          <PageNotFound default />
-        </Router>
-      </Container>
-    </Loading>
+        <Route path={PROFILE} component={Profile} />
+        <Route component={PageNotFound} />
+      </Switch>
+    </Container>
+  </>
   );
-};

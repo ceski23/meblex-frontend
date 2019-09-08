@@ -1,5 +1,6 @@
-import React, { ReactElement, FC, useEffect } from 'react';
+import React, { ReactElement, FC } from 'react';
 import { useSelector } from 'react-redux';
+import { Redirect, RouteComponentProps, Link } from 'react-router-dom';
 
 import { styled, forTabletPortraitUp, forTabletLandscapeUp } from 'theme';
 import { ReactComponent as MeblexLogo } from 'assets/meblex_logo.svg';
@@ -12,7 +13,6 @@ import { REGISTRATION_SUCCESSFUL } from 'constants/Api';
 import { FormikActions } from 'formik';
 import { HOME } from 'constants/routing';
 import { toast } from 'utils/toaster';
-import { RouteComponentProps, Link, navigate } from '@reach/router';
 import { RegisterForm } from '../RegisterForm';
 import { RegisterFormValues } from '../RegisterForm/RegisterForm';
 
@@ -74,7 +74,7 @@ const Wrapper = styled.div`
 
 export const RegisterScreen: FC<RouteComponentProps> = ({ location }): ReactElement => {
   const { status, data } = useSelector(({ auth }: AppState) => auth);
-  const from = (location && location.state.from) || '/';
+  const { from } = location.state || { from: { pathname: '/' } };
   const dispatch = useReduxDispatch();
 
   const handleRegister = (
@@ -92,12 +92,9 @@ export const RegisterScreen: FC<RouteComponentProps> = ({ location }): ReactElem
       });
   };
 
-  useEffect(() => {
-    if (data.accessToken) navigate(from);
-  }, [data.accessToken, from]);
-
   return (
     <Wrapper>
+      {data.accessToken && <Redirect to={from} />}
       <Welcome>
         <Icons />
         <Link to={HOME}><Logo /></Link>
