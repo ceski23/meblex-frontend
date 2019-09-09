@@ -15,9 +15,11 @@ import { RegisterScreen } from 'ui/registration/RegisterScreen';
 
 export const App: FC = (): ReactElement => {
   const dispatch = useReduxDispatch();
-  const { status } = useSelector(({ auth }: AppState) => auth);
+  const { status, data: { accessToken } } = useSelector(({ auth }: AppState) => auth);
 
-  useEffect(() => { dispatch(getUserData()); }, [dispatch]);
+  useEffect(() => {
+    if (accessToken) dispatch(getUserData());
+  }, [accessToken, dispatch]);
 
   return (
     <Switch>

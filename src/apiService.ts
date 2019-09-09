@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { store } from 'store';
 import { SERVER_ERROR } from 'constants/Api';
-import { relogin } from 'store/auth/actions';
+import { relogin, logoutUser } from 'store/auth/actions';
 
 export const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -39,6 +39,7 @@ const authIntError = async (error: any): Promise<any> => {
       return api(errorResponse.config);
     } catch (e) {
       authInterceptor = api.interceptors.response.use(response => response, authIntError);
+      store.dispatch(logoutUser());
     }
   } else return Promise.reject(error);
 
