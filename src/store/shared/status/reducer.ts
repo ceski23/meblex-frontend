@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { SET_ERROR, SET_LOADING } from './consts';
+import { SET_ERROR, LOADING_STARTED, LOADING_FINISHED } from './consts';
 import { StatusState } from './types';
 
 const initialState: StatusState = {
@@ -10,11 +10,16 @@ const initialState: StatusState = {
 export const statusReducer = (prefix: string): Reducer<StatusState> => (
   (state = initialState, action): StatusState => {
     switch (action.type) {
-      case `${prefix}_${SET_LOADING}`:
+      case `${prefix}_${LOADING_STARTED}`:
         return {
           ...state,
-          isLoading: action.payload,
-          error: action.payload ? null : state.error,
+          isLoading: true,
+          error: null,
+        };
+      case `${prefix}_${LOADING_FINISHED}`:
+        return {
+          ...state,
+          isLoading: false,
         };
       case `${prefix}_${SET_ERROR}`:
         return {

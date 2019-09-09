@@ -1,2 +1,4 @@
-export const SET_LOADING = 'SET_LOADING';
+export const LOADING_STARTED = 'LOADING_STARTED';
+export const LOADING_FINISHED = 'LOADING_FINISHED';
+
 export const SET_ERROR = 'SET_ERROR';

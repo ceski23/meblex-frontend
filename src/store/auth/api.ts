@@ -15,3 +15,9 @@ export const register = (regData: RegistrationData): Promise<Tokens> => (
     .then(({ data }) => data)
     .catch(error => Promise.reject(error.response.data))
 );
+
+export const relogin = (refreshToken: string): Promise<Tokens> => (
+  api.put('Auth/refresh', { token: refreshToken })
+    .then(({ data }) => data)
+    // .catch(error => Promise.reject(error.response.data.detail))
+);

@@ -1,13 +1,12 @@
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore } from 'redux-persist';
-import thunk from 'redux-thunk';
+import thunk, { ThunkMiddleware } from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootReducer } from './reducer';
-
-export type AppState = typeof rootReducer;
+import { AppState } from './types';
 
 export const store = createStore(rootReducer, composeWithDevTools(
-  applyMiddleware(thunk),
+  applyMiddleware(thunk as ThunkMiddleware<AppState>),
 ));
 
 export const persistor = persistStore(store);

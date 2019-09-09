@@ -3,7 +3,7 @@ import { Action } from 'redux';
 import { useDispatch } from 'react-redux';
 import { AppState } from 'store/types';
 
-export type ReduxDispatch = ThunkDispatch<AppState, any, Action>;
+export type ReduxDispatch = ThunkDispatch<AppState, undefined, Action>;
 
 export function useReduxDispatch(): ReduxDispatch {
   return useDispatch<ReduxDispatch>();
