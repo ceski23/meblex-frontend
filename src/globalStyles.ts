@@ -30,7 +30,6 @@ export const GlobalStyle = createGlobalStyle<{theme: Theme}>`
 
   h3 {
     font-size: 1.5em;
-    margin-bottom: 20px;
   }
 
   strong {

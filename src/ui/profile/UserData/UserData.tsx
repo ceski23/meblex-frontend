@@ -18,10 +18,11 @@ import { ChangeEmailFormValues } from '../ChangeEmailForm/ChangeEmailForm';
 import { ChangePasswordFormValues } from '../ChangePasswordForm/ChangePasswordForm';
 
 const StyledPanel = styled(Panel)`
-  margin: 40px;
+  margin: 40px 20px;
   width: 100%;
   ${forTabletPortraitUp()} {
     width: 400px;
+    margin: 40px;
   }
 `;
 

@@ -5,14 +5,10 @@ import { styled, theme as appTheme } from 'theme';
 import { LOADING } from 'constants/App';
 
 const Container = styled.div`
-  background: ${({ theme }) => theme.colors.white};
   flex: 1;
   justify-content: center;
   align-items: center;
   display: flex;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
   z-index: 2;
 `;
 

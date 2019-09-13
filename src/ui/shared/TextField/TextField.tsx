@@ -21,13 +21,13 @@ const Label = styled.h4`
 
 const Field = styled(MaskedInput)`
   box-shadow: 0 2px 4px ${({ theme }) => theme.colors.shadow};
-  border: 1px solid rgb(229, 232, 237);
+  border: 1px solid ${({ theme }) => theme.colors.border};
   padding: 10px 15px;
   font-size: 0.9em;
   color: ${({ theme }) => theme.colors.textDark};
   background: ${({ theme }) => theme.colors.backgroundGray};
   border-radius: 5px;
-  -webkit-user-select: text;
+  user-select: text;
   width: 100%;
 `;
 

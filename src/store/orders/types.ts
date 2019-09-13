@@ -42,6 +42,7 @@ export interface Order {
 
 export interface State {
   orders: Order[];
+  order?: Order;
 }
 
 export type OrdersState = ReturnType<typeof ordersReducer>

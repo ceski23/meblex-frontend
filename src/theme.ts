@@ -14,7 +14,7 @@ export const theme = {
     shadowDark: 'rgba(4, 35, 101, 0.22)',
     hover: 'rgb(0, 84, 204)',
 
-    gray: 'rgb(208, 211, 216)',
+    border: 'rgb(229, 232, 237)',
     white: 'rgb(255, 255, 255)',
   },
   breakpoints: {

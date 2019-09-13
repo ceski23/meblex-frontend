@@ -12,24 +12,22 @@ const StyledNavLink = styled(NavLink).attrs({
   font-size: 1.2em;
   transition: all .3s;
   margin: 20px;
-  border-bottom: 3px solid transparent;
-  padding-bottom: 15px;
 
   &.active {
-    color: ${({ theme }) => theme.colors.textDark};
-    border-color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
 export interface NavLocItem {
   to: string;
   label: string;
+  exact?: boolean;
 }
 
 interface Props {
   data: NavLocItem;
 }
 
-export const NavItem: FC<Props> = ({ data: { label, to } }): ReactElement => (
-  <StyledNavLink exact to={to}>{label}</StyledNavLink>
+export const NavItem: FC<Props> = ({ data: { label, to, exact } }): ReactElement => (
+  <StyledNavLink to={to} exact={exact}>{label}</StyledNavLink>
 );

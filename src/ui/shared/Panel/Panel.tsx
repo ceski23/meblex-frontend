@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, ReactNode } from 'react';
 import { styled } from 'theme';
 import { Paper } from '../Paper';
 
@@ -17,7 +17,7 @@ const StyledPaper = styled(Paper)`
 `;
 
 interface Props {
-  title?: string;
+  title?: string | ReactNode;
   className?: string;
 }
 

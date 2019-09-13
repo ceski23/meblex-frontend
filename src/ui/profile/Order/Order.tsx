@@ -1,8 +1,12 @@
 import React, { FC, ReactElement } from 'react';
 import { Panel } from 'ui/shared/Panel';
-import { styled } from 'theme';
+import { styled, forTabletLandscapeUp } from 'theme';
 import { Order as OrderType } from 'store/orders/types';
-import { OrderLine } from '../OrderLine';
+import { ReactComponent as OrderIcon } from 'assets/order.svg';
+import { currencyFormatter } from 'utils/formatters';
+import {
+ ORDER, DATE, STATUS, TOTAL_AMOUNT,
+} from 'constants/Profile';
 
 const OrderNumber = styled.span`
   color: ${({ theme }) => theme.colors.primary};
@@ -25,11 +29,18 @@ const Value = styled.h4`
   line-height: 1.4em;  
 `;
 
+const Cost = styled(Value)`
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
 const Pair = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
   margin-right: 30px;
+  margin-bottom: 10px;
+  ${forTabletLandscapeUp()} {
+    margin-bottom: 0;
+  }
 `;
 
 const Details = styled.div`
@@ -38,29 +49,55 @@ const Details = styled.div`
   flex-wrap: wrap;
 `;
 
+const Data = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Icon = styled(OrderIcon)`
+  width: 50px;
+  height: 50px;
+  margin-right: 30px;
+  fill: ${({ theme }) => theme.colors.text};
+`;
+
 interface Props {
   order: OrderType;
 }
 
+const computeTotalCost = (order: OrderType): number => (
+  order.orderLines.reduce((prev, curr) => (curr.price * curr.count) + prev, 0)
+);
+
 export const Order: FC<Props> = ({ order }): ReactElement => (
   <StyledPanel>
-    <Title>Zamówienie <OrderNumber>#{order.orderId}</OrderNumber></Title>
-    <Details>
-      <Pair>
-        <Property>Data:</Property>
-        <Value>21.05.2019</Value>
-      </Pair>
-      <Pair>
-        <Property>Status:</Property>
-        <Value>ZAKOŃCZONE</Value>
-      </Pair>
-      <Pair>
-        <Property>Kwota:</Property>
-        <Value>10 998,00 zł</Value>
-      </Pair>
-    </Details>
-    {/* {order.orderLines.map(orderLine => (
-      <OrderLine key={orderLine.orderLineId} data={orderLine} />
-    ))} */}
+    <Wrapper>
+      <Icon />
+      <Data>
+        <Title>{ORDER} <OrderNumber>#{order.orderId}</OrderNumber></Title>
+        <Details>
+          <Pair>
+            <Property>{DATE}:</Property>
+            <Value>21.05.2019</Value>
+            {/* // TODO: Add real date */}
+          </Pair>
+          <Pair>
+            <Property>{STATUS}:</Property>
+            <Value>ZAKOŃCZONE</Value>
+            {/* // TODO: Add real status */}
+          </Pair>
+          <Pair>
+            <Property>{TOTAL_AMOUNT}:</Property>
+            <Cost>{currencyFormatter.format(computeTotalCost(order))}</Cost>
+          </Pair>
+        </Details>
+      </Data>
+    </Wrapper>
   </StyledPanel>
-);
+  );
