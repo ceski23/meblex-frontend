@@ -27,9 +27,9 @@ export const App: FC = (): ReactElement => {
       <Route path={REGISTER} component={RegisterScreen} />
       <Route path={LOGOUT} component={Logout} />
 
-      <Route render={() => (
+      <Route render={routeProps => (
         <Loading isLoading={status.isLoading} text={LOADING}>
-          <Content />
+          <Content {...routeProps} />
         </Loading>
       )}
       />

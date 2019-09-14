@@ -1,0 +1,1 @@
+export { AnimatedSwitch } from './AnimatedSwitch';
