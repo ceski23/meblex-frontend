@@ -1,12 +1,13 @@
 import React, { FC, ReactElement } from 'react';
 import { Panel } from 'ui/shared/Panel';
-import { styled, forTabletLandscapeUp } from 'theme';
+import { forTabletLandscapeUp } from 'theme';
 import { Order as OrderType } from 'store/orders/types';
 import { ReactComponent as OrderIcon } from 'assets/order.svg';
 import { currencyFormatter } from 'utils/formatters';
 import {
  ORDER, DATE, STATUS, TOTAL_AMOUNT,
 } from 'constants/Profile';
+import styled from 'styled-components/macro';
 
 const OrderNumber = styled.span`
   color: ${({ theme }) => theme.colors.primary};

@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
 
 import { ReactComponent as UserIcon } from 'assets/user.svg';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import { LOGIN, PROFILE } from 'constants/routing';
 import { User } from 'store/user/types';
 import { LOG_IN } from 'constants/Toolbar';

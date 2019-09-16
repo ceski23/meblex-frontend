@@ -1,4 +1,4 @@
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import { transparentize } from 'polished';
 
 export const Paper = styled.div`

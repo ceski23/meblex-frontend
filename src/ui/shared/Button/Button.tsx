@@ -1,6 +1,7 @@
 import React, { FC, ReactElement, ButtonHTMLAttributes } from 'react';
 
-import { styled, theme as appTheme } from 'theme';
+import { theme as appTheme } from 'theme';
+import styled from 'styled-components/macro';
 import { transparentize } from 'polished';
 import Spinner from 'react-spinner-material';
 

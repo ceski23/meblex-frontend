@@ -4,7 +4,7 @@ import { TextField } from 'ui/shared/TextField';
 import * as yup from 'yup';
 import { REQUIRED, INVALID_EMAIL } from 'constants/validation';
 import { Button } from 'ui/shared/Button';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import { FIELD_EMAIL, CHANGE_EMAIL_ADDRESS } from 'constants/forms';
 
 export interface ChangeEmailFormValues {

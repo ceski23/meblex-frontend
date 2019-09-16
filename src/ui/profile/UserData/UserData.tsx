@@ -1,6 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import { Panel } from 'ui/shared/Panel';
-import { styled, forTabletPortraitUp } from 'theme';
+import { forTabletPortraitUp } from 'theme';
+import styled from 'styled-components/macro';
 import { useSelector } from 'react-redux';
 import { AppState } from 'store/types';
 import { ADDRESS_DATA, EMAIL_ADDRESS, PASSWORD } from 'constants/Profile';

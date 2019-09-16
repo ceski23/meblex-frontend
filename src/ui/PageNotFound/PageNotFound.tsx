@@ -1,7 +1,8 @@
 import React, { FC, ReactElement } from 'react';
 import HikingTraveller from 'assets/images/hiking_traveller.svg';
 import { history } from 'utils/history';
-import { styled, forTabletPortraitUp } from 'theme';
+import { forTabletPortraitUp } from 'theme';
+import styled from 'styled-components/macro';
 import { Button } from 'ui/shared/Button';
 import { PAGE_NOT_FOUND, WHAT_TO_DO, GO_BACK } from 'constants/PageNotFound';
 

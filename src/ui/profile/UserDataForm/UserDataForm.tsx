@@ -6,7 +6,7 @@ import {
  REQUIRED, MAX_CHARACTERS, INVALID_POST_CODE, INVALID_NIP,
 } from 'constants/validation';
 import { Button } from 'ui/shared/Button';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import {
  FULL_NAME_FIELD, ADDRESS_FIELD, STATE_FIELD, CITY_FIELD, POST_CODE_FIELD, NIP_FIELD, UPDATE_DATA,
 } from 'constants/forms';

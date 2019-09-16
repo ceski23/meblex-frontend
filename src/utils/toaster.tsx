@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, ReactText } from 'react';
 import { toast as toastify } from 'react-toastify';
 
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import { ReactComponent as ErrorIcon } from 'assets/notifications/error.svg';
 import { ReactComponent as WarningIcon } from 'assets/notifications/warning.svg';
 import { ReactComponent as InfoIcon } from 'assets/notifications/info.svg';

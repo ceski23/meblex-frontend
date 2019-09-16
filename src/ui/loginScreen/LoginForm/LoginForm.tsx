@@ -4,7 +4,8 @@ import { TextField } from 'ui/shared/TextField';
 import * as yup from 'yup';
 import { INVALID_EMAIL, INVALID_PASSWORD, REQUIRED } from 'constants/validation';
 import { Button } from 'ui/shared/Button';
-import { styled, forTabletPortraitUp } from 'theme';
+import { forTabletPortraitUp } from 'theme';
+import styled from 'styled-components/macro';
 import { history } from 'utils/history';
 import { REGISTER } from 'constants/routing';
 

@@ -6,7 +6,8 @@ import {
  INVALID_EMAIL, INVALID_PASSWORD, REQUIRED, MAX_CHARACTERS, INVALID_POST_CODE, INVALID_NIP,
 } from 'constants/validation';
 import { Button } from 'ui/shared/Button';
-import { styled, forTabletLandscapeUp } from 'theme';
+import { forTabletLandscapeUp } from 'theme';
+import styled from 'styled-components/macro';
 
 export interface RegisterFormValues {
   email: string;

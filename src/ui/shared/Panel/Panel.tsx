@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, ReactNode } from 'react';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import { Paper } from '../Paper';
 
 const Container = styled.div`

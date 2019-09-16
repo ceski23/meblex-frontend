@@ -2,7 +2,8 @@ import React, { FC, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { styled, forTabletLandscapeUp } from 'theme';
+import { forTabletLandscapeUp } from 'theme';
+import styled from 'styled-components/macro';
 import { useScroll, useMediaQuery } from 'hooks';
 import { AppState } from 'store/types';
 import { LOGOUT, HOME } from 'constants/routing';

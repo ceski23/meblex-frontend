@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import { NavLink } from 'react-router-dom';
 
 const Text = styled.h4`

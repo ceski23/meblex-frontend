@@ -4,7 +4,7 @@ import { TextField } from 'ui/shared/TextField';
 import * as yup from 'yup';
 import { REQUIRED, INVALID_PASSWORD, PASSWORD_MISMATCH } from 'constants/validation';
 import { Button } from 'ui/shared/Button';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import {
  CURRENT_PASSWORD_FIELD, NEW_PASSWORD_FIELD, REPEAT_PASSWORD_FIELD, CHANGE_PASSWORD,
 } from 'constants/forms';

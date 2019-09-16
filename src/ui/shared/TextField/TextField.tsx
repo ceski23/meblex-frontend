@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import { Field as FormikField, FieldProps } from 'formik';
 import MaskedInput, { MaskedInputProps } from 'react-text-mask';
 
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 
 const Container = styled.div`
   display: flex;

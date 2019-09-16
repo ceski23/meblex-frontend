@@ -1,7 +1,8 @@
 import React, {
 FC, ReactElement, ReactNode, SVGProps,
 } from 'react';
-import { styled, forTabletLandscapeUp } from 'theme';
+import { forTabletLandscapeUp } from 'theme';
+import styled from 'styled-components/macro';
 import Img from 'react-image';
 
 const Name = styled.h4`

@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import { NavLocItem, NavItem } from './NavItem';
 
 const Container = styled.div`

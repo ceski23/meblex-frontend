@@ -1,5 +1,6 @@
 import React, { FC, ReactElement } from 'react';
-import { styled, forTabletLandscapeUp } from 'theme';
+import { forTabletLandscapeUp } from 'theme';
+import styled from 'styled-components/macro';
 import { NavBox } from 'ui/shared/NavBox';
 import { Route } from 'react-router-dom';
 import { PageNotFound } from 'ui/PageNotFound';

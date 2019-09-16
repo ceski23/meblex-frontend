@@ -1,5 +1,5 @@
 import posed from 'react-pose';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 
 const Fade = posed.div({
   enter: {

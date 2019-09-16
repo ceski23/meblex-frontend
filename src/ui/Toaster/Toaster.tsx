@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { ToastContainer, ToastContainerProps } from 'react-toastify';
 
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 
 const WrappedToastContainer = ({
   className, ...rest

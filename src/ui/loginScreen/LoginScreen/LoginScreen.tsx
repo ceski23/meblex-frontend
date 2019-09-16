@@ -2,7 +2,8 @@ import React, { ReactElement, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { RouteComponentProps, Link } from 'react-router-dom';
 
-import { styled, forTabletPortraitUp } from 'theme';
+import { forTabletPortraitUp } from 'theme';
+import styled from 'styled-components/macro';
 import { ReactComponent as MeblexLogo } from 'assets/meblex_logo.svg';
 import { AppState } from 'store/types';
 import { Paper } from 'ui/shared/Paper';

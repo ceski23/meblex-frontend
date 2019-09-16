@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useEffect } from 'react';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import { Loading } from 'ui/shared/Loading';
 import { useSelector } from 'react-redux';
 import { AppState } from 'store/types';

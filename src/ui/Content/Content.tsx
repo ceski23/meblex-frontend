@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from 'react';
 import { Route, RouteComponentProps } from 'react-router-dom';
-import { styled } from 'theme';
+import styled from 'styled-components/macro';
 import { PageNotFound } from 'ui/PageNotFound';
 import { Toolbar } from 'ui/toolbar/Toolbar';
 import { Profile } from 'ui/profile/Profile';

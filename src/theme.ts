@@ -1,4 +1,3 @@
-import baseStyled, { ThemedStyledInterface } from 'styled-components/macro';
 import { down, RuleFnType, up } from 'styled-breakpoints';
 
 export const theme = {
@@ -33,4 +32,3 @@ export const forDesktopUp = (): RuleFnType => up('desktop');
 export const forBigDesktopUp = (): RuleFnType => up('bigDesktop');
 
 export type Theme = typeof theme;
-export const styled = baseStyled as ThemedStyledInterface<Theme>;

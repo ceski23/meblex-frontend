@@ -1,7 +1,8 @@
 import React, { FC, ReactElement } from 'react';
 import Spinner from 'react-spinner-material';
+import styled from 'styled-components/macro';
 
-import { styled, theme as appTheme } from 'theme';
+import { theme as appTheme } from 'theme';
 import { LOADING } from 'constants/App';
 
 const Container = styled.div`
