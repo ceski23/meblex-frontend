@@ -15,6 +15,7 @@ export const theme = {
 
     border: 'rgb(229, 232, 237)',
     white: 'rgb(255, 255, 255)',
+    black: 'rgb(0, 0, 0)',
   },
   breakpoints: {
     phone: '599px',

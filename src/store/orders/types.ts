@@ -1,15 +1,10 @@
+import { Category } from 'store/types';
 import { ordersReducer } from './reducer';
 
 export interface PieceOfFurniture {
   pieceOfFurnitureId: number;
   name: string;
   photos: string[];
-}
-
-// TODO: Move to it's own slice
-export interface Category {
-  categoryId: number;
-  name: string;
 }
 
 export interface Part {

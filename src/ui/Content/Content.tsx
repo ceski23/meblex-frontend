@@ -9,6 +9,7 @@ import { ProtectedRoute } from 'ui/shared/ProtectedRoute';
 import { Roles } from 'store/auth/consts';
 import { AnimatedSwitch } from 'ui/shared/AnimatedSwitch';
 import { FadeAnimation } from 'ui/shared/FadeAnimation';
+import { ProductPage } from 'ui/catalog/ProductPage';
 
 const Container = styled.div`
   height: 100%;
@@ -24,7 +25,7 @@ export const Content: FC<RouteComponentProps> = ({ location }): ReactElement => 
 
     <Container>
       <AnimatedSwitch location={location} posedAnimation={FadeAnimation}>
-        {/* <Route path="/katalog/produkty/:product" component={Product} /> */}
+        <Route path="/katalog/:productId" component={ProductPage} />
         {/* <Route path="/katalog" component={Catalog} /> */}
         {/* <ProtectedRoute path="/koszyk" roles={[Roles.USER, Roles.EMPLOYEE]} component={Cart} /> */}
         {/* <ProtectedRoute path="/zamowienie/dostawa" roles={[Roles.USER, Roles.EMPLOYEE]} component={Order} /> */}

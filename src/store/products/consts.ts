@@ -1,0 +1,2 @@
+export const SET_DISPLAYED_PRODUCT = 'SET_DISPLAYED_PRODUCT';
+export const PREFIX = 'PRODUCTS';
