@@ -32,11 +32,11 @@ export const login = (credentials: LoginCredentials): ThunkResult<Promise<Tokens
   async dispatch => {
     dispatch(startLoading(PREFIX));
     try {
-      const { accessToken, refreshToken, ...user } = await api.login(credentials);
+      const { accessToken, ...user } = await api.login(credentials);
       dispatch(setUserData(user));
-      dispatch(setTokens({ accessToken, refreshToken }));
+      if (accessToken) dispatch(setAccessToken(accessToken));
       dispatch(stopLoading(PREFIX));
-      return { accessToken, refreshToken, ...user };
+      return { accessToken, ...user };
     } catch (error) {
       dispatch(setError(error));
       dispatch(stopLoading(PREFIX));
@@ -49,10 +49,11 @@ export const register = (data: RegistrationData): ThunkResult<Promise<Tokens>> =
   async dispatch => {
     dispatch(startLoading(PREFIX));
     try {
-      const tokens = await api.register(data);
-      dispatch(setTokens(tokens));
+      const { jwt, user } = await api.register(data);
+      dispatch(setAccessToken(jwt));
+      dispatch(setUserData(user));
       dispatch(stopLoading(PREFIX));
-      return tokens;
+      return { accessToken: jwt };
     } catch (error) {
       dispatch(setError(error));
       dispatch(stopLoading(PREFIX));
@@ -61,30 +62,15 @@ export const register = (data: RegistrationData): ThunkResult<Promise<Tokens>> =
   }
 );
 
-export const checkLoginStatus = (): ThunkResult<Promise<void>> => (
-  async dispatch => {
-    dispatch(startLoading(PREFIX));
-    try {
-      await api.checkLoginStatus();
-      dispatch(setLoginStatus(true));
-      dispatch(stopLoading(PREFIX));
-    } catch (error) {
-      dispatch(setError(error));
-      dispatch(stopLoading(PREFIX));
-      throw error;
-    }
-  }
-);
-
-export const relogin = (): ThunkResult<Promise<Tokens>> => (
-  async (dispatch, getState) => {
-    try {
-      const tokens = await api.relogin(getState().auth.data.refreshToken || '');
-      dispatch(setTokens(tokens));
-      return tokens;
-    } catch (error) {
-      dispatch(setError(error));
-      throw error;
-    }
-  }
-);
+// export const relogin = (): ThunkResult<Promise<Tokens>> => (
+//   async (dispatch, getState) => {
+//     try {
+//       const tokens = await api.relogin(getState().auth.data.refreshToken || '');
+//       dispatch(setTokens(tokens));
+//       return tokens;
+//     } catch (error) {
+//       dispatch(setError(error));
+//       throw error;
+//     }
+//   }
+// );

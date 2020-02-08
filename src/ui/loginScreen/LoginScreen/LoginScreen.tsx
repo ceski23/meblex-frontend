@@ -17,6 +17,8 @@ import { WELCOME_1, LOG_IN, WELCOME_2 } from 'constants/LoginScreen';
 import { HOME } from 'constants/routing';
 import { toast } from 'utils/toaster';
 import { history } from 'utils/history';
+import { ApiError } from 'apiService';
+import { defaultErrorHandler } from 'utils/apiErrorHandlers';
 
 const Welcome = styled.div`
   display: flex;
@@ -74,13 +76,16 @@ export const LoginScreen: FC<RouteComponentProps> = ({ location }): ReactElement
   const { from } = location.state || { from: { pathname: '/' } };
   const dispatch = useReduxDispatch();
 
-  const handleLogin = (values: LoginFormValues): void => {
-    dispatch(login(values))
+  const handleLogin = ({ email, password }: LoginFormValues): void => {
+    dispatch(login({
+      identifier: email,
+      password,
+    }))
       .then(() => {
         toast(LOGIN_SUCCESSFUL, 'success');
         history.push(from.pathname);
       })
-      .catch(error => toast(error, 'error'));
+      .catch(defaultErrorHandler);
   };
 
   return (

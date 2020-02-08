@@ -19,9 +19,9 @@ export const ProtectedRoute: FC<Props & RouteProps> = ({
   const dispatch = useReduxDispatch();
 
   const getRouteBody = ({ location }): ReactNode => {
-    if (user) user.role = 'Client'; // TODO: Remove this hack
+    if (user) user.role.name = 'Client'; // TODO: Remove this hack
     if (user && user.role) {
-      if (roles.some(elem => elem === user.role)) return <Component />;
+      if (roles.some(elem => elem === user.role.name)) return <Component />;
       return <PageNotFound />;
     }
     dispatch(logoutUser());

@@ -51,7 +51,8 @@ export const updateEmail = (data: EmailUpdateParams): ThunkResult<Promise<void>>
   async (dispatch: ReduxDispatch) => {
     dispatch(startLoading(PREFIX));
     try {
-      await api.updateEmail(data);
+      const user = await api.updateEmail(data);
+      dispatch(setUserData(user));
       dispatch(stopLoading(PREFIX));
       await dispatch(getUserData());
     } catch (error) {

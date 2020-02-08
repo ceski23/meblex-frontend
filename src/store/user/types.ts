@@ -1,8 +1,15 @@
 import { userReducer } from './reducer';
 
 export type User = UserData & {
+  id: string;
   email: string;
-  role: string;
+  role: Role;
+  confirmed: true;
+}
+
+export interface Role {
+  name: string;
+  description: string;
 }
 
 export interface UserData {
@@ -15,7 +22,7 @@ export interface UserData {
 }
 
 export interface EmailUpdateParams {
-  newEmail: string;
+  email: string;
 }
 
 export interface PasswordUpdateParams {

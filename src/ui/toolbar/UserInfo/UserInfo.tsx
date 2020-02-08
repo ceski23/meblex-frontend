@@ -57,7 +57,7 @@ const RawUserInfo: FC<RouteComponentProps<{}> & Props> = ({
       <Icon />
       <div>
         <Name>{user ? user.name : LOG_IN}</Name>
-        {user && <Role>{roleName(user.role)}</Role>}
+        {user && <Role>{roleName(user.role.name)}</Role>}
       </div>
     </StyledLink>
   );

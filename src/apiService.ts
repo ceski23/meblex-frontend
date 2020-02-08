@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { store } from 'store';
 import { SERVER_ERROR } from 'constants/Api';
-import { relogin, logoutUser } from 'store/auth/actions';
+import { logoutUser } from 'store/auth/actions';
 
 export const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -14,7 +14,7 @@ export const api = axios.create({
 
 store.subscribe(() => {
   const { accessToken } = store.getState().auth.data;
-  api.defaults.headers.Authorization = `Bearer ${accessToken}`;
+  if (accessToken) api.defaults.headers.Authorization = `Bearer ${accessToken}`;
 });
 
 api.interceptors.response.use(
@@ -30,17 +30,17 @@ api.interceptors.response.use(
 
 const authIntError = async (error: any): Promise<any> => {
   const errorResponse = error.response;
-  if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/login')) {
+  if (errorResponse && errorResponse.status === 401 && !errorResponse.config.url.includes('/auth/local')) {
     api.interceptors.response.eject(authInterceptor);
-    try {
-      const { accessToken } = await store.dispatch(relogin());
-      authInterceptor = api.interceptors.response.use(response => response, authIntError);
-      errorResponse.config.headers.Authorization = `Bearer ${accessToken}`;
-      return api(errorResponse.config);
-    } catch (e) {
-      authInterceptor = api.interceptors.response.use(response => response, authIntError);
+    // try {
+    //   const { accessToken } = await store.dispatch(relogin());
+    //   authInterceptor = api.interceptors.response.use(response => response, authIntError);
+    //   errorResponse.config.headers.Authorization = `Bearer ${accessToken}`;
+    //   return api(errorResponse.config);
+    // } catch (e) {
+    //   authInterceptor = api.interceptors.response.use(response => response, authIntError);
       store.dispatch(logoutUser());
-    }
+    // }
   } else return Promise.reject(error);
 
   return Promise.reject(error);
@@ -51,16 +51,17 @@ let authInterceptor = api.interceptors.response.use(
   authIntError,
 );
 
-export interface ApiDetailedError {
-  status: number;
-  title: string;
-  traceId: string;
-  errors: any;
+export interface ApiError {
+  statusCode: number;
+  error: string;
+  message: string | ApiDetailedErrorMessage[];
 }
 
-export interface ApiSimpleError {
-  status: number;
-  title: string;
-  traceId: string;
-  detail: string;
+interface ApiDetailedErrorMessage {
+  messages: ApiFieldError[];
+}
+
+export interface ApiFieldError {
+  id: string;
+  message: string;
 }

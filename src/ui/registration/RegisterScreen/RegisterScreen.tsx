@@ -16,6 +16,7 @@ import { HOME } from 'constants/routing';
 import { toast } from 'utils/toaster';
 import { RegisterForm } from '../RegisterForm';
 import { RegisterFormValues } from '../RegisterForm/RegisterForm';
+import { defaultErrorHandler } from 'utils/apiErrorHandlers';
 
 const Welcome = styled.div`
   display: flex;
@@ -79,18 +80,11 @@ export const RegisterScreen: FC<RouteComponentProps> = ({ location }): ReactElem
   const dispatch = useReduxDispatch();
 
   const handleRegister = (
-    values: RegisterFormValues, actions: FormikActions<RegisterFormValues>,
+    values: RegisterFormValues, { setErrors }: FormikActions<RegisterFormValues>,
   ): void => {
     dispatch(register(values))
       .then(() => toast(REGISTRATION_SUCCESSFUL, 'success'))
-      .catch(error => {
-        if (error.detail) {
-          toast(error.detail, 'error');
-        } else {
-          toast(error.title, 'error');
-          actions.setErrors(error.errors);
-        }
-      });
+      .catch(error => defaultErrorHandler(error, setErrors));
   };
 
   return (

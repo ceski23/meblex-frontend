@@ -1,14 +1,15 @@
 import { authReducer } from './reducer';
+import { User } from 'store/user/types';
 
 export interface Tokens {
   accessToken?: string;
-  refreshToken?: string;
+  // refreshToken?: string;
 }
 
 export type State = Tokens & {}
 
 export interface LoginCredentials {
-  email: string;
+  identifier: string;
   password: string;
 }
 
@@ -21,6 +22,11 @@ export interface RegistrationData {
   postCode: string;
   nip: string;
   state: string;
+}
+
+export interface RegistrationResponse {
+  jwt: string;
+  user: User;
 }
 
 export type AuthState = ReturnType<typeof authReducer>

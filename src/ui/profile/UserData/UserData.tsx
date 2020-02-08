@@ -38,6 +38,15 @@ export const UserData: FC = (): ReactElement => {
   const { data } = useSelector(({ user }: AppState) => user);
   const dispatch = useReduxDispatch();
 
+  const userData = data.user && {
+    name: data.user.name,
+    address: data.user.address,
+    state: data.user.state,
+    city: data.user.city,
+    postCode: data.user.postCode,
+    nip: data.user.nip,
+  };
+
   const handleUpdateData = (
     values: UserDataFormValues, { setErrors }: FormikActions<UserDataFormValues>,
   ): void => {
@@ -47,9 +56,9 @@ export const UserData: FC = (): ReactElement => {
   };
 
   const handleUpdateEmail = (
-    values: ChangeEmailFormValues, { setErrors }: FormikActions<ChangeEmailFormValues>,
+    { newEmail }: ChangeEmailFormValues, { setErrors }: FormikActions<ChangeEmailFormValues>,
   ): void => {
-    dispatch(updateEmail(values))
+    dispatch(updateEmail({ email: newEmail }))
       .then(() => toast(EMAIL_UPDATE_SUCCESSFUL, 'success'))
       .catch(error => defaultErrorHandler(error, setErrors));
   };
@@ -66,7 +75,7 @@ export const UserData: FC = (): ReactElement => {
   return (
     <Container>
       <StyledPanel title={ADDRESS_DATA}>
-        <UserDataForm onSubmit={handleUpdateData} initialValues={data.user} />
+        <UserDataForm onSubmit={handleUpdateData} initialValues={userData} />
       </StyledPanel>
       <StyledPanel title={EMAIL_ADDRESS}>
         <ChangeEmailForm

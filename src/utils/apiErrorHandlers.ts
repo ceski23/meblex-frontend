@@ -1,7 +1,10 @@
 import { toast } from './toaster';
 
 export const defaultErrorHandler = (error, setErrors?): void => {
-  if (error.errors) setErrors(error.errors);
-  if (error.detail) toast(error.detail, 'error');
-  else toast(error.title, 'error');
+  if (typeof error === 'string') toast(error, 'error');
+  else {
+    toast(error[0].messages[0].message, 'error');
+    // TODO: Add field-level errors
+  }
 };
+
